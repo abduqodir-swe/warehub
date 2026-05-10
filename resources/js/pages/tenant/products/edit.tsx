@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 type Product = {
     id: number;
     name: string;
+    barcode: string | null;
     unit: string;
     retail_price: string;
     description: string | null;
@@ -33,6 +34,18 @@ export default function ProductEdit({ product }: Props) {
                                 <Label htmlFor="name">Название *</Label>
                                 <Input id="name" name="name" defaultValue={product.name} autoFocus />
                                 {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
+                            </div>
+
+                            <div className="flex flex-col gap-1.5">
+                                <Label htmlFor="barcode">Штрихкод</Label>
+                                <Input
+                                    id="barcode"
+                                    name="barcode"
+                                    defaultValue={product.barcode ?? ''}
+                                    placeholder="Отсканируйте или введите вручную"
+                                    className="font-mono"
+                                />
+                                {errors.barcode && <p className="text-xs text-destructive">{errors.barcode}</p>}
                             </div>
 
                             <div className="flex flex-col gap-1.5">

@@ -99,6 +99,7 @@ Route::domain('{tenant}.'.config('app.domain', 'warehub.test'))
             ])->except(['show']);
 
             Route::get('outgoing/pos', [OutgoingDocumentController::class, 'pos'])->name('tenant.outgoing.pos');
+            Route::post('outgoing/pos', [OutgoingDocumentController::class, 'posStore'])->name('tenant.outgoing.pos.store');
             Route::get('outgoing', [OutgoingDocumentController::class, 'index'])->name('tenant.outgoing.index');
             Route::get('outgoing/create', [OutgoingDocumentController::class, 'create'])->name('tenant.outgoing.create');
             Route::post('outgoing', [OutgoingDocumentController::class, 'store'])->name('tenant.outgoing.store');

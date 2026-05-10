@@ -24,6 +24,17 @@ export default function ProductCreate() {
                             </div>
 
                             <div className="flex flex-col gap-1.5">
+                                <Label htmlFor="barcode">Штрихкод</Label>
+                                <Input
+                                    id="barcode"
+                                    name="barcode"
+                                    placeholder="Отсканируйте или введите вручную"
+                                    className="font-mono"
+                                />
+                                {errors.barcode && <p className="text-xs text-destructive">{errors.barcode}</p>}
+                            </div>
+
+                            <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="unit">Единица измерения *</Label>
                                 <Select name="unit" defaultValue="шт">
                                     <SelectTrigger id="unit">

@@ -112,6 +112,35 @@ class OutgoingDocumentController extends Controller
         return redirect('/outgoing');
     }
 
+    public function posStore(StoreOutgoingDocumentRequest $request, ConfirmOutgoingDocument $action): RedirectResponse
+    {
+        $data = $request->validated();
+
+        $number = 'OUT-'.now()->format('Y').'-'.str_pad((string) (OutgoingDocument::withTrashed()->count() + 1), 4, '0', STR_PAD_LEFT);
+
+        $document = OutgoingDocument::create([
+            'number' => $number,
+            'date' => $data['date'],
+            'customer_id' => $data['customer_id'] ?? null,
+            'warehouse_id' => $data['warehouse_id'],
+            'user_id' => Auth::id(),
+            'status' => 'draft',
+        ]);
+
+        foreach ($data['items'] as $item) {
+            $document->items()->create([
+                'product_id' => $item['product_id'],
+                'quantity' => $item['quantity'],
+                'retail_price' => $item['retail_price'],
+            ]);
+        }
+
+        $document->load('items.product');
+        $action($document);
+
+        return redirect('/outgoing/pos');
+    }
+
     public function pos(): Response
     {
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
@@ -119,7 +148,6 @@ class OutgoingDocumentController extends Controller
 
         $stock = $firstWarehouseId
             ? Stock::where('warehouse_id', $firstWarehouseId)
-                ->where('quantity', '>', 0)
                 ->with('product:id,name,sku,barcode,unit,retail_price,currency')
                 ->get()
             : collect();

@@ -29,7 +29,6 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/hooks/use-current-url';
-import { dashboard } from '@/routes';
 
 interface NavSection {
     label: string;
@@ -44,7 +43,7 @@ const navSections: NavSection[] = [
     {
         label: 'Операции',
         items: [
-            { title: 'Дашборд', href: dashboard(), icon: LayoutDashboard },
+            { title: 'Дашборд', href: '/', icon: LayoutDashboard },
             { title: 'Виды товаров', href: '/products', icon: PackageSearch },
             { title: 'Инвентарь', href: '/stock', icon: Boxes },
             { title: 'Склады', href: '/warehouses', icon: Warehouse },
@@ -75,7 +74,7 @@ export function AppSidebar() {
     return (
         <Sidebar collapsible="icon" variant="inset" className="border-r border-sidebar-border">
             <SidebarHeader className="border-b border-sidebar-border px-4 py-4">
-                <Link href={dashboard()} className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
+                <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
                     <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sky-500 shadow-sm">
                         <Hexagon className="size-4 text-white" strokeWidth={2.5} />
                     </div>
