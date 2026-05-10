@@ -22,8 +22,8 @@ return [
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
     'central_domains' => [
-        'warehub.test',
-        'admin.warehub.test',
+        'warehub.yorudev.uz',
+        'admin.warehub.yorudev.uz',
         '127.0.0.1',
         'localhost',
     ],

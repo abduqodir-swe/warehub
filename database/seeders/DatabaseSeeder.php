@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         SuperAdmin::firstOrCreate(
-            ['email' => 'admin@warehub.test'],
+            ['email' => 'admin@'.config('app.domain', 'warehub.test')],
             ['name' => 'Super Admin', 'password' => Hash::make('password')]
         );
 

@@ -1,0 +1,57 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+            cd ${{ secrets.DEPLOY_PATH }}
+
+            echo "==> Pulling latest code..."
+            git pull origin main
+
+            echo "==> Installing PHP dependencies..."
+            composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+            echo "==> Building frontend assets..."
+            npm ci --no-audit --no-fund
+            npm run build
+
+            echo "==> Entering maintenance mode..."
+            php artisan down --retry=10
+
+            echo "==> Running migrations..."
+            php artisan migrate --force --no-interaction
+
+            echo "==> Caching config, routes, views..."
+            php artisan optimize
+
+            echo "==> Restarting queue workers..."
+            php artisan queue:restart
+
+            echo "==> Reloading PHP-FPM..."
+            sudo systemctl reload php8.4-fpm
+
+            echo "==> Exiting maintenance mode..."
+            php artisan up
+
+            echo "==> Done! Deployed successfully."
