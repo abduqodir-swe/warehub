@@ -42,21 +42,21 @@ class ProductController extends Controller
         return redirect('/products')->with('success', 'Вид товара добавлен');
     }
 
-    public function edit(string $tenant, Product $product): Response
+    public function edit(Product $product): Response
     {
         return Inertia::render('tenant/products/edit', [
             'product' => $product,
         ]);
     }
 
-    public function update(UpdateProductRequest $request, string $tenant, Product $product): RedirectResponse
+    public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
         $product->update($request->validated());
 
         return redirect('/products')->with('success', 'Вид товара обновлён');
     }
 
-    public function destroy(string $tenant, Product $product): RedirectResponse
+    public function destroy(Product $product): RedirectResponse
     {
         $product->delete();
 

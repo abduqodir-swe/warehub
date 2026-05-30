@@ -86,7 +86,7 @@ class OutgoingDocumentController extends Controller
         return redirect('/outgoing');
     }
 
-    public function show(string $tenant, OutgoingDocument $outgoingDocument): Response
+    public function show(OutgoingDocument $outgoingDocument): Response
     {
         $outgoingDocument->load([
             'customer:id,name',
@@ -100,7 +100,7 @@ class OutgoingDocumentController extends Controller
         ]);
     }
 
-    public function confirm(string $tenant, OutgoingDocument $outgoingDocument, ConfirmOutgoingDocument $action): RedirectResponse
+    public function confirm(OutgoingDocument $outgoingDocument, ConfirmOutgoingDocument $action): RedirectResponse
     {
         if ($outgoingDocument->isConfirmed()) {
             return redirect('/outgoing');
@@ -169,7 +169,7 @@ class OutgoingDocumentController extends Controller
         ]);
     }
 
-    public function destroy(string $tenant, OutgoingDocument $outgoingDocument): RedirectResponse
+    public function destroy(OutgoingDocument $outgoingDocument): RedirectResponse
     {
         if ($outgoingDocument->isConfirmed()) {
             return redirect('/outgoing');

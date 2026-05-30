@@ -35,21 +35,21 @@ class SupplierController extends Controller
         return redirect('/suppliers');
     }
 
-    public function edit(string $tenant, Supplier $supplier): Response
+    public function edit(Supplier $supplier): Response
     {
         return Inertia::render('tenant/suppliers/edit', [
             'supplier' => $supplier,
         ]);
     }
 
-    public function update(UpdateSupplierRequest $request, string $tenant, Supplier $supplier): RedirectResponse
+    public function update(UpdateSupplierRequest $request, Supplier $supplier): RedirectResponse
     {
         $supplier->update($request->validated());
 
         return redirect('/suppliers');
     }
 
-    public function destroy(string $tenant, Supplier $supplier): RedirectResponse
+    public function destroy(Supplier $supplier): RedirectResponse
     {
         $supplier->delete();
 

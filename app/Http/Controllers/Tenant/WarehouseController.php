@@ -43,14 +43,14 @@ class WarehouseController extends Controller
         return redirect('/warehouses')->with('success', 'Склад создан');
     }
 
-    public function show(string $tenant, Warehouse $warehouse): Response
+    public function show(Warehouse $warehouse): Response
     {
         return Inertia::render('tenant/warehouses/show', [
             'warehouse' => $warehouse->load(['manager:id,name', 'zones']),
         ]);
     }
 
-    public function edit(string $tenant, Warehouse $warehouse): Response
+    public function edit(Warehouse $warehouse): Response
     {
         return Inertia::render('tenant/warehouses/edit', [
             'warehouse' => $warehouse,
@@ -58,14 +58,14 @@ class WarehouseController extends Controller
         ]);
     }
 
-    public function update(UpdateWarehouseRequest $request, string $tenant, Warehouse $warehouse): RedirectResponse
+    public function update(UpdateWarehouseRequest $request, Warehouse $warehouse): RedirectResponse
     {
         $warehouse->update($request->validated());
 
         return redirect('/warehouses')->with('success', 'Склад обновлён');
     }
 
-    public function destroy(string $tenant, Warehouse $warehouse): RedirectResponse
+    public function destroy(Warehouse $warehouse): RedirectResponse
     {
         $warehouse->delete();
 

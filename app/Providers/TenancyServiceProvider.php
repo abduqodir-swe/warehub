@@ -86,7 +86,7 @@ class TenancyServiceProvider extends ServiceProvider
     {
         $tenancyMiddleware = [
             Middleware\PreventAccessFromCentralDomains::class,
-            Middleware\InitializeTenancyBySubdomain::class,
+            Middleware\InitializeTenancyByDomain::class,
         ];
 
         foreach (array_reverse($tenancyMiddleware) as $middleware) {

@@ -69,7 +69,7 @@ class IncomingDocumentController extends Controller
         return redirect('/incoming');
     }
 
-    public function show(string $tenant, IncomingDocument $incomingDocument): Response
+    public function show(IncomingDocument $incomingDocument): Response
     {
         $incomingDocument->load([
             'supplier:id,name',
@@ -84,7 +84,7 @@ class IncomingDocumentController extends Controller
         ]);
     }
 
-    public function confirm(string $tenant, IncomingDocument $incomingDocument, ConfirmIncomingDocument $action): RedirectResponse
+    public function confirm(IncomingDocument $incomingDocument, ConfirmIncomingDocument $action): RedirectResponse
     {
         if ($incomingDocument->isConfirmed()) {
             return redirect('/incoming');
@@ -95,7 +95,7 @@ class IncomingDocumentController extends Controller
         return redirect('/incoming');
     }
 
-    public function destroy(string $tenant, IncomingDocument $incomingDocument): RedirectResponse
+    public function destroy(IncomingDocument $incomingDocument): RedirectResponse
     {
         if ($incomingDocument->isConfirmed()) {
             return redirect('/incoming');

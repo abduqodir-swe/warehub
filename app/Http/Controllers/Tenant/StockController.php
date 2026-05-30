@@ -59,21 +59,21 @@ class StockController extends Controller
         return redirect('/stock')->with('success', 'Товар добавлен на склад');
     }
 
-    public function edit(string $tenant, Stock $stock): Response
+    public function edit(Stock $stock): Response
     {
         return Inertia::render('tenant/stock/edit', [
             'stock' => $stock->load(['product', 'warehouse']),
         ]);
     }
 
-    public function update(UpdateStockRequest $request, string $tenant, Stock $stock): RedirectResponse
+    public function update(UpdateStockRequest $request, Stock $stock): RedirectResponse
     {
         $stock->update($request->validated());
 
         return redirect('/stock')->with('success', 'Количество обновлено');
     }
 
-    public function destroy(string $tenant, Stock $stock): RedirectResponse
+    public function destroy(Stock $stock): RedirectResponse
     {
         $stock->delete();
 

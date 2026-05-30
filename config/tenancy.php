@@ -21,12 +21,12 @@ return [
      *
      * Only relevant if you're using the domain or subdomain identification middleware.
      */
-    'central_domains' => [
-        'warehub.yorudev.uz',
-        'admin.warehub.yorudev.uz',
+    'central_domains' => array_values(array_filter([
+        env('APP_ENV', 'production') === 'production' ? null : env('APP_DOMAIN', 'warehub.test'),
+        'admin.'.env('APP_DOMAIN', 'warehub.test'),
         '127.0.0.1',
         'localhost',
-    ],
+    ])),
 
     /**
      * Tenancy bootstrappers are executed when tenancy is initialized.

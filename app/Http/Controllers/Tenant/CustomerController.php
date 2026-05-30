@@ -35,21 +35,21 @@ class CustomerController extends Controller
         return redirect('/customers');
     }
 
-    public function edit(string $tenant, Customer $customer): Response
+    public function edit(Customer $customer): Response
     {
         return Inertia::render('tenant/customers/edit', [
             'customer' => $customer,
         ]);
     }
 
-    public function update(UpdateCustomerRequest $request, string $tenant, Customer $customer): RedirectResponse
+    public function update(UpdateCustomerRequest $request, Customer $customer): RedirectResponse
     {
         $customer->update($request->validated());
 
         return redirect('/customers');
     }
 
-    public function destroy(string $tenant, Customer $customer): RedirectResponse
+    public function destroy(Customer $customer): RedirectResponse
     {
         $customer->delete();
 

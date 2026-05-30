@@ -73,7 +73,7 @@ class InventoryDocumentController extends Controller
         return redirect("/inventory/{$document->id}");
     }
 
-    public function show(string $tenant, InventoryDocument $inventoryDocument): Response
+    public function show(InventoryDocument $inventoryDocument): Response
     {
         $inventoryDocument->load([
             'warehouse:id,name',
@@ -86,7 +86,7 @@ class InventoryDocumentController extends Controller
         ]);
     }
 
-    public function updateItem(string $tenant, InventoryDocument $inventoryDocument, InventoryItem $inventoryItem, UpdateInventoryItemRequest $request): RedirectResponse
+    public function updateItem(InventoryDocument $inventoryDocument, InventoryItem $inventoryItem, UpdateInventoryItemRequest $request): RedirectResponse
     {
         if ($inventoryDocument->isCompleted()) {
             return redirect("/inventory/{$inventoryDocument->id}");
@@ -97,7 +97,7 @@ class InventoryDocumentController extends Controller
         return redirect("/inventory/{$inventoryDocument->id}");
     }
 
-    public function confirm(string $tenant, InventoryDocument $inventoryDocument, ConfirmInventoryDocument $action): RedirectResponse
+    public function confirm(InventoryDocument $inventoryDocument, ConfirmInventoryDocument $action): RedirectResponse
     {
         if ($inventoryDocument->isCompleted()) {
             return redirect('/inventory');
@@ -108,7 +108,7 @@ class InventoryDocumentController extends Controller
         return redirect('/inventory');
     }
 
-    public function destroy(string $tenant, InventoryDocument $inventoryDocument): RedirectResponse
+    public function destroy(InventoryDocument $inventoryDocument): RedirectResponse
     {
         if ($inventoryDocument->isCompleted()) {
             return redirect('/inventory');

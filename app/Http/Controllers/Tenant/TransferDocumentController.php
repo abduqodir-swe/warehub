@@ -70,7 +70,7 @@ class TransferDocumentController extends Controller
         return redirect("/transfers/{$document->id}");
     }
 
-    public function show(string $tenant, TransferDocument $transferDocument): Response
+    public function show(TransferDocument $transferDocument): Response
     {
         $transferDocument->load([
             'fromWarehouse:id,name',
@@ -84,7 +84,7 @@ class TransferDocumentController extends Controller
         ]);
     }
 
-    public function confirm(string $tenant, TransferDocument $transferDocument, ConfirmTransferDocument $action): RedirectResponse
+    public function confirm(TransferDocument $transferDocument, ConfirmTransferDocument $action): RedirectResponse
     {
         if ($transferDocument->isConfirmed()) {
             return redirect('/transfers');
@@ -95,7 +95,7 @@ class TransferDocumentController extends Controller
         return redirect('/transfers');
     }
 
-    public function destroy(string $tenant, TransferDocument $transferDocument): RedirectResponse
+    public function destroy(TransferDocument $transferDocument): RedirectResponse
     {
         if ($transferDocument->isConfirmed()) {
             return redirect('/transfers');
