@@ -17,7 +17,7 @@ class AuthenticatedSessionController extends Controller
     {
         return Inertia::render('auth/login', [
             'canResetPassword' => Features::enabled(Features::resetPasswords()),
-            'canRegister' => false,
+            'canRegister' => Features::enabled(Features::registration()),
             'status' => $request->session()->get('status'),
         ]);
     }

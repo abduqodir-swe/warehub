@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
+use App\Models\Central\Tenant;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -49,7 +50,7 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::loginView(fn (Request $request) => Inertia::render('auth/login', [
             'canResetPassword' => Features::enabled(Features::resetPasswords()),
-            'canRegister' => Features::enabled(Features::registration()),
+            'canRegister' => Features::enabled(Features::registration()) && $this->resolveTenantFromRequest($request) !== null,
             'status' => $request->session()->get('status'),
         ]));
 
@@ -66,7 +67,11 @@ class FortifyServiceProvider extends ServiceProvider
             'status' => $request->session()->get('status'),
         ]));
 
-        Fortify::registerView(fn () => Inertia::render('auth/register'));
+        Fortify::registerView(function (Request $request) {
+            abort_if($this->resolveTenantFromRequest($request) === null, 404);
+
+            return Inertia::render('auth/register');
+        });
 
         Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/two-factor-challenge'));
 
@@ -87,5 +92,12 @@ class FortifyServiceProvider extends ServiceProvider
 
             return Limit::perMinute(5)->by($throttleKey);
         });
+    }
+
+    private function resolveTenantFromRequest(Request $request): ?Tenant
+    {
+        return Tenant::query()
+            ->whereRelation('domains', 'domain', $request->getHost())
+            ->first();
     }
 }

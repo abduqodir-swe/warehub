@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +14,7 @@ use Laravel\Fortify\Features;
 
 Route::domain(config('app.domain', 'warehub.test'))->group(function () {
     Route::inertia('/', 'welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
+        'canRegister' => false,
     ])->name('home');
 
     Route::middleware(['auth', 'verified'])->group(function () {
