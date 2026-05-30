@@ -16,7 +16,11 @@ use Inertia\Inertia;
 |
 */
 
-Route::domain(config('app.domain', 'warehub.test'))->group(function () {
+$centralDomain = app()->environment('production')
+    ? 'central.'.config('app.domain', 'warehub.test')
+    : config('app.domain', 'warehub.test');
+
+Route::domain($centralDomain)->group(function () {
     $redirectTenantUser = static function (): ?RedirectResponse {
         $user = auth()->user();
 
