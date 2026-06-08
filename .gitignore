@@ -27,3 +27,7 @@ yarn-error.log
 /.vscode
 /.zed
 WAREHUB_TZ.md
+.agents/
+.claude/*
+.codex/
+.playwright-mcp/
