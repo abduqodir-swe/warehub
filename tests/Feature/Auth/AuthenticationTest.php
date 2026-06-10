@@ -7,7 +7,6 @@ namespace Tests\Feature\Auth;
 use App\Models\Central\Tenant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Features;
 use Tests\TestCase;
 
@@ -76,8 +75,6 @@ class AuthenticationTest extends TestCase
     public function test_users_with_two_factor_enabled_are_redirected_to_two_factor_challenge()
     {
         $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
-        $this->markTestSkipped('Tenant login uses a custom session controller and does not pass through the Fortify two-factor challenge pipeline.');
-
         Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,
@@ -131,13 +128,16 @@ class AuthenticationTest extends TestCase
 
     public function test_users_are_rate_limited()
     {
-        $this->markTestSkipped('Tenant login is handled by a custom controller without Fortify throttle middleware.');
-
         tenancy()->initialize($this->tenant);
         $user = User::factory()->create();
         tenancy()->end();
 
-        RateLimiter::increment(md5('login'.implode('|', [$user->email, '127.0.0.1'])), amount: 5);
+        foreach (range(1, 5) as $_attempt) {
+            $this->post("http://{$this->tenantDomain}/login", [
+                'email' => $user->email,
+                'password' => 'wrong-password',
+            ]);
+        }
 
         $response = $this->post("http://{$this->tenantDomain}/login", [
             'email' => $user->email,

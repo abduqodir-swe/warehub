@@ -34,7 +34,10 @@ export default function Register() {
                                     name="name"
                                     placeholder="Полное имя"
                                 />
-                                <InputError message={errors.name} className="mt-2" />
+                                <InputError
+                                    message={errors.name}
+                                    className="mt-2"
+                                />
                             </div>
 
                             <div className="grid gap-2">
@@ -65,7 +68,9 @@ export default function Register() {
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation">Подтвердите пароль</Label>
+                                <Label htmlFor="password_confirmation">
+                                    Подтвердите пароль
+                                </Label>
                                 <PasswordInput
                                     id="password_confirmation"
                                     required
@@ -74,7 +79,9 @@ export default function Register() {
                                     name="password_confirmation"
                                     placeholder="••••••••"
                                 />
-                                <InputError message={errors.password_confirmation} />
+                                <InputError
+                                    message={errors.password_confirmation}
+                                />
                             </div>
 
                             <Button

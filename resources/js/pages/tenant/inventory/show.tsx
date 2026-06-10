@@ -1,6 +1,6 @@
 import { Head, router } from '@inertiajs/react';
-import { useState } from 'react';
 import { Check, CheckCircle } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -39,26 +39,48 @@ export default function InventoryShow({ document: doc }: Props) {
     const checkedCount = doc.items.filter((i) => i.actual_qty !== null).length;
     const total = doc.items.length;
     const discrepancies = doc.items.filter(
-        (i) => i.actual_qty !== null && parseFloat(i.actual_qty) !== parseFloat(i.expected_qty)
+        (i) =>
+            i.actual_qty !== null &&
+            parseFloat(i.actual_qty) !== parseFloat(i.expected_qty),
     ).length;
 
     function startEdit(item: Item) {
-        if (doc.status === 'completed') { return; }
+        if (doc.status === 'completed') {
+            return;
+        }
+
         setEditingId(item.id);
         setEditValue(item.actual_qty ?? item.expected_qty);
     }
 
     function saveEdit(item: Item) {
-        if (editValue === '') { return; }
+        if (editValue === '') {
+            return;
+        }
+
         setProcessing(true);
-        router.patch(`/inventory/${doc.id}/items/${item.id}`, { actual_qty: editValue }, {
-            preserveScroll: true,
-            onFinish: () => { setProcessing(false); setEditingId(null); },
-        });
+        router.patch(
+            `/inventory/${doc.id}/items/${item.id}`,
+            { actual_qty: editValue },
+            {
+                preserveScroll: true,
+                onFinish: () => {
+                    setProcessing(false);
+                    setEditingId(null);
+                },
+            },
+        );
     }
 
     function handleConfirm() {
-        if (!confirm('Провести инвентаризацию? Остатки на складе будут скорректированы.')) { return; }
+        if (
+            !confirm(
+                'Провести инвентаризацию? Остатки на складе будут скорректированы.',
+            )
+        ) {
+            return;
+        }
+
         router.post(`/inventory/${doc.id}/confirm`);
     }
 
@@ -69,7 +91,9 @@ export default function InventoryShow({ document: doc }: Props) {
                 <div className="flex items-start justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <h1 className="font-mono text-lg font-semibold">{doc.number}</h1>
+                            <h1 className="font-mono text-lg font-semibold">
+                                {doc.number}
+                            </h1>
                             {doc.status === 'completed' && (
                                 <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
                                     <CheckCircle className="size-3" />
@@ -83,11 +107,15 @@ export default function InventoryShow({ document: doc }: Props) {
                             )}
                         </div>
                         <p className="mt-0.5 text-sm text-muted-foreground">
-                            {TYPE_LABELS[doc.type]} · {doc.warehouse.name} · {new Date(doc.date).toLocaleDateString('ru-RU')}
+                            {TYPE_LABELS[doc.type]} · {doc.warehouse.name} ·{' '}
+                            {new Date(doc.date).toLocaleDateString('ru-RU')}
                         </p>
                     </div>
                     {doc.status !== 'completed' && (
-                        <Button onClick={handleConfirm} disabled={checkedCount === 0}>
+                        <Button
+                            onClick={handleConfirm}
+                            disabled={checkedCount === 0}
+                        >
                             <Check className="mr-2 size-4" />
                             Провести
                         </Button>
@@ -98,12 +126,19 @@ export default function InventoryShow({ document: doc }: Props) {
                 <div className="rounded-xl border p-4">
                     <div className="mb-2 flex items-center justify-between text-sm">
                         <span className="text-muted-foreground">Проверено</span>
-                        <span className="font-medium">{checkedCount} / {total}</span>
+                        <span className="font-medium">
+                            {checkedCount} / {total}
+                        </span>
                     </div>
                     <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
                         <div
                             className="h-full rounded-full bg-[var(--accent)] transition-all"
-                            style={{ width: total > 0 ? `${(checkedCount / total) * 100}%` : '0%' }}
+                            style={{
+                                width:
+                                    total > 0
+                                        ? `${(checkedCount / total) * 100}%`
+                                        : '0%',
+                            }}
                         />
                     </div>
                     {discrepancies > 0 && (
@@ -118,17 +153,27 @@ export default function InventoryShow({ document: doc }: Props) {
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b bg-muted/50">
-                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">SKU / Товар</th>
-                                <th className="px-4 py-3 text-center font-medium text-muted-foreground">Ожидаемо</th>
-                                <th className="px-4 py-3 text-center font-medium text-muted-foreground">Фактически</th>
-                                <th className="px-4 py-3 text-center font-medium text-muted-foreground">Разница</th>
+                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                    SKU / Товар
+                                </th>
+                                <th className="px-4 py-3 text-center font-medium text-muted-foreground">
+                                    Ожидаемо
+                                </th>
+                                <th className="px-4 py-3 text-center font-medium text-muted-foreground">
+                                    Фактически
+                                </th>
+                                <th className="px-4 py-3 text-center font-medium text-muted-foreground">
+                                    Разница
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {doc.items.map((item) => {
-                                const diff = item.actual_qty !== null
-                                    ? parseFloat(item.actual_qty) - parseFloat(item.expected_qty)
-                                    : null;
+                                const diff =
+                                    item.actual_qty !== null
+                                        ? parseFloat(item.actual_qty) -
+                                          parseFloat(item.expected_qty)
+                                        : null;
                                 const isEditing = editingId === item.id;
 
                                 return (
@@ -137,11 +182,16 @@ export default function InventoryShow({ document: doc }: Props) {
                                         className={`border-b last:border-0 hover:bg-muted/30 ${diff !== null && diff !== 0 ? 'bg-red-50/50' : ''}`}
                                     >
                                         <td className="px-4 py-3">
-                                            <div className="font-mono text-xs text-muted-foreground">{item.product.sku}</div>
-                                            <div className="font-medium">{item.product.name}</div>
+                                            <div className="font-mono text-xs text-muted-foreground">
+                                                {item.product.sku}
+                                            </div>
+                                            <div className="font-medium">
+                                                {item.product.name}
+                                            </div>
                                         </td>
                                         <td className="px-4 py-3 text-center tabular-nums">
-                                            {parseFloat(item.expected_qty)} {item.product.unit}
+                                            {parseFloat(item.expected_qty)}{' '}
+                                            {item.product.unit}
                                         </td>
                                         <td className="px-4 py-3 text-center">
                                             {isEditing ? (
@@ -151,33 +201,72 @@ export default function InventoryShow({ document: doc }: Props) {
                                                         min="0"
                                                         step="0.001"
                                                         value={editValue}
-                                                        onChange={(e) => setEditValue(e.target.value)}
+                                                        onChange={(e) =>
+                                                            setEditValue(
+                                                                e.target.value,
+                                                            )
+                                                        }
                                                         className="h-7 w-24 text-center"
                                                         autoFocus
                                                         onKeyDown={(e) => {
-                                                            if (e.key === 'Enter') { saveEdit(item); }
-                                                            if (e.key === 'Escape') { setEditingId(null); }
+                                                            if (
+                                                                e.key ===
+                                                                'Enter'
+                                                            ) {
+                                                                saveEdit(item);
+                                                            }
+
+                                                            if (
+                                                                e.key ===
+                                                                'Escape'
+                                                            ) {
+                                                                setEditingId(
+                                                                    null,
+                                                                );
+                                                            }
                                                         }}
                                                     />
-                                                    <Button size="sm" className="h-7 px-2" onClick={() => saveEdit(item)} disabled={processing}>
+                                                    <Button
+                                                        size="sm"
+                                                        className="h-7 px-2"
+                                                        onClick={() =>
+                                                            saveEdit(item)
+                                                        }
+                                                        disabled={processing}
+                                                    >
                                                         <Check className="size-3" />
                                                     </Button>
                                                 </div>
                                             ) : (
                                                 <button
-                                                    onClick={() => startEdit(item)}
-                                                    className={`tabular-nums rounded px-2 py-0.5 transition-colors ${doc.status !== 'completed' ? 'cursor-pointer hover:bg-muted' : 'cursor-default'} ${item.actual_qty === null ? 'text-muted-foreground' : ''}`}
+                                                    onClick={() =>
+                                                        startEdit(item)
+                                                    }
+                                                    className={`rounded px-2 py-0.5 tabular-nums transition-colors ${doc.status !== 'completed' ? 'cursor-pointer hover:bg-muted' : 'cursor-default'} ${item.actual_qty === null ? 'text-muted-foreground' : ''}`}
                                                 >
-                                                    {item.actual_qty !== null ? `${parseFloat(item.actual_qty)} ${item.product.unit}` : '—'}
+                                                    {item.actual_qty !== null
+                                                        ? `${parseFloat(item.actual_qty)} ${item.product.unit}`
+                                                        : '—'}
                                                 </button>
                                             )}
                                         </td>
                                         <td className="px-4 py-3 text-center tabular-nums">
                                             {diff !== null ? (
-                                                <span className={diff > 0 ? 'text-green-600' : diff < 0 ? 'text-destructive' : 'text-muted-foreground'}>
-                                                    {diff > 0 ? '+' : ''}{diff}
+                                                <span
+                                                    className={
+                                                        diff > 0
+                                                            ? 'text-green-600'
+                                                            : diff < 0
+                                                              ? 'text-destructive'
+                                                              : 'text-muted-foreground'
+                                                    }
+                                                >
+                                                    {diff > 0 ? '+' : ''}
+                                                    {diff}
                                                 </span>
-                                            ) : '—'}
+                                            ) : (
+                                                '—'
+                                            )}
                                         </td>
                                     </tr>
                                 );

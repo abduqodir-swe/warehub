@@ -14,14 +14,24 @@ class ConfirmOutgoingDocument
     public function __invoke(OutgoingDocument $document): void
     {
         DB::transaction(function () use ($document) {
-            foreach ($document->items as $item) {
-                $stock = Stock::where('product_id', $item->product_id)
-                    ->where('warehouse_id', $document->warehouse_id)
-                    ->when($item->zone_id, fn ($q) => $q->where('zone_id', $item->zone_id))
-                    ->lockForUpdate()
-                    ->first();
+            $lockedDocument = OutgoingDocument::query()
+                ->whereKey($document->getKey())
+                ->lockForUpdate()
+                ->firstOrFail();
 
-                $available = $stock ? (float) $stock->quantity - (float) $stock->reserved : 0;
+            if ($lockedDocument->isConfirmed()) {
+                return;
+            }
+
+            foreach ($lockedDocument->items()->with('product')->get() as $item) {
+                $stocks = Stock::where('product_id', $item->product_id)
+                    ->where('warehouse_id', $lockedDocument->warehouse_id)
+                    ->when($item->zone_id, fn ($query) => $query->where('zone_id', $item->zone_id))
+                    ->orderBy('id')
+                    ->lockForUpdate()
+                    ->get();
+
+                $available = $stocks->sum(fn (Stock $stock): float => max(0, $stock->available()));
 
                 if ($available < (float) $item->quantity) {
                     throw ValidationException::withMessages([
@@ -29,10 +39,23 @@ class ConfirmOutgoingDocument
                     ]);
                 }
 
-                $stock->decrement('quantity', (float) $item->quantity);
+                $remaining = (float) $item->quantity;
+
+                foreach ($stocks as $stock) {
+                    $deduction = min($remaining, max(0, $stock->available()));
+
+                    if ($deduction > 0) {
+                        $stock->decrement('quantity', $deduction);
+                        $remaining -= $deduction;
+                    }
+
+                    if ($remaining <= 0) {
+                        break;
+                    }
+                }
             }
 
-            $document->update([
+            $lockedDocument->update([
                 'status' => 'confirmed',
                 'confirmed_at' => now(),
             ]);

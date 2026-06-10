@@ -1,10 +1,13 @@
+import { AdminSidebar } from '@/components/admin-sidebar';
 import { AppContent } from '@/components/app-content';
 import { AppShell } from '@/components/app-shell';
 import { AppSidebarHeader } from '@/components/app-sidebar-header';
-import { AdminSidebar } from '@/components/admin-sidebar';
 import type { AppLayoutProps } from '@/types';
 
-export default function AdminSidebarLayout({ children, breadcrumbs = [] }: AppLayoutProps) {
+export default function AdminSidebarLayout({
+    children,
+    breadcrumbs = [],
+}: AppLayoutProps) {
     return (
         <AppShell variant="sidebar">
             <AdminSidebar />

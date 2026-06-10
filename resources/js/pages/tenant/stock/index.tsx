@@ -23,7 +23,11 @@ type Props = {
 
 export default function StockIndex({ stock }: Props) {
     function handleDelete(item: StockItem) {
-        if (confirm(`Удалить "${item.product.name}" со склада "${item.warehouse.name}"?`)) {
+        if (
+            confirm(
+                `Удалить "${item.product.name}" со склада "${item.warehouse.name}"?`,
+            )
+        ) {
             router.delete(`/stock/${item.id}`);
         }
     }
@@ -35,7 +39,9 @@ export default function StockIndex({ stock }: Props) {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-lg font-semibold">Инвентарь</h1>
-                        <p className="mt-0.5 text-sm text-muted-foreground">{stock.total} позиций на складах</p>
+                        <p className="mt-0.5 text-sm text-muted-foreground">
+                            {stock.total} позиций на складах
+                        </p>
                     </div>
                     <Button asChild>
                         <Link href="/stock/create">
@@ -48,9 +54,13 @@ export default function StockIndex({ stock }: Props) {
                 {stock.data.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed py-16 text-center">
                         <Boxes className="size-8 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">На складах пока нет товаров</p>
+                        <p className="text-sm text-muted-foreground">
+                            На складах пока нет товаров
+                        </p>
                         <Button asChild size="sm">
-                            <Link href="/stock/create">Добавить первый товар</Link>
+                            <Link href="/stock/create">
+                                Добавить первый товар
+                            </Link>
                         </Button>
                     </div>
                 ) : (
@@ -59,32 +69,66 @@ export default function StockIndex({ stock }: Props) {
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="border-b bg-muted/50">
-                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">Вид товара</th>
-                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">Склад</th>
-                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">Количество</th>
-                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">Доступно</th>
+                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                            Вид товара
+                                        </th>
+                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                            Склад
+                                        </th>
+                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                            Количество
+                                        </th>
+                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                            Доступно
+                                        </th>
                                         <th className="px-4 py-3"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {stock.data.map((item) => {
-                                        const available = Number(item.quantity) - Number(item.reserved);
+                                        const available =
+                                            Number(item.quantity) -
+                                            Number(item.reserved);
+
                                         return (
-                                            <tr key={item.id} className="border-b last:border-0 hover:bg-muted/30">
-                                                <td className="px-4 py-3 font-medium">{item.product.name}</td>
-                                                <td className="px-4 py-3 text-muted-foreground">{item.warehouse.name}</td>
-                                                <td className="px-4 py-3 text-right tabular-nums">
-                                                    {Number(item.quantity).toLocaleString()} {item.product.unit}
+                                            <tr
+                                                key={item.id}
+                                                className="border-b last:border-0 hover:bg-muted/30"
+                                            >
+                                                <td className="px-4 py-3 font-medium">
+                                                    {item.product.name}
+                                                </td>
+                                                <td className="px-4 py-3 text-muted-foreground">
+                                                    {item.warehouse.name}
                                                 </td>
                                                 <td className="px-4 py-3 text-right tabular-nums">
-                                                    <span className={available < 0 ? 'text-destructive' : 'text-muted-foreground'}>
-                                                        {available.toLocaleString()} {item.product.unit}
+                                                    {Number(
+                                                        item.quantity,
+                                                    ).toLocaleString()}{' '}
+                                                    {item.product.unit}
+                                                </td>
+                                                <td className="px-4 py-3 text-right tabular-nums">
+                                                    <span
+                                                        className={
+                                                            available < 0
+                                                                ? 'text-destructive'
+                                                                : 'text-muted-foreground'
+                                                        }
+                                                    >
+                                                        {available.toLocaleString()}{' '}
+                                                        {item.product.unit}
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-3">
                                                     <div className="flex items-center justify-end gap-1">
-                                                        <Button variant="ghost" size="icon" asChild>
-                                                            <Link href={`/stock/${item.id}/edit`}>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            asChild
+                                                        >
+                                                            <Link
+                                                                href={`/stock/${item.id}/edit`}
+                                                            >
                                                                 <Pencil className="size-4" />
                                                             </Link>
                                                         </Button>
@@ -92,7 +136,11 @@ export default function StockIndex({ stock }: Props) {
                                                             variant="ghost"
                                                             size="icon"
                                                             className="text-destructive hover:text-destructive"
-                                                            onClick={() => handleDelete(item)}
+                                                            onClick={() =>
+                                                                handleDelete(
+                                                                    item,
+                                                                )
+                                                            }
                                                         >
                                                             <Trash2 className="size-4" />
                                                         </Button>
@@ -107,13 +155,21 @@ export default function StockIndex({ stock }: Props) {
 
                         {stock.last_page > 1 && (
                             <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                <span>Страница {stock.current_page} из {stock.last_page}</span>
+                                <span>
+                                    Страница {stock.current_page} из{' '}
+                                    {stock.last_page}
+                                </span>
                                 <div className="flex gap-2">
                                     {stock.current_page > 1 && (
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => router.get('/stock', { page: stock.current_page - 1 })}
+                                            onClick={() =>
+                                                router.get('/stock', {
+                                                    page:
+                                                        stock.current_page - 1,
+                                                })
+                                            }
                                         >
                                             Назад
                                         </Button>
@@ -122,7 +178,12 @@ export default function StockIndex({ stock }: Props) {
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => router.get('/stock', { page: stock.current_page + 1 })}
+                                            onClick={() =>
+                                                router.get('/stock', {
+                                                    page:
+                                                        stock.current_page + 1,
+                                                })
+                                            }
                                         >
                                             Вперёд
                                         </Button>

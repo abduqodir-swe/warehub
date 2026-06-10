@@ -38,6 +38,7 @@ class ReportController extends Controller
 
     public function movements(Request $request): Response
     {
+        $tenantId = tenant('id');
         $productId = $request->integer('product_id') ?: null;
         $from = $request->input('from', now()->subDays(30)->toDateString());
         $to = $request->input('to', now()->toDateString());
@@ -48,6 +49,7 @@ class ReportController extends Controller
         if ($productId) {
             $incoming = DB::table('incoming_items')
                 ->join('incoming_documents', 'incoming_documents.id', '=', 'incoming_items.document_id')
+                ->where('incoming_documents.tenant_id', $tenantId)
                 ->where('incoming_items.product_id', $productId)
                 ->where('incoming_documents.status', 'confirmed')
                 ->whereBetween('incoming_documents.date', [$from, $to])
@@ -62,6 +64,7 @@ class ReportController extends Controller
 
             $outgoing = DB::table('outgoing_items')
                 ->join('outgoing_documents', 'outgoing_documents.id', '=', 'outgoing_items.document_id')
+                ->where('outgoing_documents.tenant_id', $tenantId)
                 ->where('outgoing_items.product_id', $productId)
                 ->where('outgoing_documents.status', 'confirmed')
                 ->whereNull('outgoing_documents.deleted_at')
@@ -85,6 +88,7 @@ class ReportController extends Controller
 
     public function topSelling(Request $request): Response
     {
+        $tenantId = tenant('id');
         $from = $request->input('from', now()->subDays(30)->toDateString());
         $to = $request->input('to', now()->toDateString());
         $warehouseId = $request->integer('warehouse_id') ?: null;
@@ -92,6 +96,8 @@ class ReportController extends Controller
         $items = DB::table('outgoing_items')
             ->join('outgoing_documents', 'outgoing_documents.id', '=', 'outgoing_items.document_id')
             ->join('products', 'products.id', '=', 'outgoing_items.product_id')
+            ->where('outgoing_documents.tenant_id', $tenantId)
+            ->where('products.tenant_id', $tenantId)
             ->where('outgoing_documents.status', 'confirmed')
             ->whereNull('outgoing_documents.deleted_at')
             ->whereBetween('outgoing_documents.date', [$from, $to])
@@ -117,12 +123,15 @@ class ReportController extends Controller
 
     public function topProfitable(Request $request): Response
     {
+        $tenantId = tenant('id');
         $from = $request->input('from', now()->subDays(30)->toDateString());
         $to = $request->input('to', now()->toDateString());
 
         $items = DB::table('outgoing_items')
             ->join('outgoing_documents', 'outgoing_documents.id', '=', 'outgoing_items.document_id')
             ->join('products', 'products.id', '=', 'outgoing_items.product_id')
+            ->where('outgoing_documents.tenant_id', $tenantId)
+            ->where('products.tenant_id', $tenantId)
             ->where('outgoing_documents.status', 'confirmed')
             ->whereNull('outgoing_documents.deleted_at')
             ->whereBetween('outgoing_documents.date', [$from, $to])
@@ -148,6 +157,7 @@ class ReportController extends Controller
 
     public function salesByCategory(Request $request): Response
     {
+        $tenantId = tenant('id');
         $from = $request->input('from', now()->subDays(30)->toDateString());
         $to = $request->input('to', now()->toDateString());
 
@@ -155,6 +165,8 @@ class ReportController extends Controller
             ->join('outgoing_documents', 'outgoing_documents.id', '=', 'outgoing_items.document_id')
             ->join('products', 'products.id', '=', 'outgoing_items.product_id')
             ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+            ->where('outgoing_documents.tenant_id', $tenantId)
+            ->where('products.tenant_id', $tenantId)
             ->where('outgoing_documents.status', 'confirmed')
             ->whereNull('outgoing_documents.deleted_at')
             ->whereBetween('outgoing_documents.date', [$from, $to])
@@ -175,12 +187,15 @@ class ReportController extends Controller
 
     public function abc(Request $request): Response
     {
+        $tenantId = tenant('id');
         $from = $request->input('from', now()->subDays(90)->toDateString());
         $to = $request->input('to', now()->toDateString());
 
         $items = DB::table('outgoing_items')
             ->join('outgoing_documents', 'outgoing_documents.id', '=', 'outgoing_items.document_id')
             ->join('products', 'products.id', '=', 'outgoing_items.product_id')
+            ->where('outgoing_documents.tenant_id', $tenantId)
+            ->where('products.tenant_id', $tenantId)
             ->where('outgoing_documents.status', 'confirmed')
             ->whereNull('outgoing_documents.deleted_at')
             ->whereBetween('outgoing_documents.date', [$from, $to])
@@ -214,11 +229,14 @@ class ReportController extends Controller
 
     public function operators(Request $request): Response
     {
+        $tenantId = tenant('id');
         $from = $request->input('from', now()->subDays(30)->toDateString());
         $to = $request->input('to', now()->toDateString());
 
         $data = DB::table('outgoing_documents')
             ->join('users', 'users.id', '=', 'outgoing_documents.user_id')
+            ->where('outgoing_documents.tenant_id', $tenantId)
+            ->where('users.tenant_id', $tenantId)
             ->where('outgoing_documents.status', 'confirmed')
             ->whereNull('outgoing_documents.deleted_at')
             ->whereBetween('outgoing_documents.date', [$from, $to])
@@ -239,10 +257,12 @@ class ReportController extends Controller
 
     public function dailyChart(Request $request): Response
     {
+        $tenantId = tenant('id');
         $from = $request->input('from', now()->subDays(6)->toDateString());
         $to = $request->input('to', now()->toDateString());
 
         $incoming = DB::table('incoming_documents')
+            ->where('tenant_id', $tenantId)
             ->where('status', 'confirmed')
             ->whereBetween('date', [$from, $to])
             ->groupBy('date')
@@ -251,6 +271,7 @@ class ReportController extends Controller
             ->pluck('count', 'date');
 
         $outgoing = DB::table('outgoing_documents')
+            ->where('tenant_id', $tenantId)
             ->where('status', 'confirmed')
             ->whereNull('deleted_at')
             ->whereBetween('date', [$from, $to])

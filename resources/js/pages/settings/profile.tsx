@@ -17,6 +17,11 @@ export default function Profile({
     status?: string;
 }) {
     const { auth } = usePage().props;
+    const user = auth.user;
+
+    if (user === null) {
+        return null;
+    }
 
     return (
         <>
@@ -43,13 +48,16 @@ export default function Profile({
                                 <Input
                                     id="name"
                                     className="mt-1 block w-full"
-                                    defaultValue={auth.user.name}
+                                    defaultValue={user.name}
                                     name="name"
                                     required
                                     autoComplete="name"
                                     placeholder="Полное имя"
                                 />
-                                <InputError className="mt-2" message={errors.name} />
+                                <InputError
+                                    className="mt-2"
+                                    message={errors.name}
+                                />
                             </div>
 
                             <div className="grid gap-2">
@@ -58,38 +66,48 @@ export default function Profile({
                                     id="email"
                                     type="email"
                                     className="mt-1 block w-full"
-                                    defaultValue={auth.user.email}
+                                    defaultValue={user.email}
                                     name="email"
                                     required
                                     autoComplete="username"
                                     placeholder="you@example.com"
                                 />
-                                <InputError className="mt-2" message={errors.email} />
+                                <InputError
+                                    className="mt-2"
+                                    message={errors.email}
+                                />
                             </div>
 
-                            {mustVerifyEmail && auth.user.email_verified_at === null && (
-                                <div>
-                                    <p className="-mt-4 text-sm text-muted-foreground">
-                                        Ваш email не подтверждён.{' '}
-                                        <Link
-                                            href={send()}
-                                            as="button"
-                                            className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-                                        >
-                                            Нажмите здесь, чтобы отправить письмо повторно.
-                                        </Link>
-                                    </p>
+                            {mustVerifyEmail &&
+                                user.email_verified_at === null && (
+                                    <div>
+                                        <p className="-mt-4 text-sm text-muted-foreground">
+                                            Ваш email не подтверждён.{' '}
+                                            <Link
+                                                href={send()}
+                                                as="button"
+                                                className="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                                            >
+                                                Нажмите здесь, чтобы отправить
+                                                письмо повторно.
+                                            </Link>
+                                        </p>
 
-                                    {status === 'verification-link-sent' && (
-                                        <div className="mt-2 text-sm font-medium text-green-600">
-                                            Новая ссылка подтверждения отправлена на ваш email.
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+                                        {status ===
+                                            'verification-link-sent' && (
+                                            <div className="mt-2 text-sm font-medium text-green-600">
+                                                Новая ссылка подтверждения
+                                                отправлена на ваш email.
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
 
                             <div className="flex items-center gap-4">
-                                <Button disabled={processing} data-test="update-profile-button">
+                                <Button
+                                    disabled={processing}
+                                    data-test="update-profile-button"
+                                >
                                     Сохранить
                                 </Button>
                             </div>

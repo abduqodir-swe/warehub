@@ -19,16 +19,24 @@ export default function StockEdit({ stock }: Props) {
         <>
             <Head title="Изменить количество" />
             <div className="mx-auto max-w-lg p-6">
-                <h1 className="mb-1 text-lg font-semibold">Изменить количество</h1>
+                <h1 className="mb-1 text-lg font-semibold">
+                    Изменить количество
+                </h1>
                 <p className="mb-6 text-sm text-muted-foreground">
                     {stock.product.name} — {stock.warehouse.name}
                 </p>
 
-                <Form action={`/stock/${stock.id}`} method="patch" className="flex flex-col gap-5">
+                <Form
+                    action={`/stock/${stock.id}`}
+                    method="patch"
+                    className="flex flex-col gap-5"
+                >
                     {({ errors, processing }) => (
                         <>
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="quantity">Количество ({stock.product.unit}) *</Label>
+                                <Label htmlFor="quantity">
+                                    Количество ({stock.product.unit}) *
+                                </Label>
                                 <Input
                                     id="quantity"
                                     name="quantity"
@@ -38,7 +46,11 @@ export default function StockEdit({ stock }: Props) {
                                     defaultValue={stock.quantity}
                                     autoFocus
                                 />
-                                {errors.quantity && <p className="text-xs text-destructive">{errors.quantity}</p>}
+                                {errors.quantity && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.quantity}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex items-center gap-3 pt-2">

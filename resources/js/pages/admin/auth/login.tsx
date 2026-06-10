@@ -13,7 +13,9 @@ export default function AdminLogin({ status }: { status?: string }) {
             <Head title="Admin Login" />
 
             {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>
+                <div className="mb-4 text-center text-sm font-medium text-green-600">
+                    {status}
+                </div>
             )}
 
             <Form {...store.form()} className="flex flex-col gap-6">

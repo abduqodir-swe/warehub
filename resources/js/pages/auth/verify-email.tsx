@@ -24,7 +24,10 @@ export default function VerifyEmail({ status }: { status?: string }) {
                             Отправить повторно
                         </Button>
 
-                        <TextLink href={logout()} className="mx-auto block text-sm">
+                        <TextLink
+                            href={logout()}
+                            className="mx-auto block text-sm"
+                        >
                             Выйти
                         </TextLink>
                     </>
@@ -36,5 +39,6 @@ export default function VerifyEmail({ status }: { status?: string }) {
 
 VerifyEmail.layout = {
     title: 'Подтверждение email',
-    description: 'Перейдите по ссылке в письме, которое мы отправили на ваш email.',
+    description:
+        'Перейдите по ссылке в письме, которое мы отправили на ваш email.',
 };

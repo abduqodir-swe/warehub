@@ -65,18 +65,29 @@ export default function Security({
                 <Form
                     {...SecurityController.update.form()}
                     options={{ preserveScroll: true }}
-                    resetOnError={['password', 'password_confirmation', 'current_password']}
+                    resetOnError={[
+                        'password',
+                        'password_confirmation',
+                        'current_password',
+                    ]}
                     resetOnSuccess
                     onError={(errs) => {
-                        if (errs.password) { passwordInput.current?.focus(); }
-                        if (errs.current_password) { currentPasswordInput.current?.focus(); }
+                        if (errs.password) {
+                            passwordInput.current?.focus();
+                        }
+
+                        if (errs.current_password) {
+                            currentPasswordInput.current?.focus();
+                        }
                     }}
                     className="space-y-6"
                 >
                     {({ errors, processing }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="current_password">Текущий пароль</Label>
+                                <Label htmlFor="current_password">
+                                    Текущий пароль
+                                </Label>
                                 <PasswordInput
                                     id="current_password"
                                     ref={currentPasswordInput}
@@ -102,7 +113,9 @@ export default function Security({
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation">Подтвердите пароль</Label>
+                                <Label htmlFor="password_confirmation">
+                                    Подтвердите пароль
+                                </Label>
                                 <PasswordInput
                                     id="password_confirmation"
                                     name="password_confirmation"
@@ -110,11 +123,16 @@ export default function Security({
                                     autoComplete="new-password"
                                     placeholder="••••••••"
                                 />
-                                <InputError message={errors.password_confirmation} />
+                                <InputError
+                                    message={errors.password_confirmation}
+                                />
                             </div>
 
                             <div className="flex items-center gap-4">
-                                <Button disabled={processing} data-test="update-password-button">
+                                <Button
+                                    disabled={processing}
+                                    data-test="update-password-button"
+                                >
                                     Сохранить пароль
                                 </Button>
                             </div>
@@ -133,14 +151,19 @@ export default function Security({
                     {twoFactorEnabled ? (
                         <div className="flex flex-col items-start justify-start space-y-4">
                             <p className="text-sm text-muted-foreground">
-                                При входе вам будет предложено ввести одноразовый код из
-                                приложения-аутентификатора на вашем телефоне.
+                                При входе вам будет предложено ввести
+                                одноразовый код из приложения-аутентификатора на
+                                вашем телефоне.
                             </p>
 
                             <div className="relative inline">
                                 <Form {...disable.form()}>
                                     {({ processing }) => (
-                                        <Button variant="destructive" type="submit" disabled={processing}>
+                                        <Button
+                                            variant="destructive"
+                                            type="submit"
+                                            disabled={processing}
+                                        >
                                             Отключить 2FA
                                         </Button>
                                     )}
@@ -156,20 +179,31 @@ export default function Security({
                     ) : (
                         <div className="flex flex-col items-start justify-start space-y-4">
                             <p className="text-sm text-muted-foreground">
-                                После включения двухфакторной аутентификации при входе
-                                потребуется ввести одноразовый код из TOTP-приложения.
+                                После включения двухфакторной аутентификации при
+                                входе потребуется ввести одноразовый код из
+                                TOTP-приложения.
                             </p>
 
                             <div>
                                 {hasSetupData ? (
-                                    <Button onClick={() => setShowSetupModal(true)}>
+                                    <Button
+                                        onClick={() => setShowSetupModal(true)}
+                                    >
                                         <ShieldCheck />
                                         Продолжить настройку
                                     </Button>
                                 ) : (
-                                    <Form {...enable.form()} onSuccess={() => setShowSetupModal(true)}>
+                                    <Form
+                                        {...enable.form()}
+                                        onSuccess={() =>
+                                            setShowSetupModal(true)
+                                        }
+                                    >
                                         {({ processing }) => (
-                                            <Button type="submit" disabled={processing}>
+                                            <Button
+                                                type="submit"
+                                                disabled={processing}
+                                            >
                                                 Включить 2FA
                                             </Button>
                                         )}

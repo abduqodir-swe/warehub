@@ -1,8 +1,11 @@
 name: Deploy
 
 on:
-  push:
+  workflow_run:
+    workflows: [Tests]
+    types: [completed]
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: production-deploy
@@ -10,6 +13,9 @@ concurrency:
 
 jobs:
   deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
     name: Deploy to Production
     runs-on: ubuntu-latest
     environment: production
@@ -26,9 +32,14 @@ jobs:
             set -e
             export PATH="/var/www/fastuser/data/.nvm/versions/node/v20.20.0/bin:$PATH"
             cd ${{ secrets.DEPLOY_PATH }}
+            trap 'php artisan up || true' EXIT
 
-            echo "==> Pulling latest code..."
-            git pull origin main
+            echo "==> Fetching tested revision..."
+            git fetch origin ${{ github.event.workflow_run.head_sha || github.sha }}
+            git checkout --detach ${{ github.event.workflow_run.head_sha || github.sha }}
+
+            echo "==> Entering maintenance mode..."
+            php artisan down --retry=10
 
             echo "==> Installing PHP dependencies..."
             composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
@@ -36,9 +47,6 @@ jobs:
             echo "==> Building frontend assets..."
             npm ci --no-audit --no-fund
             npm run build
-
-            echo "==> Entering maintenance mode..."
-            php artisan down --retry=10
 
             echo "==> Running migrations..."
             php artisan migrate --force --no-interaction
@@ -54,5 +62,10 @@ jobs:
 
             echo "==> Exiting maintenance mode..."
             php artisan up
+
+            echo "==> Verifying application health..."
+            curl --fail --silent --show-error --retry 5 --retry-delay 2 "${{ secrets.HEALTHCHECK_URL }}"
+
+            trap - EXIT
 
             echo "==> Done! Deployed successfully."

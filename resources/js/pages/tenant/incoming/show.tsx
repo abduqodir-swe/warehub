@@ -2,7 +2,13 @@ import { Head, Link, router } from '@inertiajs/react';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-type Product = { id: number; name: string; sku: string | null; unit: string; currency: string };
+type Product = {
+    id: number;
+    name: string;
+    sku: string | null;
+    unit: string;
+    currency: string;
+};
 type Zone = { id: number; name: string };
 type Item = {
     id: number;
@@ -45,12 +51,17 @@ const STATUS_CLASSES: Record<string, string> = {
 
 export default function IncomingShow({ document: doc }: Props) {
     const totalAmount = doc.items.reduce(
-        (sum, item) => sum + parseFloat(item.quantity) * parseFloat(item.purchase_price),
+        (sum, item) =>
+            sum + parseFloat(item.quantity) * parseFloat(item.purchase_price),
         0,
     );
 
     function handleConfirm() {
-        if (confirm(`Провести документ ${doc.number}? Остатки на складе будут изменены.`)) {
+        if (
+            confirm(
+                `Провести документ ${doc.number}? Остатки на складе будут изменены.`,
+            )
+        ) {
             router.post(`/incoming/${doc.id}/confirm`);
         }
     }
@@ -68,8 +79,12 @@ export default function IncomingShow({ document: doc }: Props) {
                         </Button>
                         <div>
                             <div className="flex items-center gap-2">
-                                <h1 className="font-mono text-lg font-semibold">{doc.number}</h1>
-                                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_CLASSES[doc.status]}`}>
+                                <h1 className="font-mono text-lg font-semibold">
+                                    {doc.number}
+                                </h1>
+                                <span
+                                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_CLASSES[doc.status]}`}
+                                >
                                     {STATUS_LABELS[doc.status]}
                                 </span>
                             </div>
@@ -95,7 +110,9 @@ export default function IncomingShow({ document: doc }: Props) {
                     </div>
                     <div>
                         <p className="text-muted-foreground">Поставщик</p>
-                        <p className="font-medium">{doc.supplier?.name ?? '—'}</p>
+                        <p className="font-medium">
+                            {doc.supplier?.name ?? '—'}
+                        </p>
                     </div>
                     {doc.user && (
                         <div>
@@ -106,7 +123,11 @@ export default function IncomingShow({ document: doc }: Props) {
                     {doc.confirmed_at && (
                         <div>
                             <p className="text-muted-foreground">Проведён</p>
-                            <p className="font-medium">{new Date(doc.confirmed_at).toLocaleString('ru-RU')}</p>
+                            <p className="font-medium">
+                                {new Date(doc.confirmed_at).toLocaleString(
+                                    'ru-RU',
+                                )}
+                            </p>
                         </div>
                     )}
                     {doc.note && (
@@ -122,19 +143,34 @@ export default function IncomingShow({ document: doc }: Props) {
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b bg-muted/50">
-                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">Товар</th>
-                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Кол-во</th>
-                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Цена</th>
-                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Сумма</th>
+                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                    Товар
+                                </th>
+                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                    Кол-во
+                                </th>
+                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                    Цена
+                                </th>
+                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                    Сумма
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {doc.items.map((item) => (
-                                <tr key={item.id} className="border-b last:border-0">
+                                <tr
+                                    key={item.id}
+                                    className="border-b last:border-0"
+                                >
                                     <td className="px-4 py-3">
-                                        <div className="font-medium">{item.product.name}</div>
+                                        <div className="font-medium">
+                                            {item.product.name}
+                                        </div>
                                         {item.product.sku && (
-                                            <div className="font-mono text-xs text-muted-foreground">{item.product.sku}</div>
+                                            <div className="font-mono text-xs text-muted-foreground">
+                                                {item.product.sku}
+                                            </div>
                                         )}
                                         {(item.zone || item.cell) && (
                                             <div className="text-xs text-muted-foreground">
@@ -146,17 +182,28 @@ export default function IncomingShow({ document: doc }: Props) {
                                         {item.quantity} {item.product.unit}
                                     </td>
                                     <td className="px-4 py-3 text-right tabular-nums">
-                                        {Number(item.purchase_price).toLocaleString()}
+                                        {Number(
+                                            item.purchase_price,
+                                        ).toLocaleString()}
                                     </td>
                                     <td className="px-4 py-3 text-right tabular-nums">
-                                        {(parseFloat(item.quantity) * parseFloat(item.purchase_price)).toLocaleString()} {item.product.currency}
+                                        {(
+                                            parseFloat(item.quantity) *
+                                            parseFloat(item.purchase_price)
+                                        ).toLocaleString()}{' '}
+                                        {item.product.currency}
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                         <tfoot>
                             <tr className="border-t bg-muted/30">
-                                <td colSpan={3} className="px-4 py-3 text-right font-medium">Итого:</td>
+                                <td
+                                    colSpan={3}
+                                    className="px-4 py-3 text-right font-medium"
+                                >
+                                    Итого:
+                                </td>
                                 <td className="px-4 py-3 text-right font-semibold tabular-nums">
                                     {totalAmount.toLocaleString()}
                                 </td>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Tenant;
 
+use App\Support\TenantRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreWarehouseRequest extends FormRequest
@@ -19,7 +20,7 @@ class StoreWarehouseRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'address' => ['nullable', 'string'],
             'phone' => ['nullable', 'string', 'max:30'],
-            'manager_id' => ['nullable', 'integer', 'exists:users,id'],
+            'manager_id' => ['nullable', 'integer', TenantRule::exists('users')],
         ];
     }
 }

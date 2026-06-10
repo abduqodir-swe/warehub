@@ -1,9 +1,9 @@
+import { Moon, Sun } from 'lucide-react';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAppearance } from '@/hooks/use-appearance';
-import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { cn } from '@/lib/utils';
-import { Moon, Sun } from 'lucide-react';
+import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
 
 function ThemeToggle() {
     const { resolvedAppearance, updateAppearance } = useAppearance();
@@ -17,7 +17,7 @@ function ThemeToggle() {
             aria-label="Переключить тему"
             onClick={() => updateAppearance(isDark ? 'light' : 'dark')}
             className={cn(
-                'relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                'relative inline-flex h-6 w-11 cursor-pointer items-center rounded-full border transition-all duration-300 focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none',
                 isDark
                     ? 'border-amber-500/25 bg-amber-950/50'
                     : 'border-sky-300/60 bg-sky-100',
@@ -28,13 +28,17 @@ function ThemeToggle() {
                 <Sun
                     className={cn(
                         'size-3 transition-opacity duration-300',
-                        isDark ? 'text-amber-600 opacity-40' : 'text-sky-400 opacity-0',
+                        isDark
+                            ? 'text-amber-600 opacity-40'
+                            : 'text-sky-400 opacity-0',
                     )}
                 />
                 <Moon
                     className={cn(
                         'size-3 transition-opacity duration-300',
-                        isDark ? 'text-amber-400 opacity-50' : 'text-sky-400 opacity-0',
+                        isDark
+                            ? 'text-amber-400 opacity-50'
+                            : 'text-sky-400 opacity-0',
                     )}
                 />
             </span>
@@ -49,7 +53,10 @@ function ThemeToggle() {
                 )}
             >
                 {isDark ? (
-                    <Moon className="size-2.5 text-amber-950" strokeWidth={2.5} />
+                    <Moon
+                        className="size-2.5 text-amber-950"
+                        strokeWidth={2.5}
+                    />
                 ) : (
                     <Sun className="size-2.5 text-white" strokeWidth={2.5} />
                 )}

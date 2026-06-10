@@ -1,13 +1,28 @@
 import { Link } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { AlertTriangle, Home, RefreshCw, ServerCrash, ShieldOff, Wrench } from 'lucide-react';
+import {
+    AlertTriangle,
+    Home,
+    RefreshCw,
+    ServerCrash,
+    ShieldOff,
+    Wrench,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 type Props = {
     status: 403 | 404 | 500 | 503;
 };
 
-const ERRORS: Record<number, { icon: React.ElementType; title: string; description: string; color: string }> = {
+const ERRORS: Record<
+    number,
+    {
+        icon: React.ElementType;
+        title: string;
+        description: string;
+        color: string;
+    }
+> = {
     403: {
         icon: ShieldOff,
         title: 'Доступ запрещён',
@@ -51,9 +66,15 @@ export default function ErrorPage({ status }: Props) {
                 </div>
 
                 <div>
-                    <p className="text-6xl font-bold tabular-nums text-muted-foreground/30">{status}</p>
-                    <h1 className="mt-2 text-2xl font-semibold">{error.title}</h1>
-                    <p className="mt-2 text-sm text-muted-foreground">{error.description}</p>
+                    <p className="text-6xl font-bold text-muted-foreground/30 tabular-nums">
+                        {status}
+                    </p>
+                    <h1 className="mt-2 text-2xl font-semibold">
+                        {error.title}
+                    </h1>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                        {error.description}
+                    </p>
                 </div>
 
                 <div className="flex gap-3">
@@ -64,7 +85,10 @@ export default function ErrorPage({ status }: Props) {
                         </Link>
                     </Button>
                     {status === 500 || status === 503 ? (
-                        <Button variant="outline" onClick={() => window.location.reload()}>
+                        <Button
+                            variant="outline"
+                            onClick={() => window.location.reload()}
+                        >
                             <RefreshCw className="mr-2 size-4" />
                             Обновить
                         </Button>

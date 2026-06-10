@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Tenant\ActivityController;
-use App\Http\Controllers\Tenant\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Tenant\CategoryController;
 use App\Http\Controllers\Tenant\CustomerController;
 use App\Http\Controllers\Tenant\DashboardController;
@@ -35,11 +34,7 @@ Route::middleware([
     PreventAccessFromCentralDomains::class,
     'web',
 ])->group(function () {
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('tenant.login');
-    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('tenant.login.store');
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('tenant.logout');
-
-    Route::middleware(['auth', EnsureTenant::class])->group(function () {
+    Route::middleware(['auth', 'verified', EnsureTenant::class])->group(function () {
         Route::get('/', DashboardController::class)->name('tenant.dashboard');
 
         Route::resource('products', ProductController::class)->names([

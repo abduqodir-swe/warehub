@@ -12,6 +12,7 @@ use App\Models\Tenant\InventoryDocument;
 use App\Models\Tenant\InventoryItem;
 use App\Models\Tenant\Stock;
 use App\Models\Tenant\Warehouse;
+use App\Support\DocumentNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -43,13 +44,8 @@ class InventoryDocumentController extends Controller
     {
         $data = $request->validated();
 
-        $number = 'INV-'.now()->format('Y').'-'.str_pad(
-            (string) (InventoryDocument::withTrashed()->count() + 1),
-            4, '0', STR_PAD_LEFT
-        );
-
         $document = InventoryDocument::create([
-            'number' => $number,
+            'number' => DocumentNumber::temporary(),
             'date' => $data['date'],
             'warehouse_id' => $data['warehouse_id'],
             'user_id' => Auth::id(),
@@ -57,15 +53,16 @@ class InventoryDocumentController extends Controller
             'status' => 'in_progress',
             'note' => $data['note'] ?? null,
         ]);
+        DocumentNumber::assign($document, 'INV');
 
-        // Снимок текущих остатков на складе
         Stock::where('warehouse_id', $data['warehouse_id'])
-            ->with('product')
+            ->selectRaw('product_id, SUM(quantity) as expected_qty')
+            ->groupBy('product_id')
             ->get()
             ->each(function (Stock $stock) use ($document): void {
                 $document->items()->create([
                     'product_id' => $stock->product_id,
-                    'expected_qty' => $stock->quantity,
+                    'expected_qty' => $stock->expected_qty,
                     'actual_qty' => null,
                 ]);
             });
@@ -92,7 +89,8 @@ class InventoryDocumentController extends Controller
             return redirect("/inventory/{$inventoryDocument->id}");
         }
 
-        $inventoryItem->update(['actual_qty' => $request->validated()['actual_qty']]);
+        $item = $inventoryDocument->items()->findOrFail($inventoryItem->getKey());
+        $item->update(['actual_qty' => $request->validated()['actual_qty']]);
 
         return redirect("/inventory/{$inventoryDocument->id}");
     }

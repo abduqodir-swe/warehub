@@ -2,7 +2,11 @@ import { Link } from '@inertiajs/react';
 import { Store } from 'lucide-react';
 import type { AuthLayoutProps } from '@/types';
 
-export default function AuthSimpleLayout({ children, title, description }: AuthLayoutProps) {
+export default function AuthSimpleLayout({
+    children,
+    title,
+    description,
+}: AuthLayoutProps) {
     return (
         <div
             className="flex min-h-svh flex-col items-center justify-center p-6 md:p-10"
@@ -18,7 +22,9 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                         >
                             <div
                                 className="flex size-9 items-center justify-center rounded-xl"
-                                style={{ backgroundColor: 'var(--accent-color)' }}
+                                style={{
+                                    backgroundColor: 'var(--accent-color)',
+                                }}
                             >
                                 <Store className="size-5 text-white" />
                             </div>

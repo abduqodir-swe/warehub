@@ -24,6 +24,10 @@ class LoginResponse implements LoginResponseContract
             if ($workspaceUrl !== null && $request->getHost() !== parse_url($workspaceUrl, PHP_URL_HOST)) {
                 return redirect()->away($workspaceUrl);
             }
+
+            if (tenancy()->initialized) {
+                return redirect()->intended('/');
+            }
         }
 
         return redirect()->intended(config('fortify.home'));

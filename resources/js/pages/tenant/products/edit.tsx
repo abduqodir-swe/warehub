@@ -2,7 +2,13 @@ import { Head, Link, Form } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
 type Product = {
@@ -25,15 +31,30 @@ export default function ProductEdit({ product }: Props) {
         <>
             <Head title={`Редактировать: ${product.name}`} />
             <div className="mx-auto max-w-lg p-6">
-                <h1 className="mb-6 text-lg font-semibold">Редактировать вид товара</h1>
+                <h1 className="mb-6 text-lg font-semibold">
+                    Редактировать вид товара
+                </h1>
 
-                <Form action={`/products/${product.id}`} method="patch" className="flex flex-col gap-5">
+                <Form
+                    action={`/products/${product.id}`}
+                    method="patch"
+                    className="flex flex-col gap-5"
+                >
                     {({ errors, processing }) => (
                         <>
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="name">Название *</Label>
-                                <Input id="name" name="name" defaultValue={product.name} autoFocus />
-                                {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
+                                <Input
+                                    id="name"
+                                    name="name"
+                                    defaultValue={product.name}
+                                    autoFocus
+                                />
+                                {errors.name && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.name}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
@@ -45,11 +66,17 @@ export default function ProductEdit({ product }: Props) {
                                     placeholder="Отсканируйте или введите вручную"
                                     className="font-mono"
                                 />
-                                {errors.barcode && <p className="text-xs text-destructive">{errors.barcode}</p>}
+                                {errors.barcode && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.barcode}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="unit">Единица измерения *</Label>
+                                <Label htmlFor="unit">
+                                    Единица измерения *
+                                </Label>
                                 <Select name="unit" defaultValue={product.unit}>
                                     <SelectTrigger id="unit">
                                         <SelectValue />
@@ -62,11 +89,17 @@ export default function ProductEdit({ product }: Props) {
                                         ))}
                                     </SelectContent>
                                 </Select>
-                                {errors.unit && <p className="text-xs text-destructive">{errors.unit}</p>}
+                                {errors.unit && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.unit}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
-                                <Label htmlFor="retail_price">Стандартная цена *</Label>
+                                <Label htmlFor="retail_price">
+                                    Стандартная цена *
+                                </Label>
                                 <Input
                                     id="retail_price"
                                     name="retail_price"
@@ -75,7 +108,11 @@ export default function ProductEdit({ product }: Props) {
                                     step="0.01"
                                     defaultValue={product.retail_price}
                                 />
-                                {errors.retail_price && <p className="text-xs text-destructive">{errors.retail_price}</p>}
+                                {errors.retail_price && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.retail_price}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
@@ -87,12 +124,18 @@ export default function ProductEdit({ product }: Props) {
                                     defaultValue={product.description ?? ''}
                                     placeholder="Необязательно"
                                 />
-                                {errors.description && <p className="text-xs text-destructive">{errors.description}</p>}
+                                {errors.description && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.description}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex items-center gap-3 pt-2">
                                 <Button type="submit" disabled={processing}>
-                                    {processing ? 'Сохраняем...' : 'Сохранить изменения'}
+                                    {processing
+                                        ? 'Сохраняем...'
+                                        : 'Сохранить изменения'}
                                 </Button>
                                 <Button variant="outline" asChild>
                                     <Link href="/products">Отмена</Link>

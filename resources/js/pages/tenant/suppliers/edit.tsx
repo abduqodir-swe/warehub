@@ -23,50 +23,89 @@ export default function SupplierEdit({ supplier }: Props) {
         <>
             <Head title={`Редактировать: ${supplier.name}`} />
             <div className="mx-auto max-w-lg p-6">
-                <h1 className="mb-6 text-lg font-semibold">Редактировать поставщика</h1>
+                <h1 className="mb-6 text-lg font-semibold">
+                    Редактировать поставщика
+                </h1>
 
                 <Form
                     action={`/suppliers/${supplier.id}`}
                     method="patch"
                     className="flex flex-col gap-5"
-                    defaults={{
-                        name: supplier.name,
-                        phone: supplier.phone ?? '',
-                        email: supplier.email ?? '',
-                        address: supplier.address ?? '',
-                        note: supplier.note ?? '',
-                    }}
                 >
                     {({ errors, processing }) => (
                         <>
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="name">Название *</Label>
-                                <Input id="name" name="name" autoFocus defaultValue={supplier.name} />
-                                {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
+                                <Input
+                                    id="name"
+                                    name="name"
+                                    autoFocus
+                                    defaultValue={supplier.name}
+                                />
+                                {errors.name && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.name}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="phone">Телефон</Label>
-                                <Input id="phone" name="phone" defaultValue={supplier.phone ?? ''} />
-                                {errors.phone && <p className="text-xs text-destructive">{errors.phone}</p>}
+                                <Input
+                                    id="phone"
+                                    name="phone"
+                                    defaultValue={supplier.phone ?? ''}
+                                />
+                                {errors.phone && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.phone}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="email">Email</Label>
-                                <Input id="email" name="email" type="email" defaultValue={supplier.email ?? ''} />
-                                {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
+                                <Input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    defaultValue={supplier.email ?? ''}
+                                />
+                                {errors.email && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.email}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="address">Адрес</Label>
-                                <Textarea id="address" name="address" rows={2} defaultValue={supplier.address ?? ''} />
-                                {errors.address && <p className="text-xs text-destructive">{errors.address}</p>}
+                                <Textarea
+                                    id="address"
+                                    name="address"
+                                    rows={2}
+                                    defaultValue={supplier.address ?? ''}
+                                />
+                                {errors.address && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.address}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex flex-col gap-1.5">
                                 <Label htmlFor="note">Примечание</Label>
-                                <Textarea id="note" name="note" rows={2} defaultValue={supplier.note ?? ''} />
-                                {errors.note && <p className="text-xs text-destructive">{errors.note}</p>}
+                                <Textarea
+                                    id="note"
+                                    name="note"
+                                    rows={2}
+                                    defaultValue={supplier.note ?? ''}
+                                />
+                                {errors.note && (
+                                    <p className="text-xs text-destructive">
+                                        {errors.note}
+                                    </p>
+                                )}
                             </div>
 
                             <div className="flex items-center gap-3 pt-2">

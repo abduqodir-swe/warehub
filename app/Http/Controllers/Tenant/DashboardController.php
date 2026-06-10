@@ -33,9 +33,12 @@ class DashboardController extends Controller
             ->whereDate('confirmed_at', $today)
             ->count();
 
-        $lowStockItems = Stock::with('product:id,name,sku,unit,min_stock')
+        $lowStockQuery = Stock::with('product:id,name,sku,unit,min_stock')
             ->whereHas('product', fn ($q) => $q->where('min_stock', '>', 0))
-            ->whereColumn('quantity', '<', DB::raw('(SELECT min_stock FROM products WHERE products.id = stock.product_id)'))
+            ->whereColumn('quantity', '<', DB::raw('(SELECT min_stock FROM products WHERE products.id = stock.product_id)'));
+
+        $lowStockCount = (clone $lowStockQuery)->count();
+        $lowStockItems = $lowStockQuery
             ->orderBy('quantity')
             ->limit(5)
             ->get();
@@ -108,7 +111,7 @@ class DashboardController extends Controller
                 'productCount' => $productCount,
                 'todayRevenue' => (float) $todayRevenue,
                 'todayIncomingCount' => $todayIncomingCount,
-                'lowStockCount' => $lowStockItems->count(),
+                'lowStockCount' => $lowStockCount,
             ],
             'chartData' => $chartDays,
             'lowStockItems' => $lowStockItems,

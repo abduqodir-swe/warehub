@@ -1,10 +1,16 @@
 import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
 import { Plus, Trash2, Check, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 
 type Supplier = { id: number; name: string };
@@ -44,7 +50,11 @@ type Header = {
 
 const STEPS = ['Шапка', 'Позиции', 'Итог'];
 
-export default function IncomingCreate({ suppliers, warehouses, products }: Props) {
+export default function IncomingCreate({
+    suppliers,
+    warehouses,
+    products,
+}: Props) {
     const [step, setStep] = useState(0);
     const [header, setHeader] = useState<Header>({
         date: new Date().toISOString().slice(0, 10),
@@ -62,26 +72,47 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
 
     function validateHeader(): boolean {
         const errs: Record<string, string> = {};
-        if (!header.date) errs.date = 'Укажите дату';
-        if (!header.warehouse_id) errs.warehouse_id = 'Выберите склад';
+
+        if (!header.date) {
+            errs.date = 'Укажите дату';
+        }
+
+        if (!header.warehouse_id) {
+            errs.warehouse_id = 'Выберите склад';
+        }
+
         setErrors(errs);
+
         return Object.keys(errs).length === 0;
     }
 
     function validateItems(): boolean {
         const errs: Record<string, string> = {};
-        if (items.length === 0) errs.items = 'Добавьте хотя бы одну позицию';
+
+        if (items.length === 0) {
+            errs.items = 'Добавьте хотя бы одну позицию';
+        }
+
         setErrors(errs);
+
         return Object.keys(errs).length === 0;
     }
 
     function addItem() {
-        const product = products.find((p) => String(p.id) === selectedProductId);
-        if (!product) return;
+        const product = products.find(
+            (p) => String(p.id) === selectedProductId,
+        );
+
+        if (!product) {
+            return;
+        }
 
         const parsedQty = parseFloat(qty);
         const parsedPrice = parseFloat(price);
-        if (!parsedQty || parsedQty <= 0) return;
+
+        if (!parsedQty || parsedQty <= 0) {
+            return;
+        }
 
         setItems((prev) => [
             ...prev,
@@ -104,7 +135,11 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
 
     function addByBarcode() {
         const product = products.find((p) => p.barcode === barcodeInput.trim());
-        if (!product) return;
+
+        if (!product) {
+            return;
+        }
+
         setSelectedProductId(String(product.id));
         setPrice(product.purchase_price);
         setBarcodeInput('');
@@ -117,7 +152,10 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
     function handleProductSelect(id: string) {
         setSelectedProductId(id);
         const product = products.find((p) => String(p.id) === id);
-        if (product) setPrice(product.purchase_price);
+
+        if (product) {
+            setPrice(product.purchase_price);
+        }
     }
 
     function handleSubmit() {
@@ -144,15 +182,23 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
         );
     }
 
-    const totalAmount = items.reduce((sum, item) => sum + parseFloat(item.quantity) * parseFloat(item.purchase_price), 0);
-    const warehouse = warehouses.find((w) => String(w.id) === header.warehouse_id);
+    const totalAmount = items.reduce(
+        (sum, item) =>
+            sum + parseFloat(item.quantity) * parseFloat(item.purchase_price),
+        0,
+    );
+    const warehouse = warehouses.find(
+        (w) => String(w.id) === header.warehouse_id,
+    );
     const supplier = suppliers.find((s) => String(s.id) === header.supplier_id);
 
     return (
         <>
             <Head title="Новый приход" />
             <div className="mx-auto max-w-2xl p-6">
-                <h1 className="mb-6 text-lg font-semibold">Новый приход товаров</h1>
+                <h1 className="mb-6 text-lg font-semibold">
+                    Новый приход товаров
+                </h1>
 
                 {/* Stepper */}
                 <div className="mb-8 flex items-center gap-2">
@@ -167,10 +213,20 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                                           : 'border border-muted-foreground/30 text-muted-foreground'
                                 }`}
                             >
-                                {i < step ? <Check className="size-3.5" /> : i + 1}
+                                {i < step ? (
+                                    <Check className="size-3.5" />
+                                ) : (
+                                    i + 1
+                                )}
                             </div>
-                            <span className={`text-sm ${i === step ? 'font-medium' : 'text-muted-foreground'}`}>{label}</span>
-                            {i < STEPS.length - 1 && <ChevronRight className="size-4 text-muted-foreground" />}
+                            <span
+                                className={`text-sm ${i === step ? 'font-medium' : 'text-muted-foreground'}`}
+                            >
+                                {label}
+                            </span>
+                            {i < STEPS.length - 1 && (
+                                <ChevronRight className="size-4 text-muted-foreground" />
+                            )}
                         </div>
                     ))}
                 </div>
@@ -184,43 +240,69 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                                 id="date"
                                 type="date"
                                 value={header.date}
-                                onChange={(e) => setHeader((h) => ({ ...h, date: e.target.value }))}
+                                onChange={(e) =>
+                                    setHeader((h) => ({
+                                        ...h,
+                                        date: e.target.value,
+                                    }))
+                                }
                             />
-                            {errors.date && <p className="text-xs text-destructive">{errors.date}</p>}
+                            {errors.date && (
+                                <p className="text-xs text-destructive">
+                                    {errors.date}
+                                </p>
+                            )}
                         </div>
 
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="warehouse_id">Склад *</Label>
                             <Select
                                 value={header.warehouse_id}
-                                onValueChange={(v) => setHeader((h) => ({ ...h, warehouse_id: v }))}
+                                onValueChange={(v) =>
+                                    setHeader((h) => ({
+                                        ...h,
+                                        warehouse_id: v,
+                                    }))
+                                }
                             >
                                 <SelectTrigger id="warehouse_id">
                                     <SelectValue placeholder="Выберите склад" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {warehouses.map((w) => (
-                                        <SelectItem key={w.id} value={String(w.id)}>
+                                        <SelectItem
+                                            key={w.id}
+                                            value={String(w.id)}
+                                        >
                                             {w.name}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
                             </Select>
-                            {errors.warehouse_id && <p className="text-xs text-destructive">{errors.warehouse_id}</p>}
+                            {errors.warehouse_id && (
+                                <p className="text-xs text-destructive">
+                                    {errors.warehouse_id}
+                                </p>
+                            )}
                         </div>
 
                         <div className="flex flex-col gap-1.5">
                             <Label htmlFor="supplier_id">Поставщик</Label>
                             <Select
                                 value={header.supplier_id}
-                                onValueChange={(v) => setHeader((h) => ({ ...h, supplier_id: v }))}
+                                onValueChange={(v) =>
+                                    setHeader((h) => ({ ...h, supplier_id: v }))
+                                }
                             >
                                 <SelectTrigger id="supplier_id">
                                     <SelectValue placeholder="Не указан" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {suppliers.map((s) => (
-                                        <SelectItem key={s.id} value={String(s.id)}>
+                                        <SelectItem
+                                            key={s.id}
+                                            value={String(s.id)}
+                                        >
                                             {s.name}
                                         </SelectItem>
                                     ))}
@@ -234,7 +316,12 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                                 id="note"
                                 rows={2}
                                 value={header.note}
-                                onChange={(e) => setHeader((h) => ({ ...h, note: e.target.value }))}
+                                onChange={(e) =>
+                                    setHeader((h) => ({
+                                        ...h,
+                                        note: e.target.value,
+                                    }))
+                                }
                                 placeholder="Комментарий к документу..."
                             />
                         </div>
@@ -242,7 +329,9 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                         <div className="flex items-center gap-3 pt-2">
                             <Button
                                 onClick={() => {
-                                    if (validateHeader()) setStep(1);
+                                    if (validateHeader()) {
+                                        setStep(1);
+                                    }
                                 }}
                             >
                                 Далее
@@ -264,28 +353,44 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                                 <Input
                                     id="barcode"
                                     value={barcodeInput}
-                                    onChange={(e) => setBarcodeInput(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && addByBarcode()}
+                                    onChange={(e) =>
+                                        setBarcodeInput(e.target.value)
+                                    }
+                                    onKeyDown={(e) =>
+                                        e.key === 'Enter' && addByBarcode()
+                                    }
                                     placeholder="Отсканируйте или введите штрихкод..."
                                 />
-                                <Button type="button" variant="outline" onClick={addByBarcode}>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={addByBarcode}
+                                >
                                     Найти
                                 </Button>
                             </div>
                         </div>
 
                         <div className="border-t pt-4">
-                            <p className="mb-3 text-sm font-medium text-muted-foreground">Или выберите товар вручную</p>
+                            <p className="mb-3 text-sm font-medium text-muted-foreground">
+                                Или выберите товар вручную
+                            </p>
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="col-span-2 flex flex-col gap-1.5">
                                     <Label>Товар</Label>
-                                    <Select value={selectedProductId} onValueChange={handleProductSelect}>
+                                    <Select
+                                        value={selectedProductId}
+                                        onValueChange={handleProductSelect}
+                                    >
                                         <SelectTrigger>
                                             <SelectValue placeholder="Выберите товар..." />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {products.map((p) => (
-                                                <SelectItem key={p.id} value={String(p.id)}>
+                                                <SelectItem
+                                                    key={p.id}
+                                                    value={String(p.id)}
+                                                >
                                                     {p.name}
                                                     {p.sku && ` (${p.sku})`}
                                                 </SelectItem>
@@ -314,7 +419,9 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                                         min="0"
                                         step="0.01"
                                         value={price}
-                                        onChange={(e) => setPrice(e.target.value)}
+                                        onChange={(e) =>
+                                            setPrice(e.target.value)
+                                        }
                                     />
                                 </div>
                             </div>
@@ -331,7 +438,11 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                             </Button>
                         </div>
 
-                        {errors.items && <p className="text-xs text-destructive">{errors.items}</p>}
+                        {errors.items && (
+                            <p className="text-xs text-destructive">
+                                {errors.items}
+                            </p>
+                        )}
 
                         {/* Items table */}
                         {items.length > 0 && (
@@ -339,37 +450,64 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b bg-muted/50">
-                                            <th className="px-3 py-2 text-left font-medium text-muted-foreground">Товар</th>
-                                            <th className="px-3 py-2 text-right font-medium text-muted-foreground">Кол-во</th>
-                                            <th className="px-3 py-2 text-right font-medium text-muted-foreground">Цена</th>
-                                            <th className="px-3 py-2 text-right font-medium text-muted-foreground">Сумма</th>
+                                            <th className="px-3 py-2 text-left font-medium text-muted-foreground">
+                                                Товар
+                                            </th>
+                                            <th className="px-3 py-2 text-right font-medium text-muted-foreground">
+                                                Кол-во
+                                            </th>
+                                            <th className="px-3 py-2 text-right font-medium text-muted-foreground">
+                                                Цена
+                                            </th>
+                                            <th className="px-3 py-2 text-right font-medium text-muted-foreground">
+                                                Сумма
+                                            </th>
                                             <th className="px-3 py-2"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {items.map((item, i) => (
-                                            <tr key={i} className="border-b last:border-0">
+                                            <tr
+                                                key={i}
+                                                className="border-b last:border-0"
+                                            >
                                                 <td className="px-3 py-2">
-                                                    <div className="font-medium">{item.product_name}</div>
+                                                    <div className="font-medium">
+                                                        {item.product_name}
+                                                    </div>
                                                     {item.product_sku && (
-                                                        <div className="font-mono text-xs text-muted-foreground">{item.product_sku}</div>
+                                                        <div className="font-mono text-xs text-muted-foreground">
+                                                            {item.product_sku}
+                                                        </div>
                                                     )}
                                                 </td>
                                                 <td className="px-3 py-2 text-right tabular-nums">
                                                     {item.quantity} {item.unit}
                                                 </td>
                                                 <td className="px-3 py-2 text-right tabular-nums">
-                                                    {Number(item.purchase_price).toLocaleString()}
+                                                    {Number(
+                                                        item.purchase_price,
+                                                    ).toLocaleString()}
                                                 </td>
                                                 <td className="px-3 py-2 text-right tabular-nums">
-                                                    {(parseFloat(item.quantity) * parseFloat(item.purchase_price)).toLocaleString()} {item.currency}
+                                                    {(
+                                                        parseFloat(
+                                                            item.quantity,
+                                                        ) *
+                                                        parseFloat(
+                                                            item.purchase_price,
+                                                        )
+                                                    ).toLocaleString()}{' '}
+                                                    {item.currency}
                                                 </td>
                                                 <td className="px-3 py-2">
                                                     <Button
                                                         variant="ghost"
                                                         size="icon"
                                                         className="text-destructive hover:text-destructive"
-                                                        onClick={() => removeItem(i)}
+                                                        onClick={() =>
+                                                            removeItem(i)
+                                                        }
                                                     >
                                                         <Trash2 className="size-4" />
                                                     </Button>
@@ -384,12 +522,17 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                         <div className="flex items-center gap-3 pt-2">
                             <Button
                                 onClick={() => {
-                                    if (validateItems()) setStep(2);
+                                    if (validateItems()) {
+                                        setStep(2);
+                                    }
                                 }}
                             >
                                 Далее
                             </Button>
-                            <Button variant="outline" onClick={() => setStep(0)}>
+                            <Button
+                                variant="outline"
+                                onClick={() => setStep(0)}
+                            >
                                 Назад
                             </Button>
                         </div>
@@ -399,25 +542,43 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                 {/* Step 2: Summary */}
                 {step === 2 && (
                     <div className="flex flex-col gap-6">
-                        <div className="rounded-xl border p-4 flex flex-col gap-3 text-sm">
+                        <div className="flex flex-col gap-3 rounded-xl border p-4 text-sm">
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Дата</span>
-                                <span className="font-medium">{new Date(header.date).toLocaleDateString('ru-RU')}</span>
+                                <span className="text-muted-foreground">
+                                    Дата
+                                </span>
+                                <span className="font-medium">
+                                    {new Date(header.date).toLocaleDateString(
+                                        'ru-RU',
+                                    )}
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-muted-foreground">Склад</span>
-                                <span className="font-medium">{warehouse?.name}</span>
+                                <span className="text-muted-foreground">
+                                    Склад
+                                </span>
+                                <span className="font-medium">
+                                    {warehouse?.name}
+                                </span>
                             </div>
                             {supplier && (
                                 <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Поставщик</span>
-                                    <span className="font-medium">{supplier.name}</span>
+                                    <span className="text-muted-foreground">
+                                        Поставщик
+                                    </span>
+                                    <span className="font-medium">
+                                        {supplier.name}
+                                    </span>
                                 </div>
                             )}
                             {header.note && (
                                 <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Примечание</span>
-                                    <span className="font-medium">{header.note}</span>
+                                    <span className="text-muted-foreground">
+                                        Примечание
+                                    </span>
+                                    <span className="font-medium">
+                                        {header.note}
+                                    </span>
                                 </div>
                             )}
                         </div>
@@ -426,36 +587,64 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="border-b bg-muted/50">
-                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">Товар</th>
-                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">Кол-во</th>
-                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">Цена</th>
-                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">Сумма</th>
+                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                            Товар
+                                        </th>
+                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                            Кол-во
+                                        </th>
+                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                            Цена
+                                        </th>
+                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                            Сумма
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {items.map((item, i) => (
-                                        <tr key={i} className="border-b last:border-0">
+                                        <tr
+                                            key={i}
+                                            className="border-b last:border-0"
+                                        >
                                             <td className="px-4 py-3">
-                                                <div className="font-medium">{item.product_name}</div>
+                                                <div className="font-medium">
+                                                    {item.product_name}
+                                                </div>
                                                 {item.product_sku && (
-                                                    <div className="font-mono text-xs text-muted-foreground">{item.product_sku}</div>
+                                                    <div className="font-mono text-xs text-muted-foreground">
+                                                        {item.product_sku}
+                                                    </div>
                                                 )}
                                             </td>
                                             <td className="px-4 py-3 text-right tabular-nums">
                                                 {item.quantity} {item.unit}
                                             </td>
                                             <td className="px-4 py-3 text-right tabular-nums">
-                                                {Number(item.purchase_price).toLocaleString()}
+                                                {Number(
+                                                    item.purchase_price,
+                                                ).toLocaleString()}
                                             </td>
                                             <td className="px-4 py-3 text-right tabular-nums">
-                                                {(parseFloat(item.quantity) * parseFloat(item.purchase_price)).toLocaleString()} {item.currency}
+                                                {(
+                                                    parseFloat(item.quantity) *
+                                                    parseFloat(
+                                                        item.purchase_price,
+                                                    )
+                                                ).toLocaleString()}{' '}
+                                                {item.currency}
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                                 <tfoot>
                                     <tr className="border-t bg-muted/30">
-                                        <td colSpan={3} className="px-4 py-3 text-right font-medium">Итого:</td>
+                                        <td
+                                            colSpan={3}
+                                            className="px-4 py-3 text-right font-medium"
+                                        >
+                                            Итого:
+                                        </td>
                                         <td className="px-4 py-3 text-right font-semibold tabular-nums">
                                             {totalAmount.toLocaleString()}
                                         </td>
@@ -471,10 +660,18 @@ export default function IncomingCreate({ suppliers, warehouses, products }: Prop
                         )}
 
                         <div className="flex items-center gap-3 pt-2">
-                            <Button onClick={handleSubmit} disabled={submitting}>
-                                {submitting ? 'Сохраняем...' : 'Сохранить документ'}
+                            <Button
+                                onClick={handleSubmit}
+                                disabled={submitting}
+                            >
+                                {submitting
+                                    ? 'Сохраняем...'
+                                    : 'Сохранить документ'}
                             </Button>
-                            <Button variant="outline" onClick={() => setStep(1)}>
+                            <Button
+                                variant="outline"
+                                onClick={() => setStep(1)}
+                            >
                                 Назад
                             </Button>
                         </div>

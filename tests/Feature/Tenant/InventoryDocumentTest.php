@@ -188,6 +188,78 @@ class InventoryDocumentTest extends TestCase
         tenancy()->end();
     }
 
+    public function test_item_from_another_inventory_document_cannot_be_updated(): void
+    {
+        tenancy()->initialize($this->tenant);
+        $firstDocument = InventoryDocument::create([
+            'number' => 'INV-2026-0001',
+            'date' => '2026-04-23',
+            'warehouse_id' => $this->warehouse->id,
+            'user_id' => $this->user->id,
+            'type' => 'planned',
+            'status' => 'in_progress',
+        ]);
+        $secondDocument = InventoryDocument::create([
+            'number' => 'INV-2026-0002',
+            'date' => '2026-04-23',
+            'warehouse_id' => $this->warehouse->id,
+            'user_id' => $this->user->id,
+            'type' => 'planned',
+            'status' => 'in_progress',
+        ]);
+        $item = InventoryItem::create([
+            'document_id' => $secondDocument->id,
+            'product_id' => $this->product->id,
+            'expected_qty' => 20,
+        ]);
+        tenancy()->end();
+
+        $this->actingAs($this->user)
+            ->patch("http://{$this->tenantDomain}/inventory/{$firstDocument->id}/items/{$item->id}", [
+                'actual_qty' => 1,
+            ])
+            ->assertNotFound();
+
+        $this->assertDatabaseHas('inventory_items', [
+            'id' => $item->id,
+            'actual_qty' => null,
+        ]);
+    }
+
+    public function test_stock_snapshot_aggregates_product_across_locations(): void
+    {
+        tenancy()->initialize($this->tenant);
+        Stock::create([
+            'product_id' => $this->product->id,
+            'warehouse_id' => $this->warehouse->id,
+            'cell' => 'A-1',
+            'quantity' => 10,
+            'reserved' => 0,
+        ]);
+        Stock::create([
+            'product_id' => $this->product->id,
+            'warehouse_id' => $this->warehouse->id,
+            'cell' => 'A-2',
+            'quantity' => 15,
+            'reserved' => 0,
+        ]);
+        tenancy()->end();
+
+        $this->actingAs($this->user)
+            ->post("http://{$this->tenantDomain}/inventory", [
+                'date' => '2026-04-23',
+                'warehouse_id' => $this->warehouse->id,
+                'type' => 'planned',
+            ])
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('inventory_items', [
+            'product_id' => $this->product->id,
+            'expected_qty' => '25.000',
+        ]);
+        $this->assertDatabaseCount('inventory_items', 1);
+    }
+
     public function test_confirm_adjusts_stock_for_discrepancy(): void
     {
         $this->seedStock(20.0);

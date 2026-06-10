@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
-import { Building2, LayoutDashboard, LogOut, Shield } from 'lucide-react';
 import { usePage } from '@inertiajs/react';
+import { Building2, LayoutDashboard, LogOut, Shield } from 'lucide-react';
 import {
     Sidebar,
     SidebarContent,
@@ -26,17 +26,26 @@ export function AdminSidebar() {
     const { isCurrentUrl } = useCurrentUrl();
 
     return (
-        <Sidebar collapsible="icon" variant="inset" className="border-r border-sidebar-border bg-sidebar">
+        <Sidebar
+            collapsible="icon"
+            variant="inset"
+            className="border-r border-sidebar-border bg-sidebar"
+        >
             <SidebarHeader className="px-4 py-5">
-                <Link href={admin.dashboard.url()} className="flex items-center gap-2">
+                <Link
+                    href={admin.dashboard.url()}
+                    className="flex items-center gap-2"
+                >
                     <Shield className="size-5 text-foreground" />
-                    <span className="text-base font-semibold tracking-tight text-foreground">Admin</span>
+                    <span className="text-base font-semibold tracking-tight text-foreground">
+                        Admin
+                    </span>
                 </Link>
             </SidebarHeader>
 
             <SidebarContent className="px-2">
                 <SidebarGroup className="py-1">
-                    <SidebarGroupLabel className="px-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+                    <SidebarGroupLabel className="px-2 text-[10px] font-semibold tracking-widest text-muted-foreground uppercase">
                         Management
                     </SidebarGroupLabel>
                     <SidebarMenu>
@@ -63,8 +72,12 @@ export function AdminSidebar() {
                 {auth.superAdmin && (
                     <div className="flex items-center justify-between gap-2">
                         <div className="flex min-w-0 flex-col gap-0.5">
-                            <span className="truncate text-sm font-medium">{auth.superAdmin.name}</span>
-                            <span className="truncate text-xs text-muted-foreground">{auth.superAdmin.email}</span>
+                            <span className="truncate text-sm font-medium">
+                                {auth.superAdmin.name}
+                            </span>
+                            <span className="truncate text-xs text-muted-foreground">
+                                {auth.superAdmin.email}
+                            </span>
                         </div>
                         <Link
                             href={admin.logout.url()}

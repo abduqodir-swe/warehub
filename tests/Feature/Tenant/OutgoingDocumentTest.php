@@ -171,6 +171,66 @@ class OutgoingDocumentTest extends TestCase
         tenancy()->end();
     }
 
+    public function test_confirm_decrements_stock_across_multiple_locations(): void
+    {
+        tenancy()->initialize($this->tenant);
+        Stock::create([
+            'product_id' => $this->product->id,
+            'warehouse_id' => $this->warehouse->id,
+            'cell' => 'A-1',
+            'quantity' => 3,
+            'reserved' => 0,
+        ]);
+        Stock::create([
+            'product_id' => $this->product->id,
+            'warehouse_id' => $this->warehouse->id,
+            'cell' => 'A-2',
+            'quantity' => 6,
+            'reserved' => 0,
+        ]);
+        $document = OutgoingDocument::factory()->create([
+            'warehouse_id' => $this->warehouse->id,
+        ]);
+        $document->items()->create([
+            'product_id' => $this->product->id,
+            'quantity' => 7,
+            'retail_price' => 80000,
+        ]);
+        tenancy()->end();
+
+        $this->actingAs($this->user)
+            ->post("http://{$this->tenantDomain}/outgoing/{$document->id}/confirm")
+            ->assertRedirect();
+
+        tenancy()->initialize($this->tenant);
+        $this->assertSame(2.0, (float) Stock::where('product_id', $this->product->id)->sum('quantity'));
+        tenancy()->end();
+    }
+
+    public function test_document_rejects_product_and_warehouse_from_another_tenant(): void
+    {
+        $otherTenant = Tenant::create([
+            'subdomain' => 'validation-other',
+            'name' => 'Validation Other',
+            'owner_email' => 'validation@other.test',
+            'status' => 'active',
+        ]);
+        tenancy()->initialize($otherTenant);
+        $otherWarehouse = Warehouse::factory()->create();
+        $otherProduct = Product::factory()->create();
+        tenancy()->end();
+
+        $this->actingAs($this->user)
+            ->post("http://{$this->tenantDomain}/outgoing", [
+                'date' => '2026-04-23',
+                'warehouse_id' => $otherWarehouse->id,
+                'items' => [
+                    ['product_id' => $otherProduct->id, 'quantity' => 1, 'retail_price' => 100],
+                ],
+            ])
+            ->assertSessionHasErrors(['warehouse_id', 'items.0.product_id']);
+    }
+
     public function test_confirm_fails_if_insufficient_stock(): void
     {
         $this->seedStock(3.0);

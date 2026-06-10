@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { motion, useSpring, useTransform } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import {
     AlertTriangle,
     ArchiveRestore,
@@ -65,9 +66,20 @@ type Props = {
     recentOperations: RecentOperation[];
 };
 
-function AnimatedNumber({ value, prefix = '', suffix = '' }: { value: number; prefix?: string; suffix?: string }) {
+function AnimatedNumber({
+    value,
+    prefix = '',
+    suffix = '',
+}: {
+    value: number;
+    prefix?: string;
+    suffix?: string;
+}) {
     const spring = useSpring(0, { stiffness: 80, damping: 20 });
-    const display = useTransform(spring, (v) => `${prefix}${Math.round(v).toLocaleString('ru-RU')}${suffix}`);
+    const display = useTransform(
+        spring,
+        (v) => `${prefix}${Math.round(v).toLocaleString('ru-RU')}${suffix}`,
+    );
 
     useEffect(() => {
         spring.set(value);
@@ -116,32 +128,53 @@ const kpiConfig = (kpi: KPI) => [
         value: kpi.lowStockCount,
         icon: AlertTriangle,
         href: '/reports/stock-snapshot',
-        gradientFrom: kpi.lowStockCount > 0 ? 'from-rose-500' : 'from-slate-400 dark:from-slate-600',
-        gradientTo: kpi.lowStockCount > 0 ? 'to-pink-500' : 'to-slate-400 dark:to-slate-600',
+        gradientFrom:
+            kpi.lowStockCount > 0
+                ? 'from-rose-500'
+                : 'from-slate-400 dark:from-slate-600',
+        gradientTo:
+            kpi.lowStockCount > 0
+                ? 'to-pink-500'
+                : 'to-slate-400 dark:to-slate-600',
         iconBg: kpi.lowStockCount > 0 ? 'bg-rose-500/10' : 'bg-slate-400/10',
-        iconColor: kpi.lowStockCount > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400',
-        textColor: kpi.lowStockCount > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400',
+        iconColor:
+            kpi.lowStockCount > 0
+                ? 'text-rose-600 dark:text-rose-400'
+                : 'text-slate-500 dark:text-slate-400',
+        textColor:
+            kpi.lowStockCount > 0
+                ? 'text-rose-600 dark:text-rose-400'
+                : 'text-slate-500 dark:text-slate-400',
     },
 ];
 
-const container = {
+const container: Variants = {
     hidden: {},
     show: { transition: { staggerChildren: 0.06 } },
 };
 
-const cardVariant = {
+const cardVariant: Variants = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 110, damping: 20 } },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: { type: 'spring', stiffness: 110, damping: 20 },
+    },
 };
 
-export default function TenantDashboard({ user, kpi, chartData, lowStockItems, recentOperations }: Props) {
+export default function TenantDashboard({
+    user,
+    kpi,
+    chartData,
+    lowStockItems,
+    recentOperations,
+}: Props) {
     const firstName = user.name.split(' ')[0];
 
     return (
         <>
             <Head title="Дашборд" />
             <div className="flex flex-col gap-6 p-6">
-
                 {/* Page header */}
                 <motion.div
                     initial={{ opacity: 0, y: -8 }}
@@ -177,22 +210,34 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                 className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
                             >
                                 {/* Gradient top stripe */}
-                                <div className={`h-[3px] w-full bg-gradient-to-r ${card.gradientFrom} ${card.gradientTo}`} />
+                                <div
+                                    className={`h-[3px] w-full bg-gradient-to-r ${card.gradientFrom} ${card.gradientTo}`}
+                                />
 
                                 <div className="flex flex-col gap-3 p-5">
                                     <div className="flex items-start justify-between">
                                         <p className="text-[13px] font-medium text-muted-foreground">
                                             {card.label}
                                         </p>
-                                        <div className={`rounded-lg p-2 ${card.iconBg}`}>
-                                            <card.icon className={`size-4 ${card.iconColor}`} />
+                                        <div
+                                            className={`rounded-lg p-2 ${card.iconBg}`}
+                                        >
+                                            <card.icon
+                                                className={`size-4 ${card.iconColor}`}
+                                            />
                                         </div>
                                     </div>
 
-                                    <p className={`text-[2rem] font-bold leading-none tabular-nums tracking-tight ${card.textColor}`}>
+                                    <p
+                                        className={`text-[2rem] leading-none font-bold tracking-tight tabular-nums ${card.textColor}`}
+                                    >
                                         <AnimatedNumber
                                             value={card.value}
-                                            suffix={'suffix' in card ? card.suffix : ''}
+                                            suffix={
+                                                'suffix' in card
+                                                    ? card.suffix
+                                                    : ''
+                                            }
                                         />
                                     </p>
                                 </div>
@@ -212,8 +257,12 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                     >
                         <div className="mb-5 flex items-start justify-between">
                             <div>
-                                <h2 className="text-[15px] font-semibold text-foreground">Движение товаров</h2>
-                                <p className="mt-0.5 text-xs text-muted-foreground">Документов за последние 7 дней</p>
+                                <h2 className="text-[15px] font-semibold text-foreground">
+                                    Движение товаров
+                                </h2>
+                                <p className="mt-0.5 text-xs text-muted-foreground">
+                                    Документов за последние 7 дней
+                                </p>
                             </div>
                             <Link
                                 href="/reports/daily-chart"
@@ -224,15 +273,51 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                             </Link>
                         </div>
                         <ResponsiveContainer width="100%" height={220}>
-                            <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+                            <AreaChart
+                                data={chartData}
+                                margin={{
+                                    top: 4,
+                                    right: 4,
+                                    left: -20,
+                                    bottom: 0,
+                                }}
+                            >
                                 <defs>
-                                    <linearGradient id="incomingGrad" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.15} />
-                                        <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0} />
+                                    <linearGradient
+                                        id="incomingGrad"
+                                        x1="0"
+                                        y1="0"
+                                        x2="0"
+                                        y2="1"
+                                    >
+                                        <stop
+                                            offset="5%"
+                                            stopColor="#8B5CF6"
+                                            stopOpacity={0.15}
+                                        />
+                                        <stop
+                                            offset="95%"
+                                            stopColor="#8B5CF6"
+                                            stopOpacity={0}
+                                        />
                                     </linearGradient>
-                                    <linearGradient id="outgoingGrad" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.15} />
-                                        <stop offset="95%" stopColor="#10B981" stopOpacity={0} />
+                                    <linearGradient
+                                        id="outgoingGrad"
+                                        x1="0"
+                                        y1="0"
+                                        x2="0"
+                                        y2="1"
+                                    >
+                                        <stop
+                                            offset="5%"
+                                            stopColor="#10B981"
+                                            stopOpacity={0.15}
+                                        />
+                                        <stop
+                                            offset="95%"
+                                            stopColor="#10B981"
+                                            stopOpacity={0}
+                                        />
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid
@@ -243,12 +328,18 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                 />
                                 <XAxis
                                     dataKey="label"
-                                    tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }}
+                                    tick={{
+                                        fontSize: 11,
+                                        fill: 'var(--muted-foreground)',
+                                    }}
                                     axisLine={false}
                                     tickLine={false}
                                 />
                                 <YAxis
-                                    tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }}
+                                    tick={{
+                                        fontSize: 11,
+                                        fill: 'var(--muted-foreground)',
+                                    }}
                                     allowDecimals={false}
                                     axisLine={false}
                                     tickLine={false}
@@ -262,10 +353,16 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                         fontSize: '12px',
                                         boxShadow: 'var(--shadow-md)',
                                     }}
-                                    cursor={{ stroke: 'var(--border)', strokeWidth: 1 }}
+                                    cursor={{
+                                        stroke: 'var(--border)',
+                                        strokeWidth: 1,
+                                    }}
                                 />
                                 <Legend
-                                    wrapperStyle={{ fontSize: '12px', paddingTop: '12px' }}
+                                    wrapperStyle={{
+                                        fontSize: '12px',
+                                        paddingTop: '12px',
+                                    }}
                                     iconType="circle"
                                     iconSize={8}
                                 />
@@ -276,8 +373,16 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                     stroke="#8B5CF6"
                                     strokeWidth={2}
                                     fill="url(#incomingGrad)"
-                                    dot={{ r: 3, fill: '#8B5CF6', strokeWidth: 0 }}
-                                    activeDot={{ r: 5, fill: '#8B5CF6', strokeWidth: 0 }}
+                                    dot={{
+                                        r: 3,
+                                        fill: '#8B5CF6',
+                                        strokeWidth: 0,
+                                    }}
+                                    activeDot={{
+                                        r: 5,
+                                        fill: '#8B5CF6',
+                                        strokeWidth: 0,
+                                    }}
                                 />
                                 <Area
                                     type="monotone"
@@ -286,8 +391,16 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                     stroke="#10B981"
                                     strokeWidth={2}
                                     fill="url(#outgoingGrad)"
-                                    dot={{ r: 3, fill: '#10B981', strokeWidth: 0 }}
-                                    activeDot={{ r: 5, fill: '#10B981', strokeWidth: 0 }}
+                                    dot={{
+                                        r: 3,
+                                        fill: '#10B981',
+                                        strokeWidth: 0,
+                                    }}
+                                    activeDot={{
+                                        r: 5,
+                                        fill: '#10B981',
+                                        strokeWidth: 0,
+                                    }}
                                 />
                             </AreaChart>
                         </ResponsiveContainer>
@@ -301,7 +414,9 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                         className="rounded-xl border border-border bg-card p-5 shadow-sm"
                     >
                         <div className="mb-4 flex items-center justify-between">
-                            <h2 className="text-[15px] font-semibold text-foreground">Мало на складе</h2>
+                            <h2 className="text-[15px] font-semibold text-foreground">
+                                Мало на складе
+                            </h2>
                             <Link
                                 href="/reports/stock-snapshot"
                                 className="text-xs text-muted-foreground transition-colors hover:text-foreground"
@@ -316,8 +431,12 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                     <Package className="size-5 text-emerald-500" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-foreground">Всё в норме</p>
-                                    <p className="mt-0.5 text-xs text-muted-foreground">Запасы в порядке</p>
+                                    <p className="text-sm font-medium text-foreground">
+                                        Всё в норме
+                                    </p>
+                                    <p className="mt-0.5 text-xs text-muted-foreground">
+                                        Запасы в порядке
+                                    </p>
                                 </div>
                             </div>
                         ) : (
@@ -328,12 +447,18 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                         className="flex items-center justify-between rounded-lg border border-rose-200/50 bg-rose-50 px-3 py-2.5 dark:border-rose-500/15 dark:bg-rose-500/8"
                                     >
                                         <div className="min-w-0">
-                                            <p className="truncate text-[13px] font-medium text-foreground">{stock.product.name}</p>
-                                            <p className="text-xs text-muted-foreground">{stock.product.sku}</p>
+                                            <p className="truncate text-[13px] font-medium text-foreground">
+                                                {stock.product.name}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {stock.product.sku}
+                                            </p>
                                         </div>
                                         <div className="ml-3 shrink-0 text-right">
                                             <p className="text-[13px] font-bold text-rose-600 dark:text-rose-400">
-                                                {Number(stock.quantity).toLocaleString('ru-RU')}
+                                                {Number(
+                                                    stock.quantity,
+                                                ).toLocaleString('ru-RU')}
                                             </p>
                                             <p className="text-[11px] text-muted-foreground">
                                                 мин: {stock.product.min_stock}
@@ -354,12 +479,20 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                     className="rounded-xl border border-border bg-card shadow-sm"
                 >
                     <div className="flex items-center justify-between border-b border-border px-5 py-4">
-                        <h2 className="text-[15px] font-semibold text-foreground">Последние операции</h2>
+                        <h2 className="text-[15px] font-semibold text-foreground">
+                            Последние операции
+                        </h2>
                         <div className="flex gap-3">
-                            <Link href="/incoming" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
+                            <Link
+                                href="/incoming"
+                                className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                            >
                                 Приход →
                             </Link>
-                            <Link href="/outgoing" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
+                            <Link
+                                href="/outgoing"
+                                className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                            >
                                 Продажи →
                             </Link>
                         </div>
@@ -368,33 +501,38 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                     {recentOperations.length === 0 ? (
                         <div className="flex flex-col items-center justify-center gap-2 py-14 text-center">
                             <ArchiveRestore className="size-8 text-muted-foreground/40" />
-                            <p className="text-sm text-muted-foreground">Нет подтверждённых операций</p>
+                            <p className="text-sm text-muted-foreground">
+                                Нет подтверждённых операций
+                            </p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="border-b border-border bg-muted/30">
-                                        <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                                        <th className="px-5 py-3 text-left text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
                                             Тип
                                         </th>
-                                        <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                                        <th className="px-5 py-3 text-left text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
                                             Документ
                                         </th>
-                                        <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                                        <th className="px-5 py-3 text-left text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
                                             Контрагент
                                         </th>
-                                        <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                                        <th className="px-5 py-3 text-left text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
                                             Оператор
                                         </th>
-                                        <th className="px-5 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                                        <th className="px-5 py-3 text-right text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
                                             Время
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-border">
                                     {recentOperations.map((op, i) => (
-                                        <tr key={i} className="transition-colors hover:bg-muted/20">
+                                        <tr
+                                            key={i}
+                                            className="transition-colors hover:bg-muted/20"
+                                        >
                                             <td className="px-5 py-3.5">
                                                 <span
                                                     className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
@@ -403,7 +541,9 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                                             : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400'
                                                     }`}
                                                 >
-                                                    {op.type === 'incoming' ? 'Приход' : 'Продажа'}
+                                                    {op.type === 'incoming'
+                                                        ? 'Приход'
+                                                        : 'Продажа'}
                                                 </span>
                                             </td>
                                             <td className="px-5 py-3.5">
@@ -423,14 +563,21 @@ export default function TenantDashboard({ user, kpi, chartData, lowStockItems, r
                                             <td className="px-5 py-3.5 text-right font-mono text-[11px] text-muted-foreground">
                                                 {op.date && (
                                                     <span>
-                                                        {new Date(op.date).toLocaleDateString('ru-RU', {
-                                                            day: '2-digit',
-                                                            month: '2-digit',
-                                                        })}
+                                                        {new Date(
+                                                            op.date,
+                                                        ).toLocaleDateString(
+                                                            'ru-RU',
+                                                            {
+                                                                day: '2-digit',
+                                                                month: '2-digit',
+                                                            },
+                                                        )}
                                                     </span>
                                                 )}
                                                 {op.time && (
-                                                    <span className="ml-1 opacity-70">{op.time}</span>
+                                                    <span className="ml-1 opacity-70">
+                                                        {op.time}
+                                                    </span>
                                                 )}
                                             </td>
                                         </tr>

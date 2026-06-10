@@ -76,7 +76,8 @@ export default function TwoFactorRecoveryCodes({
                             className="size-4"
                             aria-hidden="true"
                         />
-                        {codesAreVisible ? 'Скрыть' : 'Показать'} коды восстановления
+                        {codesAreVisible ? 'Скрыть' : 'Показать'} коды
+                        восстановления
                     </Button>
 
                     {canRegenerateCodes && (
@@ -145,9 +146,10 @@ export default function TwoFactorRecoveryCodes({
 
                                 <div className="text-xs text-muted-foreground select-none">
                                     <p id="regenerate-warning">
-                                        Каждый код восстановления можно использовать
-                                        один раз. После использования код удаляется.
-                                        Чтобы получить новые коды, нажмите{' '}
+                                        Каждый код восстановления можно
+                                        использовать один раз. После
+                                        использования код удаляется. Чтобы
+                                        получить новые коды, нажмите{' '}
                                         <span className="font-bold">
                                             Обновить коды
                                         </span>{' '}

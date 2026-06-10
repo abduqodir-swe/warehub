@@ -1,5 +1,14 @@
 import { Head, Link } from '@inertiajs/react';
-import { BarChart2, Package, ArrowUpDown, Star, TrendingUp, PieChart, Users, Activity } from 'lucide-react';
+import {
+    BarChart2,
+    Package,
+    ArrowUpDown,
+    Star,
+    TrendingUp,
+    PieChart,
+    Users,
+    Activity,
+} from 'lucide-react';
 
 const REPORTS = [
     {
@@ -59,7 +68,9 @@ export default function ReportsIndex() {
             <div className="flex flex-col gap-6 p-6">
                 <div>
                     <h1 className="text-lg font-semibold">Отчёты</h1>
-                    <p className="mt-0.5 text-sm text-muted-foreground">Аналитика и данные по вашему складу</p>
+                    <p className="mt-0.5 text-sm text-muted-foreground">
+                        Аналитика и данные по вашему складу
+                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -74,7 +85,9 @@ export default function ReportsIndex() {
                             </div>
                             <div>
                                 <div className="font-medium">{title}</div>
-                                <div className="mt-0.5 text-xs text-muted-foreground">{description}</div>
+                                <div className="mt-0.5 text-xs text-muted-foreground">
+                                    {description}
+                                </div>
                             </div>
                         </Link>
                     ))}

@@ -13,10 +13,19 @@ class ConfirmIncomingDocument
     public function __invoke(IncomingDocument $document): void
     {
         DB::transaction(function () use ($document) {
-            $document->items()->with('product')->each(function ($item) use ($document) {
+            $lockedDocument = IncomingDocument::query()
+                ->whereKey($document->getKey())
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($lockedDocument->isConfirmed()) {
+                return;
+            }
+
+            $lockedDocument->items()->each(function ($item) use ($lockedDocument) {
                 $stock = Stock::firstOrNew([
                     'product_id' => $item->product_id,
-                    'warehouse_id' => $document->warehouse_id,
+                    'warehouse_id' => $lockedDocument->warehouse_id,
                     'zone_id' => $item->zone_id,
                     'cell' => $item->cell,
                 ]);
@@ -26,7 +35,7 @@ class ConfirmIncomingDocument
                 $stock->save();
             });
 
-            $document->update([
+            $lockedDocument->update([
                 'status' => 'confirmed',
                 'confirmed_at' => now(),
             ]);

@@ -10,6 +10,7 @@ use App\Http\Requests\Tenant\StoreTransferDocumentRequest;
 use App\Models\Tenant\Product;
 use App\Models\Tenant\TransferDocument;
 use App\Models\Tenant\Warehouse;
+use App\Support\DocumentNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -45,13 +46,8 @@ class TransferDocumentController extends Controller
     {
         $data = $request->validated();
 
-        $number = 'TRF-'.now()->format('Y').'-'.str_pad(
-            (string) (TransferDocument::withTrashed()->count() + 1),
-            4, '0', STR_PAD_LEFT
-        );
-
         $document = TransferDocument::create([
-            'number' => $number,
+            'number' => DocumentNumber::temporary(),
             'date' => $data['date'],
             'from_warehouse_id' => $data['from_warehouse_id'],
             'to_warehouse_id' => $data['to_warehouse_id'],
@@ -59,6 +55,7 @@ class TransferDocumentController extends Controller
             'note' => $data['note'] ?? null,
             'status' => 'draft',
         ]);
+        DocumentNumber::assign($document, 'TRF');
 
         foreach ($data['items'] as $item) {
             $document->items()->create([

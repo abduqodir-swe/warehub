@@ -22,7 +22,11 @@ const ABC_CLASSES: Record<string, string> = {
 
 export default function AbcReport({ items, filters }: Props) {
     function apply(overrides: Partial<typeof filters>) {
-        router.get('/reports/abc', { ...filters, ...overrides }, { preserveState: true });
+        router.get(
+            '/reports/abc',
+            { ...filters, ...overrides },
+            { preserveState: true },
+        );
     }
 
     const counts = { A: 0, B: 0, C: 0 };
@@ -36,13 +40,24 @@ export default function AbcReport({ items, filters }: Props) {
                     <div>
                         <h1 className="text-lg font-semibold">ABC-анализ</h1>
                         <p className="mt-0.5 text-sm text-muted-foreground">
-                            A: {counts.A} товаров · B: {counts.B} · C: {counts.C}
+                            A: {counts.A} товаров · B: {counts.B} · C:{' '}
+                            {counts.C}
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Input type="date" value={filters.from} onChange={(e) => apply({ from: e.target.value })} className="w-36" />
+                        <Input
+                            type="date"
+                            value={filters.from}
+                            onChange={(e) => apply({ from: e.target.value })}
+                            className="w-36"
+                        />
                         <span className="text-muted-foreground">—</span>
-                        <Input type="date" value={filters.to} onChange={(e) => apply({ to: e.target.value })} className="w-36" />
+                        <Input
+                            type="date"
+                            value={filters.to}
+                            onChange={(e) => apply({ to: e.target.value })}
+                            className="w-36"
+                        />
                     </div>
                 </div>
 
@@ -51,8 +66,14 @@ export default function AbcReport({ items, filters }: Props) {
                     {(['A', 'B', 'C'] as const).map((cat) => (
                         <div key={cat} className="rounded-xl border p-3">
                             <div className="flex items-center gap-2">
-                                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold ${ABC_CLASSES[cat]}`}>{cat}</span>
-                                <span className="text-sm font-medium">{counts[cat]} товаров</span>
+                                <span
+                                    className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold ${ABC_CLASSES[cat]}`}
+                                >
+                                    {cat}
+                                </span>
+                                <span className="text-sm font-medium">
+                                    {counts[cat]} товаров
+                                </span>
                             </div>
                             <p className="mt-1 text-xs text-muted-foreground">
                                 {cat === 'A' && 'Даёт 80% выручки — приоритет'}
@@ -67,25 +88,53 @@ export default function AbcReport({ items, filters }: Props) {
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b bg-muted/50">
-                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">#</th>
-                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">SKU / Товар</th>
-                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Выручка</th>
-                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Доля</th>
-                                <th className="px-4 py-3 text-center font-medium text-muted-foreground">Группа</th>
+                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                    #
+                                </th>
+                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                    SKU / Товар
+                                </th>
+                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                    Выручка
+                                </th>
+                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                    Доля
+                                </th>
+                                <th className="px-4 py-3 text-center font-medium text-muted-foreground">
+                                    Группа
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {items.map((item, idx) => (
-                                <tr key={item.product_id} className="border-b last:border-0 hover:bg-muted/30">
-                                    <td className="px-4 py-3 text-muted-foreground tabular-nums">{idx + 1}</td>
-                                    <td className="px-4 py-3">
-                                        <div className="font-mono text-xs text-muted-foreground">{item.sku}</div>
-                                        <div className="font-medium">{item.name}</div>
+                                <tr
+                                    key={item.product_id}
+                                    className="border-b last:border-0 hover:bg-muted/30"
+                                >
+                                    <td className="px-4 py-3 text-muted-foreground tabular-nums">
+                                        {idx + 1}
                                     </td>
-                                    <td className="px-4 py-3 text-right tabular-nums">{Number(item.revenue).toLocaleString('ru-RU', { maximumFractionDigits: 0 })}</td>
-                                    <td className="px-4 py-3 text-right tabular-nums text-muted-foreground">{item.share}%</td>
+                                    <td className="px-4 py-3">
+                                        <div className="font-mono text-xs text-muted-foreground">
+                                            {item.sku}
+                                        </div>
+                                        <div className="font-medium">
+                                            {item.name}
+                                        </div>
+                                    </td>
+                                    <td className="px-4 py-3 text-right tabular-nums">
+                                        {Number(item.revenue).toLocaleString(
+                                            'ru-RU',
+                                            { maximumFractionDigits: 0 },
+                                        )}
+                                    </td>
+                                    <td className="px-4 py-3 text-right text-muted-foreground tabular-nums">
+                                        {item.share}%
+                                    </td>
                                     <td className="px-4 py-3 text-center">
-                                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold ${ABC_CLASSES[item.abc]}`}>
+                                        <span
+                                            className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-bold ${ABC_CLASSES[item.abc]}`}
+                                        >
                                             {item.abc}
                                         </span>
                                     </td>

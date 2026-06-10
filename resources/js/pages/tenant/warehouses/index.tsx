@@ -26,7 +26,14 @@ export default function WarehousesIndex({ warehouses }: Props) {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-lg font-semibold">Склады</h1>
-                        <p className="mt-0.5 text-sm text-muted-foreground">{warehouses.length} склад{warehouses.length === 1 ? '' : warehouses.length < 5 ? 'а' : 'ов'}</p>
+                        <p className="mt-0.5 text-sm text-muted-foreground">
+                            {warehouses.length} склад
+                            {warehouses.length === 1
+                                ? ''
+                                : warehouses.length < 5
+                                  ? 'а'
+                                  : 'ов'}
+                        </p>
                     </div>
                     <Button asChild>
                         <Link href="/warehouses/create">
@@ -39,29 +46,42 @@ export default function WarehousesIndex({ warehouses }: Props) {
                 {warehouses.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed py-16 text-center">
                         <Warehouse className="size-8 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Нет складов</p>
+                        <p className="text-sm text-muted-foreground">
+                            Нет складов
+                        </p>
                         <Button asChild size="sm">
-                            <Link href="/warehouses/create">Создать первый склад</Link>
+                            <Link href="/warehouses/create">
+                                Создать первый склад
+                            </Link>
                         </Button>
                     </div>
                 ) : (
                     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                         {warehouses.map((warehouse) => (
-                            <div key={warehouse.id} className="flex flex-col gap-3 rounded-xl border bg-card p-5 hover:shadow-sm transition-shadow">
+                            <div
+                                key={warehouse.id}
+                                className="flex flex-col gap-3 rounded-xl border bg-card p-5 transition-shadow hover:shadow-sm"
+                            >
                                 <div className="flex items-start justify-between">
                                     <div className="flex items-center gap-2">
                                         <div className="flex size-9 items-center justify-center rounded-lg bg-muted">
                                             <Warehouse className="size-4 text-muted-foreground" />
                                         </div>
                                         <div>
-                                            <h3 className="font-medium">{warehouse.name}</h3>
+                                            <h3 className="font-medium">
+                                                {warehouse.name}
+                                            </h3>
                                             {warehouse.manager && (
-                                                <p className="text-xs text-muted-foreground">{warehouse.manager.name}</p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    {warehouse.manager.name}
+                                                </p>
                                             )}
                                         </div>
                                     </div>
                                     <Button variant="ghost" size="icon" asChild>
-                                        <Link href={`/warehouses/${warehouse.id}/edit`}>
+                                        <Link
+                                            href={`/warehouses/${warehouse.id}/edit`}
+                                        >
                                             <Pencil className="size-4" />
                                         </Link>
                                     </Button>
@@ -70,13 +90,18 @@ export default function WarehousesIndex({ warehouses }: Props) {
                                 {warehouse.address && (
                                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                                         <MapPin className="size-3 shrink-0" />
-                                        <span className="truncate">{warehouse.address}</span>
+                                        <span className="truncate">
+                                            {warehouse.address}
+                                        </span>
                                     </div>
                                 )}
 
-                                <div className="flex items-center gap-1.5 text-xs text-muted-foreground border-t pt-3">
+                                <div className="flex items-center gap-1.5 border-t pt-3 text-xs text-muted-foreground">
                                     <Package className="size-3 shrink-0" />
-                                    <span>{warehouse.total_products} позиций на складе</span>
+                                    <span>
+                                        {warehouse.total_products} позиций на
+                                        складе
+                                    </span>
                                 </div>
                             </div>
                         ))}

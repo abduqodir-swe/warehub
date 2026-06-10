@@ -15,14 +15,24 @@ class ConfirmTransferDocument
     public function __invoke(TransferDocument $document): void
     {
         DB::transaction(function () use ($document) {
-            foreach ($document->items as $item) {
-                /** @var TransferItem $item */
-                $fromStock = Stock::where('product_id', $item->product_id)
-                    ->where('warehouse_id', $document->from_warehouse_id)
-                    ->lockForUpdate()
-                    ->first();
+            $lockedDocument = TransferDocument::query()
+                ->whereKey($document->getKey())
+                ->lockForUpdate()
+                ->firstOrFail();
 
-                $available = $fromStock ? (float) $fromStock->quantity - (float) $fromStock->reserved : 0;
+            if ($lockedDocument->isConfirmed()) {
+                return;
+            }
+
+            foreach ($lockedDocument->items()->with('product')->get() as $item) {
+                /** @var TransferItem $item */
+                $fromStocks = Stock::where('product_id', $item->product_id)
+                    ->where('warehouse_id', $lockedDocument->from_warehouse_id)
+                    ->orderBy('id')
+                    ->lockForUpdate()
+                    ->get();
+
+                $available = $fromStocks->sum(fn (Stock $stock): float => max(0, $stock->available()));
 
                 if ($available < (float) $item->quantity) {
                     throw ValidationException::withMessages([
@@ -30,11 +40,24 @@ class ConfirmTransferDocument
                     ]);
                 }
 
-                $fromStock->decrement('quantity', (float) $item->quantity);
+                $remaining = (float) $item->quantity;
+
+                foreach ($fromStocks as $fromStock) {
+                    $deduction = min($remaining, max(0, $fromStock->available()));
+
+                    if ($deduction > 0) {
+                        $fromStock->decrement('quantity', $deduction);
+                        $remaining -= $deduction;
+                    }
+
+                    if ($remaining <= 0) {
+                        break;
+                    }
+                }
 
                 $toStock = Stock::firstOrNew([
                     'product_id' => $item->product_id,
-                    'warehouse_id' => $document->to_warehouse_id,
+                    'warehouse_id' => $lockedDocument->to_warehouse_id,
                     'zone_id' => null,
                     'cell' => null,
                 ]);
@@ -44,7 +67,7 @@ class ConfirmTransferDocument
                 $toStock->save();
             }
 
-            $document->update([
+            $lockedDocument->update([
                 'status' => 'confirmed',
                 'confirmed_at' => now(),
             ]);

@@ -17,7 +17,11 @@ type Props = {
     canRegister: boolean;
 };
 
-export default function Login({ status, canResetPassword, canRegister }: Props) {
+export default function Login({
+    status,
+    canResetPassword,
+    canRegister,
+}: Props) {
     return (
         <>
             <Head title="Вход" />
@@ -49,7 +53,11 @@ export default function Login({ status, canResetPassword, canRegister }: Props) 
                                 <div className="flex items-center justify-between">
                                     <Label htmlFor="password">Пароль</Label>
                                     {canResetPassword && (
-                                        <TextLink href={request()} className="text-sm" tabIndex={5}>
+                                        <TextLink
+                                            href={request()}
+                                            className="text-sm"
+                                            tabIndex={5}
+                                        >
                                             Забыли пароль?
                                         </TextLink>
                                     )}
@@ -66,7 +74,11 @@ export default function Login({ status, canResetPassword, canRegister }: Props) 
                             </div>
 
                             <div className="flex items-center gap-3">
-                                <Checkbox id="remember" name="remember" tabIndex={3} />
+                                <Checkbox
+                                    id="remember"
+                                    name="remember"
+                                    tabIndex={3}
+                                />
                                 <Label htmlFor="remember">Запомнить меня</Label>
                             </div>
 

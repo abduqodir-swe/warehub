@@ -29,20 +29,28 @@ export default function DeleteUser() {
             <div className="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
                 <div className="relative space-y-0.5 text-red-600 dark:text-red-100">
                     <p className="font-medium">Внимание</p>
-                    <p className="text-sm">Это действие необратимо и не может быть отменено.</p>
+                    <p className="text-sm">
+                        Это действие необратимо и не может быть отменено.
+                    </p>
                 </div>
 
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button variant="destructive" data-test="delete-user-button">
+                        <Button
+                            variant="destructive"
+                            data-test="delete-user-button"
+                        >
                             Удалить аккаунт
                         </Button>
                     </DialogTrigger>
                     <DialogContent>
-                        <DialogTitle>Вы уверены, что хотите удалить аккаунт?</DialogTitle>
+                        <DialogTitle>
+                            Вы уверены, что хотите удалить аккаунт?
+                        </DialogTitle>
                         <DialogDescription>
-                            После удаления все данные аккаунта будут безвозвратно удалены.
-                            Введите пароль для подтверждения.
+                            После удаления все данные аккаунта будут
+                            безвозвратно удалены. Введите пароль для
+                            подтверждения.
                         </DialogDescription>
 
                         <Form
@@ -55,7 +63,10 @@ export default function DeleteUser() {
                             {({ resetAndClearErrors, processing, errors }) => (
                                 <>
                                     <div className="grid gap-2">
-                                        <Label htmlFor="password" className="sr-only">
+                                        <Label
+                                            htmlFor="password"
+                                            className="sr-only"
+                                        >
                                             Пароль
                                         </Label>
                                         <PasswordInput
@@ -72,14 +83,23 @@ export default function DeleteUser() {
                                         <DialogClose asChild>
                                             <Button
                                                 variant="secondary"
-                                                onClick={() => resetAndClearErrors()}
+                                                onClick={() =>
+                                                    resetAndClearErrors()
+                                                }
                                             >
                                                 Отмена
                                             </Button>
                                         </DialogClose>
 
-                                        <Button variant="destructive" disabled={processing} asChild>
-                                            <button type="submit" data-test="confirm-delete-user-button">
+                                        <Button
+                                            variant="destructive"
+                                            disabled={processing}
+                                            asChild
+                                        >
+                                            <button
+                                                type="submit"
+                                                data-test="confirm-delete-user-button"
+                                            >
                                                 Удалить аккаунт
                                             </button>
                                         </Button>

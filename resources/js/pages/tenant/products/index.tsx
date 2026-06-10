@@ -46,7 +46,9 @@ export default function ProductsIndex({ products, filters }: Props) {
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-lg font-semibold">Виды товаров</h1>
-                        <p className="mt-0.5 text-sm text-muted-foreground">{products.total} позиций</p>
+                        <p className="mt-0.5 text-sm text-muted-foreground">
+                            {products.total} позиций
+                        </p>
                     </div>
                     <Button asChild>
                         <Link href="/products/create">
@@ -57,8 +59,8 @@ export default function ProductsIndex({ products, filters }: Props) {
                 </div>
 
                 <form onSubmit={handleSearch} className="flex gap-2">
-                    <div className="relative flex-1 max-w-sm">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                    <div className="relative max-w-sm flex-1">
+                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
                         <Input
                             placeholder="Поиск по названию..."
                             value={search}
@@ -66,15 +68,21 @@ export default function ProductsIndex({ products, filters }: Props) {
                             className="pl-9"
                         />
                     </div>
-                    <Button type="submit" variant="outline">Найти</Button>
+                    <Button type="submit" variant="outline">
+                        Найти
+                    </Button>
                 </form>
 
                 {products.data.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed py-16 text-center">
                         <PackageSearch className="size-8 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Виды товаров не найдены</p>
+                        <p className="text-sm text-muted-foreground">
+                            Виды товаров не найдены
+                        </p>
                         <Button asChild size="sm">
-                            <Link href="/products/create">Добавить первый вид</Link>
+                            <Link href="/products/create">
+                                Добавить первый вид
+                            </Link>
                         </Button>
                     </div>
                 ) : (
@@ -83,31 +91,53 @@ export default function ProductsIndex({ products, filters }: Props) {
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="border-b bg-muted/50">
-                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">Название</th>
-                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">Ед. изм.</th>
-                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">Стандартная цена</th>
+                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                            Название
+                                        </th>
+                                        <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                            Ед. изм.
+                                        </th>
+                                        <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                            Стандартная цена
+                                        </th>
                                         <th className="px-4 py-3 text-right font-medium text-muted-foreground"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {products.data.map((product) => (
-                                        <tr key={product.id} className="border-b last:border-0 hover:bg-muted/30">
+                                        <tr
+                                            key={product.id}
+                                            className="border-b last:border-0 hover:bg-muted/30"
+                                        >
                                             <td className="px-4 py-3">
-                                                <div className="font-medium">{product.name}</div>
+                                                <div className="font-medium">
+                                                    {product.name}
+                                                </div>
                                                 {product.description && (
                                                     <div className="max-w-xs truncate text-xs text-muted-foreground">
                                                         {product.description}
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-4 py-3 text-muted-foreground">{product.unit}</td>
+                                            <td className="px-4 py-3 text-muted-foreground">
+                                                {product.unit}
+                                            </td>
                                             <td className="px-4 py-3 text-right tabular-nums">
-                                                {Number(product.retail_price).toLocaleString()} UZS
+                                                {Number(
+                                                    product.retail_price,
+                                                ).toLocaleString()}{' '}
+                                                UZS
                                             </td>
                                             <td className="px-4 py-3">
                                                 <div className="flex items-center justify-end gap-1">
-                                                    <Button variant="ghost" size="icon" asChild>
-                                                        <Link href={`/products/${product.id}/edit`}>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        asChild
+                                                    >
+                                                        <Link
+                                                            href={`/products/${product.id}/edit`}
+                                                        >
                                                             <Pencil className="size-4" />
                                                         </Link>
                                                     </Button>
@@ -115,7 +145,11 @@ export default function ProductsIndex({ products, filters }: Props) {
                                                         variant="ghost"
                                                         size="icon"
                                                         className="text-destructive hover:text-destructive"
-                                                        onClick={() => handleDelete(product)}
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                product,
+                                                            )
+                                                        }
                                                     >
                                                         <Trash2 className="size-4" />
                                                     </Button>
@@ -129,22 +163,38 @@ export default function ProductsIndex({ products, filters }: Props) {
 
                         {products.last_page > 1 && (
                             <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                <span>Страница {products.current_page} из {products.last_page}</span>
+                                <span>
+                                    Страница {products.current_page} из{' '}
+                                    {products.last_page}
+                                </span>
                                 <div className="flex gap-2">
                                     {products.current_page > 1 && (
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => router.get('/products', { page: products.current_page - 1 })}
+                                            onClick={() =>
+                                                router.get('/products', {
+                                                    page:
+                                                        products.current_page -
+                                                        1,
+                                                })
+                                            }
                                         >
                                             Назад
                                         </Button>
                                     )}
-                                    {products.current_page < products.last_page && (
+                                    {products.current_page <
+                                        products.last_page && (
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => router.get('/products', { page: products.current_page + 1 })}
+                                            onClick={() =>
+                                                router.get('/products', {
+                                                    page:
+                                                        products.current_page +
+                                                        1,
+                                                })
+                                            }
                                         >
                                             Вперёд
                                         </Button>

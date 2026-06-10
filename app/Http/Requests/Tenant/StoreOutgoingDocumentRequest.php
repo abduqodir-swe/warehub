@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Tenant;
 
+use App\Support\TenantRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -19,11 +20,11 @@ class StoreOutgoingDocumentRequest extends FormRequest
     {
         return [
             'date' => ['required', 'date'],
-            'customer_id' => ['nullable', 'integer', 'exists:customers,id'],
-            'warehouse_id' => ['required', 'integer', 'exists:warehouses,id'],
+            'customer_id' => ['nullable', 'integer', TenantRule::exists('customers')],
+            'warehouse_id' => ['required', 'integer', TenantRule::exists('warehouses')],
             'note' => ['nullable', 'string', 'max:2000'],
             'items' => ['required', 'array', 'min:1'],
-            'items.*.product_id' => ['required', 'integer', 'exists:products,id'],
+            'items.*.product_id' => ['required', 'integer', TenantRule::exists('products')],
             'items.*.quantity' => ['required', 'numeric', 'min:0.001'],
             'items.*.retail_price' => ['required', 'numeric', 'min:0'],
         ];

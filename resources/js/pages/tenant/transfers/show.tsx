@@ -20,7 +20,12 @@ type Props = { document: Document };
 
 export default function TransfersShow({ document: doc }: Props) {
     function handleConfirm() {
-        if (!confirm('Провести перемещение? Остатки на складах будут изменены.')) { return; }
+        if (
+            !confirm('Провести перемещение? Остатки на складах будут изменены.')
+        ) {
+            return;
+        }
+
         router.post(`/transfers/${doc.id}/confirm`);
     }
 
@@ -31,7 +36,9 @@ export default function TransfersShow({ document: doc }: Props) {
                 <div className="flex items-start justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <h1 className="font-mono text-lg font-semibold">{doc.number}</h1>
+                            <h1 className="font-mono text-lg font-semibold">
+                                {doc.number}
+                            </h1>
                             {doc.status === 'confirmed' ? (
                                 <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
                                     <CheckCircle className="size-3" />
@@ -59,13 +66,21 @@ export default function TransfersShow({ document: doc }: Props) {
                 {/* Маршрут */}
                 <div className="flex items-center gap-3 rounded-xl border p-4">
                     <div className="flex-1 text-center">
-                        <div className="text-xs text-muted-foreground">Откуда</div>
-                        <div className="font-medium">{doc.from_warehouse.name}</div>
+                        <div className="text-xs text-muted-foreground">
+                            Откуда
+                        </div>
+                        <div className="font-medium">
+                            {doc.from_warehouse.name}
+                        </div>
                     </div>
                     <ArrowRightLeft className="size-5 shrink-0 text-muted-foreground" />
                     <div className="flex-1 text-center">
-                        <div className="text-xs text-muted-foreground">Куда</div>
-                        <div className="font-medium">{doc.to_warehouse.name}</div>
+                        <div className="text-xs text-muted-foreground">
+                            Куда
+                        </div>
+                        <div className="font-medium">
+                            {doc.to_warehouse.name}
+                        </div>
                     </div>
                 </div>
 
@@ -80,19 +95,31 @@ export default function TransfersShow({ document: doc }: Props) {
                     <table className="w-full text-sm">
                         <thead>
                             <tr className="border-b bg-muted/50">
-                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">SKU / Товар</th>
-                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">Количество</th>
+                                <th className="px-4 py-3 text-left font-medium text-muted-foreground">
+                                    SKU / Товар
+                                </th>
+                                <th className="px-4 py-3 text-right font-medium text-muted-foreground">
+                                    Количество
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             {doc.items.map((item) => (
-                                <tr key={item.id} className="border-b last:border-0">
+                                <tr
+                                    key={item.id}
+                                    className="border-b last:border-0"
+                                >
                                     <td className="px-4 py-3">
-                                        <div className="font-mono text-xs text-muted-foreground">{item.product.sku}</div>
-                                        <div className="font-medium">{item.product.name}</div>
+                                        <div className="font-mono text-xs text-muted-foreground">
+                                            {item.product.sku}
+                                        </div>
+                                        <div className="font-medium">
+                                            {item.product.name}
+                                        </div>
                                     </td>
                                     <td className="px-4 py-3 text-right tabular-nums">
-                                        {parseFloat(item.quantity)} {item.product.unit}
+                                        {parseFloat(item.quantity)}{' '}
+                                        {item.product.unit}
                                     </td>
                                 </tr>
                             ))}

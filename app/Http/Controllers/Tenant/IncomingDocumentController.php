@@ -11,6 +11,7 @@ use App\Models\Tenant\IncomingDocument;
 use App\Models\Tenant\Product;
 use App\Models\Tenant\Supplier;
 use App\Models\Tenant\Warehouse;
+use App\Support\DocumentNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -44,10 +45,8 @@ class IncomingDocumentController extends Controller
     {
         $data = $request->validated();
 
-        $number = 'IN-'.now()->format('Y').'-'.str_pad((string) (IncomingDocument::withTrashed()->count() + 1), 4, '0', STR_PAD_LEFT);
-
         $document = IncomingDocument::create([
-            'number' => $number,
+            'number' => DocumentNumber::temporary(),
             'date' => $data['date'],
             'supplier_id' => $data['supplier_id'] ?? null,
             'warehouse_id' => $data['warehouse_id'],
@@ -55,6 +54,7 @@ class IncomingDocumentController extends Controller
             'note' => $data['note'] ?? null,
             'status' => 'draft',
         ]);
+        DocumentNumber::assign($document, 'IN');
 
         foreach ($data['items'] as $item) {
             $document->items()->create([

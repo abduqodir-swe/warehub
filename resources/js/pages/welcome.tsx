@@ -27,7 +27,9 @@ export default function Welcome({
                         >
                             <Store className="size-4 text-white" />
                         </div>
-                        <span className="text-lg font-semibold tracking-tight">WareHub</span>
+                        <span className="text-lg font-semibold tracking-tight">
+                            WareHub
+                        </span>
                     </div>
 
                     <nav className="flex items-center gap-3">
@@ -56,7 +58,8 @@ export default function Welcome({
                                         href={register()}
                                         className="rounded-lg px-4 py-1.5 text-sm font-medium transition-colors hover:opacity-80"
                                         style={{
-                                            backgroundColor: 'var(--accent-color)',
+                                            backgroundColor:
+                                                'var(--accent-color)',
                                             color: '#fff',
                                         }}
                                     >
@@ -76,16 +79,24 @@ export default function Welcome({
                         >
                             Управление складом стало проще
                         </h1>
-                        <p className="text-lg leading-relaxed" style={{ color: 'var(--ink-muted)' }}>
-                            WareHub — облачная система управления складом для вашего бизнеса.
-                            Контролируйте запасы, управляйте поставками и отслеживайте продажи в режиме реального времени.
+                        <p
+                            className="text-lg leading-relaxed"
+                            style={{ color: 'var(--ink-muted)' }}
+                        >
+                            WareHub — облачная система управления складом для
+                            вашего бизнеса. Контролируйте запасы, управляйте
+                            поставками и отслеживайте продажи в режиме реального
+                            времени.
                         </p>
                         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
                             {canRegister && !auth.user && (
                                 <Link
                                     href={register()}
                                     className="rounded-xl px-6 py-2.5 text-sm font-medium transition-colors hover:opacity-90"
-                                    style={{ backgroundColor: 'var(--accent-color)', color: '#fff' }}
+                                    style={{
+                                        backgroundColor: 'var(--accent-color)',
+                                        color: '#fff',
+                                    }}
                                 >
                                     Начать бесплатно
                                 </Link>
@@ -94,7 +105,10 @@ export default function Welcome({
                                 <Link
                                     href={dashboard()}
                                     className="rounded-xl px-6 py-2.5 text-sm font-medium transition-colors hover:opacity-90"
-                                    style={{ backgroundColor: 'var(--accent-color)', color: '#fff' }}
+                                    style={{
+                                        backgroundColor: 'var(--accent-color)',
+                                        color: '#fff',
+                                    }}
                                 >
                                     Перейти в систему
                                 </Link>

@@ -11,7 +11,9 @@ use App\Models\Tenant\Customer;
 use App\Models\Tenant\OutgoingDocument;
 use App\Models\Tenant\Stock;
 use App\Models\Tenant\Warehouse;
+use App\Support\DocumentNumber;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -33,29 +35,10 @@ class OutgoingDocumentController extends Controller
 
     public function create(): Response
     {
-        $warehouseId = Warehouse::value('id');
-
-        $stock = $warehouseId
-            ? Stock::where('warehouse_id', $warehouseId)
-                ->where('quantity', '>', 0)
-                ->with('product:id,name,sku,barcode,unit,retail_price,currency')
-                ->get()
-            : collect();
-
         return Inertia::render('tenant/outgoing/create', [
             'customers' => Customer::orderBy('name')->get(['id', 'name']),
             'warehouses' => Warehouse::orderBy('name')->get(['id', 'name']),
-            'stock' => $stock->map(fn ($s) => [
-                'product_id' => $s->product_id,
-                'product_name' => $s->product->name,
-                'product_sku' => $s->product->sku,
-                'product_barcode' => $s->product->barcode,
-                'unit' => $s->product->unit,
-                'retail_price' => $s->product->retail_price,
-                'currency' => $s->product->currency,
-                'available' => (float) $s->quantity - (float) $s->reserved,
-                'warehouse_id' => $s->warehouse_id,
-            ]),
+            'stock' => $this->availableStock(),
         ]);
     }
 
@@ -63,10 +46,8 @@ class OutgoingDocumentController extends Controller
     {
         $data = $request->validated();
 
-        $number = 'OUT-'.now()->format('Y').'-'.str_pad((string) (OutgoingDocument::withTrashed()->count() + 1), 4, '0', STR_PAD_LEFT);
-
         $document = OutgoingDocument::create([
-            'number' => $number,
+            'number' => DocumentNumber::temporary(),
             'date' => $data['date'],
             'customer_id' => $data['customer_id'] ?? null,
             'warehouse_id' => $data['warehouse_id'],
@@ -74,6 +55,7 @@ class OutgoingDocumentController extends Controller
             'note' => $data['note'] ?? null,
             'status' => 'draft',
         ]);
+        DocumentNumber::assign($document, 'OUT');
 
         foreach ($data['items'] as $item) {
             $document->items()->create([
@@ -116,16 +98,15 @@ class OutgoingDocumentController extends Controller
     {
         $data = $request->validated();
 
-        $number = 'OUT-'.now()->format('Y').'-'.str_pad((string) (OutgoingDocument::withTrashed()->count() + 1), 4, '0', STR_PAD_LEFT);
-
         $document = OutgoingDocument::create([
-            'number' => $number,
+            'number' => DocumentNumber::temporary(),
             'date' => $data['date'],
             'customer_id' => $data['customer_id'] ?? null,
             'warehouse_id' => $data['warehouse_id'],
             'user_id' => Auth::id(),
             'status' => 'draft',
         ]);
+        DocumentNumber::assign($document, 'OUT');
 
         foreach ($data['items'] as $item) {
             $document->items()->create([
@@ -144,28 +125,11 @@ class OutgoingDocumentController extends Controller
     public function pos(): Response
     {
         $warehouses = Warehouse::orderBy('name')->get(['id', 'name']);
-        $firstWarehouseId = $warehouses->first()?->id;
-
-        $stock = $firstWarehouseId
-            ? Stock::where('warehouse_id', $firstWarehouseId)
-                ->with('product:id,name,sku,barcode,unit,retail_price,currency')
-                ->get()
-            : collect();
 
         return Inertia::render('tenant/outgoing/pos', [
             'warehouses' => $warehouses,
             'customers' => Customer::orderBy('name')->get(['id', 'name']),
-            'stock' => $stock->map(fn ($s) => [
-                'product_id' => $s->product_id,
-                'product_name' => $s->product->name,
-                'product_sku' => $s->product->sku,
-                'product_barcode' => $s->product->barcode,
-                'unit' => $s->product->unit,
-                'retail_price' => $s->product->retail_price,
-                'currency' => $s->product->currency,
-                'available' => (float) $s->quantity - (float) $s->reserved,
-                'warehouse_id' => $s->warehouse_id,
-            ]),
+            'stock' => $this->availableStock(),
         ]);
     }
 
@@ -178,5 +142,30 @@ class OutgoingDocumentController extends Controller
         $outgoingDocument->delete();
 
         return redirect('/outgoing');
+    }
+
+    /** @return Collection<int, array<string, mixed>> */
+    private function availableStock(): Collection
+    {
+        return Stock::with('product:id,name,sku,barcode,unit,retail_price,currency')
+            ->get()
+            ->groupBy(fn (Stock $stock): string => "{$stock->warehouse_id}:{$stock->product_id}")
+            ->map(function ($locations) {
+                /** @var Stock $stock */
+                $stock = $locations->first();
+
+                return [
+                    'product_id' => $stock->product_id,
+                    'product_name' => $stock->product->name,
+                    'product_sku' => $stock->product->sku,
+                    'product_barcode' => $stock->product->barcode,
+                    'unit' => $stock->product->unit,
+                    'retail_price' => $stock->product->retail_price,
+                    'currency' => $stock->product->currency,
+                    'available' => $locations->sum(fn (Stock $location): float => max(0, $location->available())),
+                    'warehouse_id' => $stock->warehouse_id,
+                ];
+            })
+            ->values();
     }
 }

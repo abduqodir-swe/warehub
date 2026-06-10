@@ -66,19 +66,34 @@ function formatDateLabel(dateStr: string): string {
         a.getMonth() === b.getMonth() &&
         a.getDate() === b.getDate();
 
-    if (isSameDay(date, today)) return 'Сегодня';
-    if (isSameDay(date, yesterday)) return 'Вчера';
+    if (isSameDay(date, today)) {
+        return 'Сегодня';
+    }
 
-    return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+    if (isSameDay(date, yesterday)) {
+        return 'Вчера';
+    }
+
+    return date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
 }
 
 function groupByDate(activities: Activity[]): [string, Activity[]][] {
     const map = new Map<string, Activity[]>();
+
     for (const item of activities) {
         const key = item.date ?? 'unknown';
-        if (!map.has(key)) map.set(key, []);
+
+        if (!map.has(key)) {
+            map.set(key, []);
+        }
+
         map.get(key)!.push(item);
     }
+
     return Array.from(map.entries());
 }
 
@@ -88,7 +103,11 @@ export default function ActivityIndex({ activities, activeType }: Props) {
     }
 
     function goToPage(page: number) {
-        router.get('/activity', { type: activeType, page }, { preserveState: true });
+        router.get(
+            '/activity',
+            { type: activeType, page },
+            { preserveState: true },
+        );
     }
 
     const groups = groupByDate(activities.data);
@@ -100,7 +119,9 @@ export default function ActivityIndex({ activities, activeType }: Props) {
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-lg font-semibold">История операций</h1>
+                        <h1 className="text-lg font-semibold">
+                            История операций
+                        </h1>
                         <p className="mt-0.5 text-sm text-muted-foreground">
                             {activities.total} операций всего
                         </p>
@@ -129,7 +150,9 @@ export default function ActivityIndex({ activities, activeType }: Props) {
                 {activities.data.length === 0 ? (
                     <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed py-16 text-center">
                         <History className="size-8 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">Операций пока нет</p>
+                        <p className="text-sm text-muted-foreground">
+                            Операций пока нет
+                        </p>
                     </div>
                 ) : (
                     <>
@@ -137,35 +160,42 @@ export default function ActivityIndex({ activities, activeType }: Props) {
                         <div className="flex flex-col gap-6">
                             {groups.map(([date, items]) => (
                                 <div key={date}>
-                                    <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                                    <p className="mb-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
                                         {formatDateLabel(date)}
                                     </p>
 
-                                    <div className="rounded-xl border divide-y">
+                                    <div className="divide-y rounded-xl border">
                                         {items.map((item, idx) => {
-                                            const style = TYPE_STYLES[item.type] ?? TYPE_STYLES.inventory;
+                                            const style =
+                                                TYPE_STYLES[item.type] ??
+                                                TYPE_STYLES.inventory;
+
                                             return (
                                                 <div
                                                     key={idx}
-                                                    className="flex items-center gap-4 px-4 py-3 hover:bg-muted/30 transition-colors"
+                                                    className="flex items-center gap-4 px-4 py-3 transition-colors hover:bg-muted/30"
                                                 >
                                                     {/* Dot */}
-                                                    <div className={`size-2 shrink-0 rounded-full ${style.dot}`} />
+                                                    <div
+                                                        className={`size-2 shrink-0 rounded-full ${style.dot}`}
+                                                    />
 
                                                     {/* Time */}
-                                                    <span className="w-10 shrink-0 tabular-nums text-xs text-muted-foreground">
+                                                    <span className="w-10 shrink-0 text-xs text-muted-foreground tabular-nums">
                                                         {item.time}
                                                     </span>
 
                                                     {/* Type badge */}
-                                                    <span className={`shrink-0 rounded-md px-2 py-0.5 text-xs font-medium ${style.badge}`}>
+                                                    <span
+                                                        className={`shrink-0 rounded-md px-2 py-0.5 text-xs font-medium ${style.badge}`}
+                                                    >
                                                         {item.label}
                                                     </span>
 
                                                     {/* Number */}
                                                     <Link
                                                         href={item.link}
-                                                        className="shrink-0 font-mono text-xs font-medium text-foreground hover:text-[var(--accent)] transition-colors"
+                                                        className="shrink-0 font-mono text-xs font-medium text-foreground transition-colors hover:text-[var(--accent)]"
                                                     >
                                                         {item.number}
                                                     </Link>
@@ -178,15 +208,17 @@ export default function ActivityIndex({ activities, activeType }: Props) {
                                                     )}
 
                                                     {/* Warehouse */}
-                                                    {item.warehouse && !item.counterparty && (
-                                                        <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
-                                                            {item.warehouse}
-                                                        </span>
-                                                    )}
+                                                    {item.warehouse &&
+                                                        !item.counterparty && (
+                                                            <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
+                                                                {item.warehouse}
+                                                            </span>
+                                                        )}
 
-                                                    {!item.counterparty && !item.warehouse && (
-                                                        <span className="flex-1" />
-                                                    )}
+                                                    {!item.counterparty &&
+                                                        !item.warehouse && (
+                                                            <span className="flex-1" />
+                                                        )}
 
                                                     {/* User */}
                                                     {item.user && (
@@ -206,23 +238,33 @@ export default function ActivityIndex({ activities, activeType }: Props) {
                         {activities.last_page > 1 && (
                             <div className="flex items-center justify-between text-sm text-muted-foreground">
                                 <span>
-                                    Страница {activities.current_page} из {activities.last_page}
+                                    Страница {activities.current_page} из{' '}
+                                    {activities.last_page}
                                 </span>
                                 <div className="flex gap-2">
                                     {activities.current_page > 1 && (
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => goToPage(activities.current_page - 1)}
+                                            onClick={() =>
+                                                goToPage(
+                                                    activities.current_page - 1,
+                                                )
+                                            }
                                         >
                                             Назад
                                         </Button>
                                     )}
-                                    {activities.current_page < activities.last_page && (
+                                    {activities.current_page <
+                                        activities.last_page && (
                                         <Button
                                             variant="outline"
                                             size="sm"
-                                            onClick={() => goToPage(activities.current_page + 1)}
+                                            onClick={() =>
+                                                goToPage(
+                                                    activities.current_page + 1,
+                                                )
+                                            }
                                         >
                                             Вперёд
                                         </Button>

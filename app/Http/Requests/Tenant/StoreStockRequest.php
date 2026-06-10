@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Tenant;
 
+use App\Support\TenantRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreStockRequest extends FormRequest
@@ -16,8 +17,8 @@ class StoreStockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'integer', 'exists:products,id'],
-            'warehouse_id' => ['required', 'integer', 'exists:warehouses,id'],
+            'product_id' => ['required', 'integer', TenantRule::exists('products')],
+            'warehouse_id' => ['required', 'integer', TenantRule::exists('warehouses')],
             'quantity' => ['required', 'numeric', 'min:0.001'],
         ];
     }
