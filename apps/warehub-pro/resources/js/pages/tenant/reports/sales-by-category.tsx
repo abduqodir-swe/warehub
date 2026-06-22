@@ -1,6 +1,6 @@
 import { Head, router } from '@inertiajs/react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
-import { Input } from '@/components/ui/input';
+import { Input } from '@warehub/ui';
 
 type CategoryRow = { category: string; revenue: number; qty: number };
 type Props = {

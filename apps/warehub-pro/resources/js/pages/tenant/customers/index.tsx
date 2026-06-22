@@ -1,6 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { Pencil, Plus, Trash2, Users } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@warehub/ui';
 
 type Customer = {
     id: number;

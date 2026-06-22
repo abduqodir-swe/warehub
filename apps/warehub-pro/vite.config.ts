@@ -3,6 +3,7 @@ import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
+import path from 'node:path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -22,4 +23,13 @@ export default defineConfig({
             formVariants: true,
         }),
     ],
+    resolve: {
+        alias: {
+            '@warehub/ui': path.resolve(
+                __dirname,
+                '../../packages/ui/src/index.ts',
+            ),
+            '@': path.resolve(__dirname, 'resources/js'),
+        },
+    },
 });

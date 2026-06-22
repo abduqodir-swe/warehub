@@ -1,11 +1,11 @@
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
-import type { BreadcrumbItem } from '@/types';
+import type { BreadcrumbNavItem } from '@warehub/ui';
 
 export default function AppLayout({
     breadcrumbs = [],
     children,
 }: {
-    breadcrumbs?: BreadcrumbItem[];
+    breadcrumbs?: BreadcrumbNavItem[];
     children: React.ReactNode;
 }) {
     return (

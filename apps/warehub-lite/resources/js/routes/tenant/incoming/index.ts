@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::index
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:22
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:21
 * @route '/incoming'
 */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::index
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:22
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:21
 * @route '/incoming'
 */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::index
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:22
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:21
 * @route '/incoming'
 */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::index
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:22
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:21
 * @route '/incoming'
 */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::index
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:22
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:21
 * @route '/incoming'
 */
 const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::index
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:22
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:21
 * @route '/incoming'
 */
 indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::index
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:22
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:21
 * @route '/incoming'
 */
 indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -82,7 +82,7 @@ index.form = indexForm
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::create
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:35
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:34
 * @route '/incoming/create'
 */
 export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -97,7 +97,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::create
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:35
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:34
 * @route '/incoming/create'
 */
 create.url = (options?: RouteQueryOptions) => {
@@ -106,7 +106,7 @@ create.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::create
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:35
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:34
 * @route '/incoming/create'
 */
 create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -116,7 +116,7 @@ create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::create
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:35
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:34
 * @route '/incoming/create'
 */
 create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -126,7 +126,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::create
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:35
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:34
 * @route '/incoming/create'
 */
 const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -136,7 +136,7 @@ const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => 
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::create
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:35
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:34
 * @route '/incoming/create'
 */
 createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -146,7 +146,7 @@ createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::create
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:35
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:34
 * @route '/incoming/create'
 */
 createForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -163,7 +163,7 @@ create.form = createForm
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::store
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:44
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:42
 * @route '/incoming'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -178,7 +178,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::store
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:44
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:42
 * @route '/incoming'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -187,7 +187,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::store
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:44
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:42
 * @route '/incoming'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -197,7 +197,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::store
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:44
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:42
 * @route '/incoming'
 */
 const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -207,7 +207,7 @@ const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => 
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::store
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:44
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:42
 * @route '/incoming'
 */
 storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -219,7 +219,7 @@ store.form = storeForm
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::show
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:67
 * @route '/incoming/{incomingDocument}'
 */
 export const show = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -234,7 +234,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::show
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:67
 * @route '/incoming/{incomingDocument}'
 */
 show.url = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
@@ -267,7 +267,7 @@ show.url = (args: { incomingDocument: string | number | { id: string | number } 
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::show
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:67
 * @route '/incoming/{incomingDocument}'
 */
 show.get = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -277,7 +277,7 @@ show.get = (args: { incomingDocument: string | number | { id: string | number } 
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::show
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:67
 * @route '/incoming/{incomingDocument}'
 */
 show.head = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -287,7 +287,7 @@ show.head = (args: { incomingDocument: string | number | { id: string | number }
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::show
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:67
 * @route '/incoming/{incomingDocument}'
 */
 const showForm = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -297,7 +297,7 @@ const showForm = (args: { incomingDocument: string | number | { id: string | num
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::show
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:67
 * @route '/incoming/{incomingDocument}'
 */
 showForm.get = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -307,7 +307,7 @@ showForm.get = (args: { incomingDocument: string | number | { id: string | numbe
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::show
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:67
 * @route '/incoming/{incomingDocument}'
 */
 showForm.head = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -324,7 +324,7 @@ show.form = showForm
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::confirm
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:80
 * @route '/incoming/{incomingDocument}/confirm'
 */
 export const confirm = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -339,7 +339,7 @@ confirm.definition = {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::confirm
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:80
 * @route '/incoming/{incomingDocument}/confirm'
 */
 confirm.url = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
@@ -372,7 +372,7 @@ confirm.url = (args: { incomingDocument: string | number | { id: string | number
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::confirm
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:80
 * @route '/incoming/{incomingDocument}/confirm'
 */
 confirm.post = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -382,7 +382,7 @@ confirm.post = (args: { incomingDocument: string | number | { id: string | numbe
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::confirm
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:80
 * @route '/incoming/{incomingDocument}/confirm'
 */
 const confirmForm = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -392,7 +392,7 @@ const confirmForm = (args: { incomingDocument: string | number | { id: string | 
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::confirm
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:80
 * @route '/incoming/{incomingDocument}/confirm'
 */
 confirmForm.post = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -404,7 +404,7 @@ confirm.form = confirmForm
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::destroy
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:91
 * @route '/incoming/{incomingDocument}'
 */
 export const destroy = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -419,7 +419,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::destroy
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:91
 * @route '/incoming/{incomingDocument}'
 */
 destroy.url = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
@@ -452,7 +452,7 @@ destroy.url = (args: { incomingDocument: string | number | { id: string | number
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::destroy
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:91
 * @route '/incoming/{incomingDocument}'
 */
 destroy.delete = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -462,7 +462,7 @@ destroy.delete = (args: { incomingDocument: string | number | { id: string | num
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::destroy
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:91
 * @route '/incoming/{incomingDocument}'
 */
 const destroyForm = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -477,7 +477,7 @@ const destroyForm = (args: { incomingDocument: string | number | { id: string | 
 
 /**
 * @see \App\Http\Controllers\Tenant\IncomingDocumentController::destroy
-* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
+* @see app/Http/Controllers/Tenant/IncomingDocumentController.php:91
 * @route '/incoming/{incomingDocument}'
 */
 destroyForm.delete = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

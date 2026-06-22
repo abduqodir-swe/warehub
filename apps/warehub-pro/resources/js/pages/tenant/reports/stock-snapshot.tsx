@@ -5,7 +5,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
+} from '@warehub/ui';
 
 type Warehouse = { id: number; name: string };
 type StockItem = {

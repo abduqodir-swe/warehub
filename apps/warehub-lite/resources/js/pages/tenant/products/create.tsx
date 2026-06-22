@@ -1,15 +1,15 @@
 import { Head, Link, Form } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@warehub/ui';
+import { Input } from '@warehub/ui';
+import { Label } from '@warehub/ui';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+} from '@warehub/ui';
+import { Textarea } from '@warehub/ui';
 
 const UNITS = ['шт', 'кг', 'л', 'м', 'упаковка'];
 

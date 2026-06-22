@@ -1,7 +1,8 @@
-import { AppContent } from '@/components/app-content';
-import { AppHeader } from '@/components/app-header';
-import { AppShell } from '@/components/app-shell';
-import type { AppLayoutProps } from '@/types';
+import { AppContent, AppHeader, AppShell } from '@warehub/ui';
+import type { AppLayoutProps } from '@warehub/ui';
+import { toUrl } from '@warehub/ui';
+import { logout } from '@/routes';
+import { edit } from '@/routes/profile';
 
 export default function AppHeaderLayout({
     children,
@@ -9,7 +10,11 @@ export default function AppHeaderLayout({
 }: AppLayoutProps) {
     return (
         <AppShell variant="header">
-            <AppHeader breadcrumbs={breadcrumbs} />
+            <AppHeader
+                breadcrumbs={breadcrumbs}
+                editHref={toUrl(edit())}
+                logoutHref={toUrl(logout())}
+            />
             <AppContent variant="header">{children}</AppContent>
         </AppShell>
     );

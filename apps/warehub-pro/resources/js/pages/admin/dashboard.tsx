@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { Building2, Users } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@warehub/ui';
 import admin from '@/routes/admin';
 
 type Props = {

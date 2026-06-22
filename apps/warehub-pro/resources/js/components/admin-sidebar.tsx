@@ -11,10 +11,10 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { useCurrentUrl } from '@/hooks/use-current-url';
+} from '@warehub/ui';
+import { useCurrentUrl } from '@warehub/ui';
 import admin from '@/routes/admin';
-import type { Auth } from '@/types';
+import type { Auth } from '@warehub/ui';
 
 const navItems = [
     { title: 'Dashboard', href: admin.dashboard.url(), icon: LayoutDashboard },

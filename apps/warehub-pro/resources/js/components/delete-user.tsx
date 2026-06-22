@@ -1,10 +1,10 @@
 import { Form } from '@inertiajs/react';
 import { useRef } from 'react';
 import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
-import Heading from '@/components/heading';
-import InputError from '@/components/input-error';
-import PasswordInput from '@/components/password-input';
-import { Button } from '@/components/ui/button';
+import { Heading } from '@warehub/ui';
+import { InputError } from '@warehub/ui';
+import { PasswordInput } from '@warehub/ui';
+import { Button } from '@warehub/ui';
 import {
     Dialog,
     DialogClose,
@@ -13,8 +13,8 @@ import {
     DialogFooter,
     DialogTitle,
     DialogTrigger,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
+} from '@warehub/ui';
+import { Label } from '@warehub/ui';
 
 export default function DeleteUser() {
     const passwordInput = useRef<HTMLInputElement>(null);

@@ -1,15 +1,15 @@
 import { Head, router } from '@inertiajs/react';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@warehub/ui';
+import { Input } from '@warehub/ui';
+import { Label } from '@warehub/ui';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
+} from '@warehub/ui';
 
 type Warehouse = { id: number; name: string };
 type Props = { warehouses: Warehouse[] };

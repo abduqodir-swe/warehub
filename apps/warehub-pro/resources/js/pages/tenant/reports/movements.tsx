@@ -1,13 +1,13 @@
 import { Head, router } from '@inertiajs/react';
 import { ArrowDown, ArrowUp } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Input } from '@warehub/ui';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
+} from '@warehub/ui';
 
 type Product = { id: number; name: string; sku: string };
 type Movement = {

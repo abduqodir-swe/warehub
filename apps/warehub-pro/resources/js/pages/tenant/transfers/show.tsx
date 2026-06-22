@@ -1,6 +1,6 @@
 import { Head, router } from '@inertiajs/react';
 import { ArrowRightLeft, CheckCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@warehub/ui';
 
 type Product = { id: number; name: string; sku: string; unit: string };
 type Item = { id: number; product: Product; quantity: string };

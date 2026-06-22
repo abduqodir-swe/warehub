@@ -1,6 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { History } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@warehub/ui';
 
 type Activity = {
     type: 'incoming' | 'outgoing' | 'transfer' | 'inventory';

@@ -1,9 +1,9 @@
 import { Form } from '@inertiajs/react';
 import { Head, Link } from '@inertiajs/react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@warehub/ui';
+import { Input } from '@warehub/ui';
+import { Label } from '@warehub/ui';
+import { Textarea } from '@warehub/ui';
 
 type Supplier = {
     id: number;

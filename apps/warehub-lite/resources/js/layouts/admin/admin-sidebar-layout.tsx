@@ -1,8 +1,8 @@
 import { AdminSidebar } from '@/components/admin-sidebar';
-import { AppContent } from '@/components/app-content';
-import { AppShell } from '@/components/app-shell';
-import { AppSidebarHeader } from '@/components/app-sidebar-header';
-import type { AppLayoutProps } from '@/types';
+import { AppContent } from '@warehub/ui';
+import { AppShell } from '@warehub/ui';
+import { AppSidebarHeader } from '@warehub/ui';
+import type { AppLayoutProps } from '@warehub/ui';
 
 export default function AdminSidebarLayout({
     children,

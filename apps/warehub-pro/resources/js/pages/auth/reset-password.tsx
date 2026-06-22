@@ -1,10 +1,10 @@
 import { Form, Head } from '@inertiajs/react';
-import InputError from '@/components/input-error';
-import PasswordInput from '@/components/password-input';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
+import { InputError } from '@warehub/ui';
+import { PasswordInput } from '@warehub/ui';
+import { Button } from '@warehub/ui';
+import { Input } from '@warehub/ui';
+import { Label } from '@warehub/ui';
+import { Spinner } from '@warehub/ui';
 import { update } from '@/routes/password';
 
 type Props = {

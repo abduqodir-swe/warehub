@@ -1,8 +1,8 @@
 import { Head, router } from '@inertiajs/react';
 import { Check, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@warehub/ui';
+import { Input } from '@warehub/ui';
 
 type Product = { id: number; name: string; sku: string; unit: string };
 type Item = {

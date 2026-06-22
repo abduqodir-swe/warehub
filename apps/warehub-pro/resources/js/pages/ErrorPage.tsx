@@ -8,7 +8,7 @@ import {
     ShieldOff,
     Wrench,
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@warehub/ui';
 
 type Props = {
     status: 403 | 404 | 500 | 503;

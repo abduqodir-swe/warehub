@@ -1,5 +1,5 @@
 import { Head, router } from '@inertiajs/react';
-import { Input } from '@/components/ui/input';
+import { Input } from '@warehub/ui';
 
 type Row = { name: string; documents_count: number; total_revenue: number };
 type Props = { data: Row[]; filters: { from: string; to: string } };

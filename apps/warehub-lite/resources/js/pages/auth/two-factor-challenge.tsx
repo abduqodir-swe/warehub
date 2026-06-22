@@ -1,15 +1,15 @@
 import { Form, Head, setLayoutProps } from '@inertiajs/react';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
 import { useMemo, useState } from 'react';
-import InputError from '@/components/input-error';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { InputError } from '@warehub/ui';
+import { Button } from '@warehub/ui';
+import { Input } from '@warehub/ui';
 import {
     InputOTP,
     InputOTPGroup,
     InputOTPSlot,
-} from '@/components/ui/input-otp';
-import { OTP_MAX_LENGTH } from '@/hooks/use-two-factor-auth';
+} from '@warehub/ui';
+import { OTP_MAX_LENGTH } from '@warehub/ui';
 import { store } from '@/routes/two-factor/login';
 
 export default function TwoFactorChallenge() {

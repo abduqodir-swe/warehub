@@ -1,8 +1,13 @@
-import { AppContent } from '@/components/app-content';
-import { AppShell } from '@/components/app-shell';
-import { AppSidebar } from '@/components/app-sidebar';
-import { AppSidebarHeader } from '@/components/app-sidebar-header';
-import type { AppLayoutProps } from '@/types';
+import {
+    AppContent,
+    AppShell,
+    AppSidebar,
+    AppSidebarHeader,
+} from '@warehub/ui';
+import type { AppLayoutProps } from '@warehub/ui';
+import { toUrl } from '@warehub/ui';
+import { logout } from '@/routes';
+import { edit } from '@/routes/profile';
 
 export default function AppSidebarLayout({
     children,
@@ -10,7 +15,10 @@ export default function AppSidebarLayout({
 }: AppLayoutProps) {
     return (
         <AppShell variant="sidebar">
-            <AppSidebar />
+            <AppSidebar
+                editHref={toUrl(edit())}
+                logoutHref={toUrl(logout())}
+            />
             <AppContent variant="sidebar" className="overflow-x-hidden">
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
                 {children}

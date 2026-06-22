@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { Building2 } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '@warehub/ui';
 import admin from '@/routes/admin';
 
 type Tenant = {

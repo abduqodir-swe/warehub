@@ -1,6 +1,6 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { Eye, Monitor, Plus, ShoppingCart, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@warehub/ui';
 
 type Customer = { id: number; name: string };
 type Warehouse = { id: number; name: string };

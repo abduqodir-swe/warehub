@@ -8,14 +8,14 @@ import {
     ResponsiveContainer,
     CartesianGrid,
 } from 'recharts';
-import { Input } from '@/components/ui/input';
+import { Input } from '@warehub/ui';
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
+} from '@warehub/ui';
 
 type Warehouse = { id: number; name: string };
 type Item = {

@@ -1,6 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { MapPin, Package, Pencil, Plus, Warehouse } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@warehub/ui';
 
 type Manager = { id: number; name: string };
 

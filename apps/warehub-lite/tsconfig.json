@@ -109,6 +109,7 @@
         "skipLibCheck": true /* Skip type checking all .d.ts files. */,
         "baseUrl": ".",
         "paths": {
+            "@warehub/ui": ["../../packages/ui/src/index.ts"],
             "@/*": ["./resources/js/*"]
         },
         "jsx": "react-jsx"

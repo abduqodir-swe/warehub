@@ -2,16 +2,16 @@ import { Form, Head } from '@inertiajs/react';
 import { ShieldCheck } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
-import Heading from '@/components/heading';
-import InputError from '@/components/input-error';
-import PasswordInput from '@/components/password-input';
+import { Heading } from '@warehub/ui';
+import { InputError } from '@warehub/ui';
+import { PasswordInput } from '@warehub/ui';
 import TwoFactorRecoveryCodes from '@/components/two-factor-recovery-codes';
 import TwoFactorSetupModal from '@/components/two-factor-setup-modal';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
+import { Button } from '@warehub/ui';
+import { Label } from '@warehub/ui';
+import { useTwoFactorAuth } from '@warehub/ui';
 import { edit } from '@/routes/security';
-import { disable, enable } from '@/routes/two-factor';
+import { disable, enable, qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
 
 type Props = {
     canManageTwoFactor?: boolean;
@@ -37,7 +37,11 @@ export default function Security({
         recoveryCodesList,
         fetchRecoveryCodes,
         errors,
-    } = useTwoFactorAuth();
+    } = useTwoFactorAuth({
+        qrCode,
+        secretKey,
+        recoveryCodes,
+    });
     const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
     const prevTwoFactorEnabled = useRef(twoFactorEnabled);
 

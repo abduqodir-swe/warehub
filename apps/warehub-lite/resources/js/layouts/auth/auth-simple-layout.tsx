@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { Store } from 'lucide-react';
-import type { AuthLayoutProps } from '@/types';
+import type { AuthLayoutProps } from '@warehub/ui';
 
 export default function AuthSimpleLayout({
     children,

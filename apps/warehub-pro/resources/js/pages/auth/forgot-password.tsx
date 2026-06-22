@@ -1,10 +1,10 @@
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { InputError } from '@warehub/ui';
+import { TextLink } from '@warehub/ui';
+import { Button } from '@warehub/ui';
+import { Input } from '@warehub/ui';
+import { Label } from '@warehub/ui';
 const login = () => '/login';
 import { email } from '@/routes/password';
 

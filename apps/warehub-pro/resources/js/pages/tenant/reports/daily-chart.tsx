@@ -9,7 +9,7 @@ import {
     ResponsiveContainer,
     Legend,
 } from 'recharts';
-import { Input } from '@/components/ui/input';
+import { Input } from '@warehub/ui';
 
 type Props = {
     incoming: Record<string, number>;

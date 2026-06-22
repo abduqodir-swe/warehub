@@ -1,6 +1,7 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { Store } from 'lucide-react';
 import { dashboard } from '@/routes';
+import type { PageProps } from '@inertiajs/core';
 
 const login = () => '/login';
 const register = () => '/register';
@@ -10,7 +11,7 @@ export default function Welcome({
 }: {
     canRegister?: boolean;
 }) {
-    const { auth } = usePage().props;
+    const auth = usePage<PageProps>().props.auth;
 
     return (
         <>
