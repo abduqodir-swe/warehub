@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Auth;
 
-use App\Models\Central\Tenant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Fortify\Features;
 use Tests\TestCase;
+use Warehub\Core\Models\Central\Tenant;
 
 class AuthenticationTest extends TestCase
 {

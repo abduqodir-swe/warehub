@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "482e5fc65ceea40d6f62a3c1ed2ce489",
+    "content-hash": "180866e5e7415a340c119a6cd0b6eda0",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6694,6 +6694,57 @@
                 }
             ],
             "time": "2026-04-26T05:33:54+00:00"
+        },
+        {
+            "name": "warehub/core",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "packages/warehub-core",
+                "reference": "c80c3b3aa81fedc8f1dec3dba837cfe955aa2a1a"
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/framework": "^13.0",
+                "php": "^8.3",
+                "stancl/tenancy": "^3.10"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.27",
+                "phpunit/phpunit": "^12.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Warehub\\Core\\CoreServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Warehub\\Core\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Warehub\\Core\\Tests\\": "tests/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Warehub shared core: tenant-aware models, actions, support utilities, and database migrations used by both warehub-lite and warehub-pro apps.",
+            "keywords": [
+                "laravel",
+                "multi-tenant",
+                "stancl-tenancy",
+                "warehub"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         }
     ],
     "packages-dev": [

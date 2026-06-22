@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Responses;
 
-use App\Models\Central\Tenant;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
+use Warehub\Core\Models\Central\Tenant;
 
 class RegisterResponse implements RegisterResponseContract
 {

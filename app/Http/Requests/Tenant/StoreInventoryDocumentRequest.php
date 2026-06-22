@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Tenant;
 
-use App\Support\TenantRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Warehub\Core\Support\TenantRule;
 
 class StoreInventoryDocumentRequest extends FormRequest
 {

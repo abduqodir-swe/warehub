@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Responses;
 
 use App\Models\User;
-use App\Support\TenantWorkspace;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Warehub\Core\Support\TenantWorkspace;
 
 class LoginResponse implements LoginResponseContract
 {

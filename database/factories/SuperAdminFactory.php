@@ -2,10 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Central\SuperAdmin;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Warehub\Core\Models\Central\SuperAdmin;
 
 /**
  * @extends Factory<SuperAdmin>

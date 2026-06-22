@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tenant\Product;
-use App\Models\Tenant\Stock;
-use App\Models\Tenant\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Models\Tenant\Product;
+use Warehub\Core\Models\Tenant\Stock;
+use Warehub\Core\Models\Tenant\Warehouse;
 
 class ReportController extends Controller
 {

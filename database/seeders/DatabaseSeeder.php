@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Central\SuperAdmin;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use RuntimeException;
+use Warehub\Core\Models\Central\SuperAdmin;
 
 class DatabaseSeeder extends Seeder
 {

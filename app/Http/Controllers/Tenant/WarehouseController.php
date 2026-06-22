@@ -7,11 +7,11 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\StoreWarehouseRequest;
 use App\Http\Requests\Tenant\UpdateWarehouseRequest;
-use App\Models\Tenant\Warehouse;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Models\Tenant\Warehouse;
 
 class WarehouseController extends Controller
 {

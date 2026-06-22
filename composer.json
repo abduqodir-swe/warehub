@@ -15,7 +15,8 @@
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.14",
-        "stancl/tenancy": "^3.10"
+        "stancl/tenancy": "^3.10",
+        "warehub/core": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
@@ -95,6 +96,15 @@
             "dont-discover": []
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "packages/warehub-core",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

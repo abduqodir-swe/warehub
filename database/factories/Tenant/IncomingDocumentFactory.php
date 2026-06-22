@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories\Tenant;
 
-use App\Models\Tenant\IncomingDocument;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Warehub\Core\Models\Tenant\IncomingDocument;
 
 /**
  * @extends Factory<IncomingDocument>

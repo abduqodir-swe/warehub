@@ -7,10 +7,10 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\StoreProductRequest;
 use App\Http\Requests\Tenant\UpdateProductRequest;
-use App\Models\Tenant\Product;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Models\Tenant\Product;
 
 class ProductController extends Controller
 {

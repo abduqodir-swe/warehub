@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Tenant;
 
-use App\Actions\Tenant\ConfirmTransferDocument;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\StoreTransferDocumentRequest;
-use App\Models\Tenant\Product;
-use App\Models\Tenant\TransferDocument;
-use App\Models\Tenant\Warehouse;
-use App\Support\DocumentNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Actions\Tenant\ConfirmTransferDocument;
+use Warehub\Core\Models\Tenant\Product;
+use Warehub\Core\Models\Tenant\TransferDocument;
+use Warehub\Core\Models\Tenant\Warehouse;
+use Warehub\Core\Support\DocumentNumber;
 
 class TransferDocumentController extends Controller
 {

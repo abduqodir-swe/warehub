@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Tenant;
 
-use App\Actions\Tenant\ConfirmIncomingDocument;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\StoreIncomingDocumentRequest;
-use App\Models\Tenant\IncomingDocument;
-use App\Models\Tenant\Product;
-use App\Models\Tenant\Supplier;
-use App\Models\Tenant\Warehouse;
-use App\Support\DocumentNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Actions\Tenant\ConfirmIncomingDocument;
+use Warehub\Core\Models\Tenant\IncomingDocument;
+use Warehub\Core\Models\Tenant\Product;
+use Warehub\Core\Models\Tenant\Supplier;
+use Warehub\Core\Models\Tenant\Warehouse;
+use Warehub\Core\Support\DocumentNumber;
 
 class IncomingDocumentController extends Controller
 {

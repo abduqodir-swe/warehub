@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tenant\IncomingDocument;
-use App\Models\Tenant\OutgoingDocument;
-use App\Models\Tenant\Product;
-use App\Models\Tenant\Stock;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Models\Tenant\IncomingDocument;
+use Warehub\Core\Models\Tenant\OutgoingDocument;
+use Warehub\Core\Models\Tenant\Product;
+use Warehub\Core\Models\Tenant\Stock;
 
 class DashboardController extends Controller
 {

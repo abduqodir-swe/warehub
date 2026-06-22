@@ -7,10 +7,10 @@ namespace App\Http\Controllers\Tenant;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\StoreCustomerRequest;
 use App\Http\Requests\Tenant\UpdateCustomerRequest;
-use App\Models\Tenant\Customer;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Models\Tenant\Customer;
 
 class CustomerController extends Controller
 {

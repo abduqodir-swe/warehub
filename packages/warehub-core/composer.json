@@ -1,0 +1,43 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "warehub/core",
+    "description": "Warehub shared core: tenant-aware models, actions, support utilities, and database migrations used by both warehub-lite and warehub-pro apps.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "warehub",
+        "multi-tenant",
+        "stancl-tenancy"
+    ],
+    "require": {
+        "php": "^8.3",
+        "ext-json": "*",
+        "laravel/framework": "^13.0",
+        "stancl/tenancy": "^3.10"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.27",
+        "phpunit/phpunit": "^12.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Warehub\\Core\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Warehub\\Core\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Warehub\\Core\\CoreServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "version": "1.0.0"
+}

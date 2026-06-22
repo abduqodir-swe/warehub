@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Tenant;
 
-use App\Models\Central\Tenant;
-use App\Models\Tenant\IncomingDocument;
-use App\Models\Tenant\Product;
-use App\Models\Tenant\Stock;
-use App\Models\Tenant\Warehouse;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Warehub\Core\Models\Central\Tenant;
+use Warehub\Core\Models\Tenant\IncomingDocument;
+use Warehub\Core\Models\Tenant\Product;
+use Warehub\Core\Models\Tenant\Stock;
+use Warehub\Core\Models\Tenant\Warehouse;
 
 class IncomingDocumentTest extends TestCase
 {

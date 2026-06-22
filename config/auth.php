@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Central\SuperAdmin;
 use App\Models\User;
+use Warehub\Core\Models\Central\SuperAdmin;
 
 return [
 

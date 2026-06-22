@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories\Tenant;
 
-use App\Models\Tenant\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Warehub\Core\Models\Tenant\Product;
 
 /**
  * @extends Factory<Product>

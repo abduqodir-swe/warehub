@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Tenant;
 
-use App\Models\Central\Tenant;
-use App\Models\Tenant\Product;
-use App\Models\Tenant\Stock;
-use App\Models\Tenant\Warehouse;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Warehub\Core\Models\Central\Tenant;
+use Warehub\Core\Models\Tenant\Product;
+use Warehub\Core\Models\Tenant\Stock;
+use Warehub\Core\Models\Tenant\Warehouse;
 
 class ProductionHardeningTest extends TestCase
 {

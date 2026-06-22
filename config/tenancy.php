@@ -11,7 +11,7 @@ use Stancl\Tenancy\TenantDatabaseManagers\PostgreSQLDatabaseManager;
 use Stancl\Tenancy\TenantDatabaseManagers\SQLiteDatabaseManager;
 
 return [
-    'tenant_model' => App\Models\Central\Tenant::class,
+    'tenant_model' => Warehub\Core\Models\Central\Tenant::class,
     'id_generator' => null, // Use auto-incrementing IDs
 
     'domain_model' => Domain::class,

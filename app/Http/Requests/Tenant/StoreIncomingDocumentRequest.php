@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Tenant;
 
-use App\Support\TenantRule;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Warehub\Core\Support\TenantRule;
 
 class StoreIncomingDocumentRequest extends FormRequest
 {

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Tenant;
 
-use App\Actions\Tenant\ConfirmOutgoingDocument;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\StoreOutgoingDocumentRequest;
-use App\Models\Tenant\Customer;
-use App\Models\Tenant\OutgoingDocument;
-use App\Models\Tenant\Stock;
-use App\Models\Tenant\Warehouse;
-use App\Support\DocumentNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Actions\Tenant\ConfirmOutgoingDocument;
+use Warehub\Core\Models\Tenant\Customer;
+use Warehub\Core\Models\Tenant\OutgoingDocument;
+use Warehub\Core\Models\Tenant\Stock;
+use Warehub\Core\Models\Tenant\Warehouse;
+use Warehub\Core\Support\DocumentNumber;
 
 class OutgoingDocumentController extends Controller
 {

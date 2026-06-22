@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Tenant;
 
-use App\Actions\Tenant\ConfirmInventoryDocument;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Tenant\StoreInventoryDocumentRequest;
 use App\Http\Requests\Tenant\UpdateInventoryItemRequest;
-use App\Models\Tenant\InventoryDocument;
-use App\Models\Tenant\InventoryItem;
-use App\Models\Tenant\Stock;
-use App\Models\Tenant\Warehouse;
-use App\Support\DocumentNumber;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Actions\Tenant\ConfirmInventoryDocument;
+use Warehub\Core\Models\Tenant\InventoryDocument;
+use Warehub\Core\Models\Tenant\InventoryItem;
+use Warehub\Core\Models\Tenant\Stock;
+use Warehub\Core\Models\Tenant\Warehouse;
+use Warehub\Core\Support\DocumentNumber;
 
 class InventoryDocumentController extends Controller
 {

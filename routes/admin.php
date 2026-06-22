@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 use App\Http\Middleware\EnsureSuperAdmin;
-use App\Models\Central\Tenant;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Warehub\Core\Models\Central\Tenant;
 
 /*
 |--------------------------------------------------------------------------

@@ -1,10 +1,10 @@
 <?php
 
 use App\Models\User;
-use App\Support\TenantWorkspace;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Warehub\Core\Support\TenantWorkspace;
 
 /*
 |--------------------------------------------------------------------------

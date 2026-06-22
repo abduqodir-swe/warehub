@@ -2,8 +2,8 @@
 
 namespace Database\Factories\Tenant;
 
-use App\Models\Tenant\WarehouseZone;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Warehub\Core\Models\Tenant\WarehouseZone;
 
 /**
  * @extends Factory<WarehouseZone>

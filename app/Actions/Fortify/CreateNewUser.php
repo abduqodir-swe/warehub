@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Actions\Fortify;
 
-use App\Concerns\PasswordValidationRules;
-use App\Concerns\ProfileValidationRules;
-use App\Models\Central\Tenant;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Warehub\Core\Concerns\PasswordValidationRules;
+use Warehub\Core\Concerns\ProfileValidationRules;
+use Warehub\Core\Models\Central\Tenant;
 
 class CreateNewUser implements CreatesNewUsers
 {

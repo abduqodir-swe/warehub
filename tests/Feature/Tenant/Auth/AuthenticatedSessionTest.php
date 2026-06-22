@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Tenant\Auth;
 
-use App\Models\Central\Tenant;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Warehub\Core\Models\Central\Tenant;
 
 class AuthenticatedSessionTest extends TestCase
 {

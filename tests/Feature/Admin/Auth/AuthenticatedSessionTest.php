@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Admin\Auth;
 
-use App\Models\Central\SuperAdmin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Warehub\Core\Models\Central\SuperAdmin;
 
 class AuthenticatedSessionTest extends TestCase
 {

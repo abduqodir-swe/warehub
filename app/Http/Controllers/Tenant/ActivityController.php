@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Tenant;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tenant\IncomingDocument;
-use App\Models\Tenant\InventoryDocument;
-use App\Models\Tenant\OutgoingDocument;
-use App\Models\Tenant\TransferDocument;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
+use Warehub\Core\Models\Tenant\IncomingDocument;
+use Warehub\Core\Models\Tenant\InventoryDocument;
+use Warehub\Core\Models\Tenant\OutgoingDocument;
+use Warehub\Core\Models\Tenant\TransferDocument;
 
 class ActivityController extends Controller
 {

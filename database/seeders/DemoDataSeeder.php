@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\Central\Tenant;
-use App\Models\Tenant\Category;
-use App\Models\Tenant\Customer;
-use App\Models\Tenant\IncomingDocument;
-use App\Models\Tenant\IncomingItem;
-use App\Models\Tenant\OutgoingDocument;
-use App\Models\Tenant\OutgoingItem;
-use App\Models\Tenant\Product;
-use App\Models\Tenant\Stock;
-use App\Models\Tenant\Supplier;
-use App\Models\Tenant\Warehouse;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Warehub\Core\Models\Central\Tenant;
+use Warehub\Core\Models\Tenant\Category;
+use Warehub\Core\Models\Tenant\Customer;
+use Warehub\Core\Models\Tenant\IncomingDocument;
+use Warehub\Core\Models\Tenant\IncomingItem;
+use Warehub\Core\Models\Tenant\OutgoingDocument;
+use Warehub\Core\Models\Tenant\OutgoingItem;
+use Warehub\Core\Models\Tenant\Product;
+use Warehub\Core\Models\Tenant\Stock;
+use Warehub\Core\Models\Tenant\Supplier;
+use Warehub\Core\Models\Tenant\Warehouse;
 
 class DemoDataSeeder extends Seeder
 {
