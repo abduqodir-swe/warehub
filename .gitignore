@@ -32,3 +32,23 @@ WAREHUB_TZ.md
 .codex/
 .playwright-mcp/
 PROJECT.md
+
+# Per-app dependencies, build artifacts, caches, and sqlite files
+/apps/*/vendor/
+/apps/*/node_modules/
+/apps/*/.phpunit.result.cache
+/apps/*/.phpunit.cache
+/apps/*/bootstrap/cache/*.php
+/apps/*/storage/logs/*.log
+/apps/*/storage/framework/cache/data/
+/apps/*/storage/framework/sessions/
+/apps/*/storage/framework/views/
+/apps/*/storage/framework/testing/
+/apps/*/database/database.sqlite
+/apps/*/public/build/
+/apps/*/public/hot
+/apps/*/public/storage
+/apps/*/.env
+/apps/*/.env.backup
+/apps/*/.env.production
+/apps/*/.DS_Store
