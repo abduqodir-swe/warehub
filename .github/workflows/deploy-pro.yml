@@ -1,0 +1,78 @@
+name: Deploy Pro
+
+on:
+  workflow_run:
+    workflows: [Tests]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: production-pro-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    name: Deploy Pro to Production
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 20
+            cd ${{ secrets.PRO_DEPLOY_PATH }}
+            trap 'cd apps/warehub-pro && php artisan up || true' EXIT
+
+            echo "==> Fetching tested revision..."
+            git fetch origin ${{ github.event.workflow_run.head_sha || github.sha }}
+            git checkout --detach ${{ github.event.workflow_run.head_sha || github.sha }}
+
+            echo "==> Entering maintenance mode..."
+            cd apps/warehub-pro && php artisan down --retry=10
+            cd ${{ secrets.PRO_DEPLOY_PATH }}
+
+            echo "==> Installing JS dependencies..."
+            pnpm install --frozen-lockfile
+
+            echo "==> Building Pro frontend..."
+            pnpm --filter warehub-pro build
+
+            echo "==> Installing PHP dependencies..."
+            cd apps/warehub-pro
+            composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+            cd ${{ secrets.PRO_DEPLOY_PATH }}
+
+            echo "==> Running migrations..."
+            cd apps/warehub-pro
+            php artisan migrate --force --no-interaction
+            php artisan storage:link --force
+            php artisan optimize:clear
+            php artisan optimize
+            php artisan queue:restart
+
+            echo "==> Reloading PHP-FPM..."
+            sudo systemctl reload php8.4-fpm
+
+            echo "==> Exiting maintenance mode..."
+            php artisan up
+            cd ${{ secrets.PRO_DEPLOY_PATH }}
+
+            echo "==> Verifying application health..."
+            curl --fail --silent --show-error --retry 5 --retry-delay 2 "${{ secrets.PRO_HEALTHCHECK_URL }}"
+
+            trap - EXIT
+
+            echo "==> Done! Pro deployed successfully."

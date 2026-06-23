@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy Lite
 
 on:
   workflow_run:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: production-deploy
+  group: production-lite-deploy
   cancel-in-progress: false
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
-    name: Deploy to Production
+    name: Deploy Lite to Production
     runs-on: ubuntu-latest
     environment: production
 
@@ -33,32 +33,34 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             nvm use 20
-            cd ${{ secrets.DEPLOY_PATH }}
-            trap 'php artisan up || true' EXIT
+            cd ${{ secrets.LITE_DEPLOY_PATH }}
+            trap 'cd apps/warehub-lite && php artisan up || true' EXIT
 
             echo "==> Fetching tested revision..."
             git fetch origin ${{ github.event.workflow_run.head_sha || github.sha }}
             git checkout --detach ${{ github.event.workflow_run.head_sha || github.sha }}
 
             echo "==> Entering maintenance mode..."
-            php artisan down --retry=10
+            cd apps/warehub-lite && php artisan down --retry=10
+            cd ${{ secrets.LITE_DEPLOY_PATH }}
+
+            echo "==> Installing JS dependencies..."
+            pnpm install --frozen-lockfile
+
+            echo "==> Building Lite frontend..."
+            pnpm --filter warehub-lite build
 
             echo "==> Installing PHP dependencies..."
+            cd apps/warehub-lite
             composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
-
-            echo "==> Building frontend assets..."
-            npm ci --no-audit --no-fund
-            npm run build
+            cd ${{ secrets.LITE_DEPLOY_PATH }}
 
             echo "==> Running migrations..."
+            cd apps/warehub-lite
             php artisan migrate --force --no-interaction
             php artisan storage:link --force
-
-            echo "==> Caching config, routes, views..."
             php artisan optimize:clear
             php artisan optimize
-
-            echo "==> Restarting queue workers..."
             php artisan queue:restart
 
             echo "==> Reloading PHP-FPM..."
@@ -66,10 +68,11 @@ jobs:
 
             echo "==> Exiting maintenance mode..."
             php artisan up
+            cd ${{ secrets.LITE_DEPLOY_PATH }}
 
             echo "==> Verifying application health..."
-            curl --fail --silent --show-error --retry 5 --retry-delay 2 "${{ secrets.HEALTHCHECK_URL }}"
+            curl --fail --silent --show-error --retry 5 --retry-delay 2 "${{ secrets.LITE_HEALTHCHECK_URL }}"
 
             trap - EXIT
 
-            echo "==> Done! Deployed successfully."
+            echo "==> Done! Lite deployed successfully."
