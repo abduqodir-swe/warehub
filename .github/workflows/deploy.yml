@@ -30,7 +30,9 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             set -e
-            export PATH="/var/www/fastuser/data/.nvm/versions/node/v20.20.0/bin:$PATH"
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 20
             cd ${{ secrets.DEPLOY_PATH }}
             trap 'php artisan up || true' EXIT
 
@@ -50,15 +52,17 @@ jobs:
 
             echo "==> Running migrations..."
             php artisan migrate --force --no-interaction
+            php artisan storage:link --force
 
             echo "==> Caching config, routes, views..."
+            php artisan optimize:clear
             php artisan optimize
 
             echo "==> Restarting queue workers..."
             php artisan queue:restart
 
             echo "==> Reloading PHP-FPM..."
-            sudo systemctl reload fp2-php84-fpm
+            sudo systemctl reload php8.4-fpm
 
             echo "==> Exiting maintenance mode..."
             php artisan up
