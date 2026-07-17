@@ -45,6 +45,13 @@ return new class extends Migration
         });
 
         Schema::table('stock', function (Blueprint $table): void {
+            // MySQL requires separate supporting indexes before replacing this unique key.
+            $table->index('product_id');
+            $table->index('warehouse_id');
+            $table->index('zone_id');
+        });
+
+        Schema::table('stock', function (Blueprint $table): void {
             $table->dropUnique('stock_product_id_warehouse_id_zone_id_cell_unique');
         });
 
@@ -56,7 +63,7 @@ return new class extends Migration
         } else {
             DB::statement(
                 'CREATE UNIQUE INDEX stock_tenant_location_unique ON stock '.
-                "(tenant_id, product_id, warehouse_id, COALESCE(zone_id, 0), COALESCE(cell, ''))"
+                '(tenant_id, product_id, warehouse_id, (COALESCE(zone_id, 0)), (COALESCE(cell, CHAR(0))))'
             );
         }
     }
