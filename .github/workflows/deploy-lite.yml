@@ -48,7 +48,7 @@ jobs:
             pnpm install --frozen-lockfile
 
             echo "==> Building Lite frontend..."
-            pnpm --filter warehub-lite build
+            pnpm --dir apps/warehub-lite build
 
             echo "==> Installing PHP dependencies..."
             cd apps/warehub-lite

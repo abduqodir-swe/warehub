@@ -95,6 +95,18 @@ function fmtAmt(n: number): string {
     return n >= 1000 ? `${n / 1000}к` : String(n);
 }
 
+function isTextEntryTarget(target: EventTarget | null) {
+    if (!(target instanceof HTMLElement)) {
+        return false;
+    }
+
+    if (target.isContentEditable) {
+        return true;
+    }
+
+    return ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName);
+}
+
 export default function OutgoingPos({ customers, warehouses, stock }: Props) {
     const [warehouseId, setWarehouseId] = useState(
         warehouses[0] ? String(warehouses[0].id) : '',
@@ -174,7 +186,24 @@ export default function OutgoingPos({ customers, warehouses, stock }: Props) {
     }
 
     function focusSearch() {
-        requestAnimationFrame(() => searchRef.current?.focus());
+        requestAnimationFrame(() => {
+            searchRef.current?.focus({ preventScroll: true });
+        });
+    }
+
+    function appendToSearchInput(value: string) {
+        const input = searchRef.current;
+
+        if (!input) {
+            setQuery((current) => `${current}${value}`);
+
+            return;
+        }
+
+        const nextValue = `${input.value}${value}`;
+        input.focus({ preventScroll: true });
+        input.value = nextValue;
+        setQuery(nextValue);
     }
 
     function handleSearchEnter() {
@@ -302,6 +331,31 @@ export default function OutgoingPos({ customers, warehouses, stock }: Props) {
                 e.preventDefault();
                 handleClear();
             }
+
+            if (
+                e.defaultPrevented ||
+                e.metaKey ||
+                e.ctrlKey ||
+                e.altKey ||
+                e.key === 'Tab'
+            ) {
+                return;
+            }
+
+            if (e.target === searchRef.current || isTextEntryTarget(e.target)) {
+                return;
+            }
+
+            if (e.key.length === 1) {
+                e.preventDefault();
+                appendToSearchInput(e.key);
+            }
+
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                searchRef.current?.focus({ preventScroll: true });
+                handleSearchEnter();
+            }
         }
         window.addEventListener('keydown', onKey);
 
@@ -311,6 +365,18 @@ export default function OutgoingPos({ customers, warehouses, stock }: Props) {
     useEffect(() => {
         searchRef.current?.focus();
     }, []);
+
+    useEffect(() => {
+        function onPointerUp(event: PointerEvent) {
+            if (!isTextEntryTarget(event.target)) {
+                focusSearch();
+            }
+        }
+
+        window.addEventListener('pointerup', onPointerUp);
+
+        return () => window.removeEventListener('pointerup', onPointerUp);
+    });
 
     return (
         <>
@@ -330,6 +396,11 @@ export default function OutgoingPos({ customers, warehouses, stock }: Props) {
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     handleSearchEnter();
+                                }
+                            }}
+                            onBlur={(event) => {
+                                if (!isTextEntryTarget(event.relatedTarget)) {
+                                    focusSearch();
                                 }
                             }}
                             className="h-9"

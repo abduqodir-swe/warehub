@@ -7,12 +7,14 @@ namespace App\Http\Responses;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
+use Symfony\Component\HttpFoundation\Response;
 use Warehub\Core\Support\TenantWorkspace;
 
 class LoginResponse implements LoginResponseContract
 {
-    public function toResponse($request): RedirectResponse
+    public function toResponse($request): Response
     {
         abort_unless($request instanceof Request, 500);
 
@@ -20,16 +22,26 @@ class LoginResponse implements LoginResponseContract
 
         if ($user instanceof User) {
             $workspaceUrl = TenantWorkspace::urlForUser($user, $request);
+            $workspaceHost = is_string($workspaceUrl) ? parse_url($workspaceUrl, PHP_URL_HOST) : null;
 
-            if ($workspaceUrl !== null && $request->getHost() !== parse_url($workspaceUrl, PHP_URL_HOST)) {
-                return redirect()->away($workspaceUrl);
+            if ($workspaceUrl !== null && $request->getHost() !== $workspaceHost) {
+                return $this->externalWorkspaceRedirect($request, $workspaceUrl);
             }
 
-            if (tenancy()->initialized) {
-                return redirect()->intended('/');
+            if ($workspaceUrl !== null || tenancy()->initialized) {
+                return redirect('/');
             }
         }
 
         return redirect()->intended(config('fortify.home'));
+    }
+
+    private function externalWorkspaceRedirect(Request $request, string $workspaceUrl): Response
+    {
+        if ($request->headers->has('X-Inertia')) {
+            return Inertia::location($workspaceUrl);
+        }
+
+        return new RedirectResponse($workspaceUrl);
     }
 }

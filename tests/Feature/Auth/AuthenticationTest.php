@@ -43,6 +43,21 @@ class AuthenticationTest extends TestCase
         $response->assertOk();
     }
 
+    public function test_login_screen_can_be_rendered_on_localhost(): void
+    {
+        $response = $this->get('http://localhost/login');
+
+        $response->assertOk();
+    }
+
+    public function test_login_screen_defaults_to_light_appearance(): void
+    {
+        $response = $this->get("http://{$this->tenantDomain}/login");
+
+        $response->assertOk();
+        $response->assertSee("const appearance = 'light';", false);
+    }
+
     public function test_users_can_authenticate_using_the_login_screen()
     {
         tenancy()->initialize($this->tenant);
@@ -70,6 +85,53 @@ class AuthenticationTest extends TestCase
         ]);
 
         $response->assertRedirect('/');
+    }
+
+    public function test_tenant_login_ignores_central_dashboard_intended_url(): void
+    {
+        tenancy()->initialize($this->tenant);
+        $user = User::factory()->create();
+        tenancy()->end();
+
+        $response = $this
+            ->withSession(['url.intended' => "http://{$this->tenantDomain}/dashboard"])
+            ->post("http://{$this->tenantDomain}/login", [
+                'email' => $user->email,
+                'password' => 'password',
+            ]);
+
+        $this->assertAuthenticatedAs($user);
+        $response->assertRedirect('/');
+    }
+
+    public function test_plain_login_from_localhost_redirects_to_the_tenant_workspace(): void
+    {
+        tenancy()->initialize($this->tenant);
+        $user = User::factory()->create();
+        tenancy()->end();
+
+        $response = $this->post('http://localhost/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response->assertRedirect("http://{$this->tenantDomain}/");
+    }
+
+    public function test_inertia_login_from_localhost_redirects_to_the_tenant_workspace(): void
+    {
+        tenancy()->initialize($this->tenant);
+        $user = User::factory()->create();
+        tenancy()->end();
+
+        $response = $this->withHeader('X-Inertia', 'true')->post('http://localhost/login', [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $response
+            ->assertConflict()
+            ->assertHeader('X-Inertia-Location', "http://{$this->tenantDomain}/");
     }
 
     public function test_users_with_two_factor_enabled_are_redirected_to_two_factor_challenge()

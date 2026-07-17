@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocalhostHomeController;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,8 @@ use Warehub\Core\Support\TenantWorkspace;
 $centralDomain = app()->environment('production')
     ? 'central.'.config('app.domain', 'warehub.test')
     : config('app.domain', 'warehub.test');
+
+Route::domain('localhost')->get('/', LocalhostHomeController::class);
 
 Route::domain($centralDomain)->group(function () {
     $redirectTenantUser = static function (): ?RedirectResponse {
