@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias(['auth' => Authenticate::class]);
+        $middleware->trustProxies(at: ['10.11.1.22', '127.0.0.1']);
         $middleware->redirectGuestsTo(function (Request $request): string {
             if ($request->getHost() === 'admin.'.config('app.domain', 'warehub.test')) {
                 return route('admin.login');
