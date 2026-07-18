@@ -91,7 +91,7 @@ export function AppSidebar({ editHref, logoutHref }: Props) {
             <SidebarHeader className="border-b border-sidebar-border px-4 py-4">
                 <Link
                     href="/"
-                    className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
+                    className="flex min-w-0 items-center gap-2.5 overflow-hidden transition-opacity hover:opacity-80"
                 >
                     <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-sky-500 shadow-sm">
                         <Hexagon
@@ -99,7 +99,7 @@ export function AppSidebar({ editHref, logoutHref }: Props) {
                             strokeWidth={2.5}
                         />
                     </div>
-                    <div className="flex flex-col leading-none">
+                    <div className="flex flex-col leading-none group-data-[collapsible=icon]:hidden">
                         <span className="text-[15px] font-bold tracking-tight text-sidebar-primary">
                             WareHub
                         </span>
