@@ -222,7 +222,7 @@ store.form = storeForm
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
 * @route '/incoming/{incomingDocument}'
 */
-export const show = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -237,7 +237,7 @@ show.definition = {
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
 * @route '/incoming/{incomingDocument}'
 */
-show.url = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+show.url = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { incomingDocument: args }
     }
@@ -270,7 +270,7 @@ show.url = (args: { incomingDocument: string | number | { id: string | number } 
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
 * @route '/incoming/{incomingDocument}'
 */
-show.get = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -280,7 +280,7 @@ show.get = (args: { incomingDocument: string | number | { id: string | number } 
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
 * @route '/incoming/{incomingDocument}'
 */
-show.head = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
@@ -290,7 +290,7 @@ show.head = (args: { incomingDocument: string | number | { id: string | number }
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
 * @route '/incoming/{incomingDocument}'
 */
-const showForm = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+const showForm = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, options),
     method: 'get',
 })
@@ -300,7 +300,7 @@ const showForm = (args: { incomingDocument: string | number | { id: string | num
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
 * @route '/incoming/{incomingDocument}'
 */
-showForm.get = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+showForm.get = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, options),
     method: 'get',
 })
@@ -310,7 +310,7 @@ showForm.get = (args: { incomingDocument: string | number | { id: string | numbe
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:72
 * @route '/incoming/{incomingDocument}'
 */
-showForm.head = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+showForm.head = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
     action: show.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'HEAD',
@@ -327,7 +327,7 @@ show.form = showForm
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
 * @route '/incoming/{incomingDocument}/confirm'
 */
-export const confirm = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+export const confirm = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: confirm.url(args, options),
     method: 'post',
 })
@@ -342,7 +342,7 @@ confirm.definition = {
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
 * @route '/incoming/{incomingDocument}/confirm'
 */
-confirm.url = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+confirm.url = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { incomingDocument: args }
     }
@@ -375,7 +375,7 @@ confirm.url = (args: { incomingDocument: string | number | { id: string | number
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
 * @route '/incoming/{incomingDocument}/confirm'
 */
-confirm.post = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+confirm.post = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     url: confirm.url(args, options),
     method: 'post',
 })
@@ -385,7 +385,7 @@ confirm.post = (args: { incomingDocument: string | number | { id: string | numbe
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
 * @route '/incoming/{incomingDocument}/confirm'
 */
-const confirmForm = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+const confirmForm = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: confirm.url(args, options),
     method: 'post',
 })
@@ -395,7 +395,7 @@ const confirmForm = (args: { incomingDocument: string | number | { id: string | 
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:87
 * @route '/incoming/{incomingDocument}/confirm'
 */
-confirmForm.post = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+confirmForm.post = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: confirm.url(args, options),
     method: 'post',
 })
@@ -407,7 +407,7 @@ confirm.form = confirmForm
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
 * @route '/incoming/{incomingDocument}'
 */
-export const destroy = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+export const destroy = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -422,7 +422,7 @@ destroy.definition = {
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
 * @route '/incoming/{incomingDocument}'
 */
-destroy.url = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions) => {
+destroy.url = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { incomingDocument: args }
     }
@@ -455,7 +455,7 @@ destroy.url = (args: { incomingDocument: string | number | { id: string | number
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
 * @route '/incoming/{incomingDocument}'
 */
-destroy.delete = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
+destroy.delete = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
 })
@@ -465,7 +465,7 @@ destroy.delete = (args: { incomingDocument: string | number | { id: string | num
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
 * @route '/incoming/{incomingDocument}'
 */
-const destroyForm = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+const destroyForm = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: destroy.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'DELETE',
@@ -480,7 +480,7 @@ const destroyForm = (args: { incomingDocument: string | number | { id: string | 
 * @see app/Http/Controllers/Tenant/IncomingDocumentController.php:98
 * @route '/incoming/{incomingDocument}'
 */
-destroyForm.delete = (args: { incomingDocument: string | number | { id: string | number } } | [incomingDocument: string | number | { id: string | number } ] | string | number | { id: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+destroyForm.delete = (args: { incomingDocument: number | { id: number } } | [incomingDocument: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
     action: destroy.url(args, {
         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
             _method: 'DELETE',
