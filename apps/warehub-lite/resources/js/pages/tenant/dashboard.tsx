@@ -50,6 +50,7 @@ type StockItem = {
 };
 
 type RecentOperation = {
+    id: number;
     type: 'incoming' | 'outgoing';
     number: string;
     time: string | null;
@@ -104,7 +105,7 @@ const kpiConfig = (kpi: KPI) => [
         label: 'Выручка сегодня',
         value: kpi.todayRevenue,
         icon: ShoppingCart,
-        href: '/outgoing',
+        href: '/outgoing/pos',
         suffix: ' сум',
         gradientFrom: 'from-emerald-500',
         gradientTo: 'to-teal-500',
@@ -265,7 +266,7 @@ export default function TenantDashboard({
                                 </p>
                             </div>
                             <Link
-                                href="/reports/daily-chart"
+                                href="/reports"
                                 className="flex items-center gap-1.5 rounded-lg border border-border px-2.5 py-1.5 text-xs text-muted-foreground transition-colors hover:border-border/80 hover:bg-muted hover:text-foreground"
                             >
                                 <BarChart3 className="size-3" />
@@ -490,7 +491,7 @@ export default function TenantDashboard({
                                 Приход →
                             </Link>
                             <Link
-                                href="/outgoing"
+                                href="/outgoing/pos"
                                 className="text-xs text-muted-foreground transition-colors hover:text-foreground"
                             >
                                 Продажи →
@@ -548,7 +549,11 @@ export default function TenantDashboard({
                                             </td>
                                             <td className="px-5 py-3.5">
                                                 <Link
-                                                    href={`/${op.type === 'incoming' ? 'incoming' : 'outgoing'}/${op.number}`}
+                                                    href={
+                                                        op.type === 'incoming'
+                                                            ? `/incoming/${op.id}`
+                                                            : '/outgoing/pos'
+                                                    }
                                                     className="font-mono text-[12px] font-semibold text-foreground transition-colors hover:text-sky-500"
                                                 >
                                                     {op.number}

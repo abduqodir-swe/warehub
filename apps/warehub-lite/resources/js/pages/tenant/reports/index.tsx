@@ -1,14 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
-import {
-    BarChart2,
-    Package,
-    ArrowUpDown,
-    Star,
-    TrendingUp,
-    PieChart,
-    Users,
-    Activity,
-} from 'lucide-react';
+import { Package, Star } from 'lucide-react';
 
 const REPORTS = [
     {
@@ -18,46 +9,10 @@ const REPORTS = [
         description: 'Снимок текущих остатков по всем товарам',
     },
     {
-        href: '/reports/movements',
-        icon: ArrowUpDown,
-        title: 'Движение товара',
-        description: 'Полная история приходов и расходов по SKU',
-    },
-    {
         href: '/reports/top-selling',
         icon: Star,
         title: 'Топ продаваемых',
         description: 'Рейтинг товаров по количеству продаж за период',
-    },
-    {
-        href: '/reports/top-profitable',
-        icon: TrendingUp,
-        title: 'Топ прибыльных',
-        description: 'Рейтинг товаров по марже за период',
-    },
-    {
-        href: '/reports/sales-by-category',
-        icon: PieChart,
-        title: 'Продажи по категориям',
-        description: 'Структура выручки в разбивке по категориям',
-    },
-    {
-        href: '/reports/abc',
-        icon: BarChart2,
-        title: 'ABC-анализ',
-        description: '20% товаров дают 80% оборота — найди их',
-    },
-    {
-        href: '/reports/operators',
-        icon: Users,
-        title: 'Работа операторов',
-        description: 'Количество операций и выручка по каждому сотруднику',
-    },
-    {
-        href: '/reports/daily-chart',
-        icon: Activity,
-        title: 'График по дням',
-        description: 'Динамика приходов и расходов за период',
     },
 ];
 

@@ -21,7 +21,7 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 |--------------------------------------------------------------------------
 |
 | Routes available in the small-shop edition: Dashboard, Products,
-| Categories, Warehouses, Stock (read-only), Incoming (basic receipt
+| Categories, Warehouses, Stock, Incoming (basic receipt
 | flow), Outgoing (POS only), Reports (3 endpoints).
 |
 */
@@ -55,8 +55,14 @@ Route::middleware([
 
         Route::post('categories', [CategoryController::class, 'store'])->name('tenant.categories.store');
 
-        // Stock is read-only in warehub-lite.
-        Route::get('stock', [StockController::class, 'index'])->name('tenant.stock.index');
+        Route::resource('stock', StockController::class)->names([
+            'index' => 'tenant.stock.index',
+            'create' => 'tenant.stock.create',
+            'store' => 'tenant.stock.store',
+            'edit' => 'tenant.stock.edit',
+            'update' => 'tenant.stock.update',
+            'destroy' => 'tenant.stock.destroy',
+        ])->except(['show']);
 
         // Incoming: simplified basic receipt flow (no supplier selector).
         Route::get('incoming', [IncomingDocumentController::class, 'index'])->name('tenant.incoming.index');
@@ -69,10 +75,22 @@ Route::middleware([
         // Outgoing: POS only.
         Route::get('outgoing/pos', [OutgoingDocumentController::class, 'pos'])->name('tenant.outgoing.pos');
         Route::post('outgoing/pos', [OutgoingDocumentController::class, 'posStore'])->name('tenant.outgoing.pos.store');
+        Route::redirect('outgoing', '/outgoing/pos')->name('tenant.outgoing.index');
+        Route::redirect('outgoing/{path}', '/outgoing/pos');
+
+        // These workflows are available in WareHub Pro. Keep old Lite links from producing a 404.
+        Route::redirect('inventory', '/stock');
+        Route::redirect('inventory/{path}', '/stock');
+        Route::redirect('transfers', '/warehouses');
+        Route::redirect('transfers/{path}', '/warehouses');
+
+        Route::redirect('settings', '/');
+        Route::redirect('settings/{path}', '/');
 
         // Reports: index + stock-snapshot + top-selling only.
         Route::get('reports', [ReportController::class, 'index'])->name('tenant.reports.index');
         Route::get('reports/stock-snapshot', [ReportController::class, 'stockSnapshot'])->name('tenant.reports.stockSnapshot');
         Route::get('reports/top-selling', [ReportController::class, 'topSelling'])->name('tenant.reports.topSelling');
+        Route::redirect('reports/{report}', '/reports');
     });
 });

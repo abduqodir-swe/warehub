@@ -74,13 +74,42 @@ const navSections: NavSection[] = [
     },
 ];
 
+const liteNavSections: NavSection[] = [
+    {
+        label: 'Операции',
+        items: [
+            { title: 'Дашборд', href: '/', icon: LayoutDashboard },
+            { title: 'Виды товаров', href: '/products', icon: PackageSearch },
+            { title: 'Инвентарь', href: '/stock', icon: Boxes },
+            { title: 'Склады', href: '/warehouses', icon: Warehouse },
+            { title: 'Приход', href: '/incoming', icon: ArchiveRestore },
+            { title: 'Продажи', href: '/outgoing/pos', icon: ShoppingCart },
+        ],
+    },
+    {
+        label: 'Аналитика',
+        items: [{ title: 'Отчёты', href: '/reports', icon: BarChart3 }],
+    },
+];
+
 type Props = {
     editHref: string;
     logoutHref: string;
+    edition?: 'lite' | 'pro';
 };
 
-export function AppSidebar({ editHref, logoutHref }: Props) {
+export function AppSidebar({ editHref, logoutHref, edition = 'pro' }: Props) {
     const { isCurrentUrl } = useCurrentUrl();
+    const sections = (edition === 'lite' ? liteNavSections : navSections).map(
+        (section) => ({
+            ...section,
+            items: section.items.map((item) =>
+                item.href === '/settings/profile'
+                    ? { ...item, href: editHref }
+                    : item,
+            ),
+        }),
+    );
 
     return (
         <Sidebar
@@ -111,7 +140,7 @@ export function AppSidebar({ editHref, logoutHref }: Props) {
             </SidebarHeader>
 
             <SidebarContent className="px-2 py-2">
-                {navSections.map((section) => (
+                {sections.map((section) => (
                     <SidebarGroup key={section.label} className="py-1">
                         <SidebarGroupLabel className="mb-1 px-3 text-[10px] font-semibold tracking-[0.1em] text-sidebar-foreground/50 uppercase">
                             {section.label}

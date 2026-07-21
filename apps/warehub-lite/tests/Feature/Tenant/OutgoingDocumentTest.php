@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 use Warehub\Core\Models\Central\Tenant;
+use Warehub\Core\Models\Tenant\Customer;
 use Warehub\Core\Models\Tenant\OutgoingDocument;
 use Warehub\Core\Models\Tenant\Product;
 use Warehub\Core\Models\Tenant\Stock;
@@ -49,6 +50,7 @@ class OutgoingDocumentTest extends TestCase
         $this->user = User::factory()->create();
         $this->warehouse = Warehouse::factory()->create();
         $this->product = Product::factory()->create(['retail_price' => 1000]);
+        Customer::factory()->create(['name' => 'POS customer']);
         tenancy()->end();
     }
 
@@ -68,6 +70,7 @@ class OutgoingDocumentTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('tenant/outgoing/pos')
             ->has('warehouses')
+            ->has('customers', 1)
             ->has('stock')
         );
     }

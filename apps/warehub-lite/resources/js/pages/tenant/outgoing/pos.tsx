@@ -75,9 +75,9 @@ type StockItem = {
     warehouse_id: number;
 };
 type Props = {
-    customers: Customer[];
-    warehouses: Warehouse[];
-    stock: StockItem[];
+    customers?: Customer[];
+    warehouses?: Warehouse[];
+    stock?: StockItem[];
 };
 type CartItem = {
     product_id: number;
@@ -95,7 +95,11 @@ function fmtAmt(n: number): string {
     return n >= 1000 ? `${n / 1000}к` : String(n);
 }
 
-export default function OutgoingPos({ customers, warehouses, stock }: Props) {
+export default function OutgoingPos({
+    customers = [],
+    warehouses = [],
+    stock = [],
+}: Props) {
     const [warehouseId, setWarehouseId] = useState(
         warehouses[0] ? String(warehouses[0].id) : '',
     );
@@ -174,7 +178,9 @@ export default function OutgoingPos({ customers, warehouses, stock }: Props) {
     }
 
     function focusSearch() {
-        requestAnimationFrame(() => searchRef.current?.focus());
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => searchRef.current?.focus());
+        });
     }
 
     function handleSearchEnter() {
@@ -309,8 +315,8 @@ export default function OutgoingPos({ customers, warehouses, stock }: Props) {
     });
 
     useEffect(() => {
-        searchRef.current?.focus();
-    }, []);
+        focusSearch();
+    }, [autoAdd, cart, customerId, paymentMethod, warehouseId]);
 
     return (
         <>

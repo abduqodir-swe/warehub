@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Inertia\Inertia;
 use Inertia\Response;
 use Warehub\Core\Actions\Tenant\ConfirmOutgoingDocument;
+use Warehub\Core\Models\Tenant\Customer;
 use Warehub\Core\Models\Tenant\OutgoingDocument;
 use Warehub\Core\Models\Tenant\Stock;
 use Warehub\Core\Models\Tenant\Warehouse;
@@ -51,6 +52,7 @@ class OutgoingDocumentController extends Controller
 
         return Inertia::render('tenant/outgoing/pos', [
             'warehouses' => $warehouses,
+            'customers' => Customer::orderBy('name')->get(['id', 'name']),
             'stock' => $this->availableStock(),
         ]);
     }

@@ -16,6 +16,7 @@ export default function AppSidebarLayout({
     return (
         <AppShell variant="sidebar">
             <AppSidebar
+                edition="lite"
                 editHref={toUrl(edit())}
                 logoutHref={toUrl(logout())}
             />

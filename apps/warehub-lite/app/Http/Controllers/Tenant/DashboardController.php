@@ -78,6 +78,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get()
             ->map(fn ($d) => [
+                'id' => $d->id,
                 'type' => 'incoming',
                 'number' => $d->number,
                 'time' => $d->confirmed_at?->format('H:i'),
@@ -92,6 +93,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get()
             ->map(fn ($d) => [
+                'id' => $d->id,
                 'type' => 'outgoing',
                 'number' => $d->number,
                 'time' => $d->confirmed_at?->format('H:i'),
